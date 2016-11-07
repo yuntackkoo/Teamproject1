@@ -56,18 +56,14 @@ public class Player extends ClientPlayer
 		Massage.setMe(this);
 		this.setLayout(null);
 		super.setBounds(350, 360, 930, 360);
-		super.getHandlist().setBounds(0, 260, 600, 100);
-		super.getHandlist().setBackground(Color.black);
-		super.getHandlist().setLayout(null);
-		super.getDecklist().setBounds(600, 210, 300, 150);
-		super.getDecklist().setBackground(Color.yellow);
-		super.getGravelist().setBounds(600, 100, 100, 100);
-		super.getGravelist().setBackground(Color.red);
-		super.getFieldlist().setLayout(null);
-		super.getFieldlist().setBounds(0, 0, 600, 260);
-		super.getFieldlist().setBackground(Color.blue);
-		
-		
+		super.getHandlist().setLocation(0, 200);
+		super.getHandlist().setSize(super.getHandlist().getPreferredSize());
+		super.getFieldlist().setLocation(0, 0);
+		super.getFieldlist().setSize(super.getFieldlist().getPreferredSize());
+		super.getDecklist().setLocation(800, 200);
+		super.getDecklist().setSize(super.getDecklist().getPreferredSize());
+		super.getGravelist().setLocation(700, 0);
+		super.getGravelist().setSize(super.getGravelist().getPreferredSize());
 	}
 	
 	public void turnEnd()

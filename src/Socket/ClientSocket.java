@@ -39,6 +39,7 @@ public class ClientSocket extends Thread
 		recei.start();
 		send.start();
 		sendMassage((Massage) Massage.getMassage(Massage.JOIN));
+		sendMassage(Massage.getMassage(Massage.Draw));
 	}
 	
 	public void run()
@@ -64,8 +65,7 @@ public class ClientSocket extends Thread
 					{
 						game.getPlayer().getFieldlist().setFiled(Rp.getMe());
 						game.getThey().getFieldlist().setFiled(Rp.getThey());
-						System.out.println(Rp.getMe());
-						System.out.println(Rp.getThey());
+						System.out.println(game.getPlayer().getFieldlist().getFiled());
 					}
 				}
 			} catch (InterruptedException e) {

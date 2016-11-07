@@ -1,5 +1,6 @@
 package main;
 import java.awt.Canvas;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,15 +15,16 @@ public class MainFrame extends JFrame
 	MainMenu main = new MainMenu(game);
 	public MainFrame()
 	{
-		this.setSize(1280,720);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.add(game);
 		game.setVisible(false);
 		this.add(main);
 		main.setVisible(true);
+		this.pack();
 		FrameUpdate update = new FrameUpdate(this);
 		update.fps = 60;
+		update.start();
 	}
 }
 
@@ -37,7 +39,8 @@ class FrameUpdate extends Thread
 	
 	public void run()
 	{
-		main.game.getPlayer().repaint();
+		main.game.getPlayer().getFieldlist().update();
+		main.game.getPlayer().getHandlist().update();
 		try {
 			this.sleep((int)1000/fps);
 		} catch (InterruptedException e) {}
@@ -62,7 +65,7 @@ class MainMenu extends JPanel
 	public MainMenu(GameStart s)
 	{
 		this.s = s;
-		this.setBounds(0, 0, 1280, 768);
+		this.setPreferredSize(new Dimension(1280, 720));
 		this.setLayout(null);
 		this.add(start);
 		start.setBounds(xlocation, 100, width, height);

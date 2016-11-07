@@ -1,59 +1,58 @@
-import java.awt.BorderLayout;
+import java.awt.AlphaComposite;
 import java.awt.Canvas;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Panel;
+import java.awt.Image;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
-import main.MainFrame;
+import main.CardSelect;
 
 public class Test
 {
 
 	public static void main(String[] args)
 	{
+		//MainFrame m = new MainFrame();
+		testframe m = new testframe();
 		
-		MainFrame m = new MainFrame();
 	}
 }
 
 class testframe extends JFrame
 {
-
+	CardSelect p = new CardSelect();
 	public testframe()
 	{
 		this.setVisible(true);
-		this.setSize(1280, 720);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.add(p);
+		p.setVisible(true);
+		p.setBounds(0, 0, 1280, 720);
+		this.pack();
 	}
 }
 
-class testframe2 extends JFrame
+class panel extends Canvas
 {
-	cavas c = new cavas();
-	Panel p = new Panel();
-	public testframe2()
+	public panel()
 	{
-		this.setVisible(true);
-		this.setSize(1280, 720);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.add(p,"Center");
-		p.setLayout(new BorderLayout());
-		p.add(c,"Center");
+		this.setPreferredSize(new Dimension(840, 720));
 	}
-}
-
-class cavas extends Canvas
-{
 
 	@Override
 	public void paint(Graphics g)
 	{
-		Graphics2D g2 = (Graphics2D) g;
-		//this.setBackground(Color.black);
-		g2.rotate(Math.toDegrees(135),400F,400F);
-		g2.drawArc(400, 400, 200, 200, 0, 90);
+		Graphics2D g2;
+		g2 = (Graphics2D) g;
+		Image Bg;
+		AlphaComposite alpha = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,0.6F);
+		Toolkit tool = Toolkit.getDefaultToolkit();
+		Bg = tool.getImage("DeckEditBg.jpg");
+		g2.setComposite(alpha);
+		g2.drawImage(Bg,0 , 0, 840, 720, this);
 	}
 	
 }

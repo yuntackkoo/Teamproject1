@@ -2,9 +2,11 @@ package Socket;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import card.CardForm;
+import card.Pawn;
 import player.ServerPlayer;
 
 public abstract class ReplyMassage implements Serializable,RChating,RAttacking
@@ -76,15 +78,14 @@ interface Drawing
 
 interface RAttacking
 {
-	abstract List<CardForm> getMe();
-	abstract List<CardForm> getThey();
-	abstract void setMe(List<CardForm> me);
-	abstract void setThey(List<CardForm> they);
+	abstract List<Pawn> getMe();
+	abstract List<Pawn> getThey();
+	abstract void setMe(List<Pawn> me);
+	abstract void setThey(List<Pawn> they);
 }
 
 class ReplyMassageFactory extends ReplyMassage
 {
-
 	@Override
 	public String getChat() {return null;}
 
@@ -95,28 +96,28 @@ class ReplyMassageFactory extends ReplyMassage
 	public int getAction() {return 0;}
 	
 	@Override
-	public List<CardForm> getMe()
+	public List<Pawn> getMe()
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<CardForm> getThey()
+	public List<Pawn> getThey()
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void setMe(List<CardForm> me)
+	public void setMe(List<Pawn> me)
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void setThey(List<CardForm> they)
+	public void setThey(List<Pawn> they)
 	{
 		// TODO Auto-generated method stub
 		
@@ -171,29 +172,41 @@ class RAttack extends ReplyMassageFactory
 	{
 		return this.Action;
 	}
-	List<CardForm> Me = new ArrayList<>();
-	List<CardForm> They = new ArrayList<>();
+	List<Pawn> Me = new ArrayList<>();
+	List<Pawn> They = new ArrayList<>();
 	@Override
-	public List<CardForm> getMe()
+	public List<Pawn> getMe()
 	{
 		return Me;
 	}
 	@Override
-	public List<CardForm> getThey()
+	public List<Pawn> getThey()
 	{
 		return They;
 	}
 	@Override
-	public void setMe(List<CardForm> me)
+	public void setMe(List<Pawn> me)
 	{
-		this.Me.clear();
-		this.Me.addAll(me);
+		this.Me = new LinkedList<>();
+		for(int i=0;i<me.size();i++)
+		{
+			this.Me.add((Pawn) me.get(i).copy());
+		}
 	}
 	@Override
-	public void setThey(List<CardForm> they)
+	public void setThey(List<Pawn> they)
 	{
-		this.They.clear();
-		this.They.addAll(they);
+		this.They = new LinkedList<>();
+		for(int i=0;i<they.size();i++)
+		{
+			this.They.add((Pawn) they.get(i).copy());
+		}
 	}
+	@Override
+	public String toString()
+	{
+		return Me.get(0).toString()+They.get(0).toString();
+	}
+	
 	
 }

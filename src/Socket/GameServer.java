@@ -165,8 +165,6 @@ public class GameServer extends Thread
 							rm1.setMe(hostp.getFieldlist().getFiled());
 							this.sendThey(rm);
 							this.sendHost(rm1);
-							System.out.println(theyp.getFieldlist().getFiled().get(0).toString() + "서버");
-							System.out.println(hostp.getFieldlist().getFiled().get(0).toString() + "서버");
 						}
 					}
 				}
@@ -197,8 +195,6 @@ public class GameServer extends Thread
 						rm1.setMe(hostp.getFieldlist().getFiled());
 						this.sendThey(rm1);
 						this.sendHost(rm);
-						System.out.println(theyp.getFieldlist().getFiled().get(0).toString() + "서버");
-						System.out.println(hostp.getFieldlist().getFiled().get(0).toString() + "서버");
 					}
 				}
 			}

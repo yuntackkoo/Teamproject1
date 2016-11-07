@@ -73,20 +73,7 @@ public class GameStart extends JPanel
 			GameServer soc = new GameServer(Integer.parseInt(port.getText()));
 			soc.start();
 			ClientSocket csoc = new ClientSocket("127.0.0.1", Integer.parseInt(port.getText()), game);
-			
 			csoc.start();
-			Type1 tp = new Type1();
-			Type2 tp1 = new Type2();
-			tp.setOnw(player);
-			tp1.setOnw(player);
-			player.getFieldlist().getFiled().add(tp);
-			player.getFieldlist().add(tp);
-			tp.setBounds(0, 0, 100, 100);
-			
-			they.getFieldlist().getFiled().add(tp1);
-			player.getFieldlist().add(tp1);
-			tp1.setBounds(100, 0, 100, 100);
-			
 			
 		}
 	}
@@ -98,18 +85,6 @@ public class GameStart extends JPanel
 		{
 			ClientSocket csoc = new ClientSocket(ip.getText(), Integer.parseInt(port.getText()),game);
 			csoc.start();
-			Type2 tp = new Type2();
-			Type1 tp1 = new Type1();
-			tp.setOnw(player);
-			tp1.setOnw(player);
-			player.getFieldlist().getFiled().add(tp);
-			player.getFieldlist().add(tp);
-			tp.setBounds(0, 0, 100, 100);
-			they.getFieldlist().getFiled().add(tp1);
-			player.getFieldlist().add(tp1);
-			tp1.setBounds(100, 0, 100, 100);
-			
-			
 		}
 	}
 	

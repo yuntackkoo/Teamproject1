@@ -1,5 +1,8 @@
 package player;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,8 +12,9 @@ import card.CardForm;
 
 public class Deck extends JPanel implements CardTrans
 {
-	private List<CardForm> Deck = new ArrayList<>();
+	private transient List<CardForm> Deck = new ArrayList<>();
 	private boolean decktarget;
+	private int haveCard;
 	@Override
 	public void addCard(CardForm Card) 
 	{
@@ -21,5 +25,18 @@ public class Deck extends JPanel implements CardTrans
 	{
 		return Deck.remove(i);
 	}
+	
+	public Deck()
+	{
+		this.setPreferredSize(new Dimension(100,160));
+	}
+	@Override
+	protected void paintComponent(Graphics g)
+	{
+		
+		this.setBackground(Color.black);
+		super.paintComponent(g);
+	}
+	
 	
 }

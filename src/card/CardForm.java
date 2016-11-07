@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.Serializable;
 
 import javax.swing.JButton;
 
@@ -13,15 +14,15 @@ import Socket.ClientSocket;
 import Socket.Massage;
 import player.Player;
 
-public abstract class CardForm extends JButton
+public abstract class CardForm implements Serializable
 {
 	private int CardNumber;
+	private int CurrentCost;
 	private int cost;
 	private String loc;
 	private int xloc = 0;
 	private int yloc = 0;
 	private Player onw;
-	private transient boolean hand;
 	private CardForm me = this;
 	static int Deck = 1;
 	static int Field = 2;
@@ -42,35 +43,10 @@ public abstract class CardForm extends JButton
 	public void tooTipLoad()
 	{
 	}
-
-	public CardForm()
-	{
-		this.setMinimumSize(new Dimension(100, 100));
-		this.setMaximumSize(new Dimension(100, 100));
-		this.addMouseMotionListener(new MouseAdapter()
-		{
-			@Override
-			public void mouseDragged(java.awt.event.MouseEvent e)
-			{
-				xloc = xloc + Math.max(0,e.getX())-50;
-				yloc =yloc + Math.max(0,e.getY())-50;
-
-				add(onw.getHandlist(), me, xloc, yloc);
-			}
-		});
-		this.addMouseListener(new MouseAdapter()
-		{
-
-			@Override
-			public void mousePressed(MouseEvent e)
-			{
-				System.out.println("´­¸²");
-				super.mousePressed(e);
-				onw.setHandle(loc);
-			}
-		});
-	}
-
+	
+	public CardForm copy()
+	{return null;}
+	
 	public Player getOnw()
 	{
 		return onw;
@@ -92,120 +68,46 @@ public abstract class CardForm extends JButton
 		return loc;
 	}
 
+	public int getCardNumber()
+	{
+		return CardNumber;
+	}
+
+	public void setCardNumber(int cardNumber)
+	{
+		CardNumber = cardNumber;
+	}
+
+	public int getCost()
+	{
+		return cost;
+	}
+
+	public void setCost(int cost)
+	{
+		this.cost = cost;
+	}
+
 	public void setLoc(String loc)
 	{
 		this.loc = loc;
 	}
-	
-}
 
-abstract class Pawn extends CardForm
-{
-	private String Race;
-	private int nativeatt;
-	private int nativelife;
-	private int currentatt;
-	private int currentlife;
-	private CardForm me = this;
-	private static boolean targeting;
 
-	public void attack(CardForm other)
+	public int getCurrentCost()
 	{
-		Pawn p = (Pawn) other;
-		this.currentlife -= p.currentatt;
-		p.currentlife -= this.currentatt;
+		return CurrentCost;
 	}
 
-	public void CardUse()
+	public void setCurrentCost(int currentCost)
 	{
-		ClientSocket.sendMassage(Massage.getMassage(Massage.Summon));
-	}
-	
-	public Pawn()
-	{
-		this.addMouseListener(new MouseAdapter()
-		{
-
-			@Override
-			public void mousePressed(MouseEvent e)
-			{
-				super.mousePressed(e);
-				if(!targeting)
-				{
-					me.getOnw().setHandle("Field1");
-					targeting = true;
-				}
-				else
-				{
-					me.getOnw().setTargetCard("Field1");
-					ClientSocket.sendMassage(Massage.getMassage(Massage.Attack));
-					targeting = false;
-				}
-			}
-			
-		});
-		super.setLoc("Field1");
-	}
-	
-	
-
-	@Override
-	public void effect()
-	{
-		// TODO Auto-generated method stub
-		
+		CurrentCost = currentCost;
 	}
 
-	@Override
-	protected void paintComponent(Graphics g)
-	{
-		this.setText(Integer.toString((this.currentlife)));
-		super.paintComponent(g);
-	}
-
-	public int getNativeatt()
-	{
-		return nativeatt;
-	}
-
-	public void setNativeatt(int nativeatt)
-	{
-		this.nativeatt = nativeatt;
-	}
-
-	public int getNativelife()
-	{
-		return nativelife;
-	}
-
-	public void setNativelife(int nativelife)
-	{
-		this.nativelife = nativelife;
-	}
-
-	public int getCurrentatt()
-	{
-		return currentatt;
-	}
-
-	public void setCurrentatt(int currentatt)
-	{
-		this.currentatt = currentatt;
-	}
-
-	public int getCurrentlife()
-	{
-		return currentlife;
-	}
-
-	public void setCurrentlife(int currentlife)
-	{
-		this.currentlife = currentlife;
-	}
-	
 	@Override
 	public String toString()
 	{
-		return Integer.toString(this.currentlife);
+		return "CardForm [CardNumber=" + CardNumber + ", cost=" + cost + "]";
 	}
+	
 }
