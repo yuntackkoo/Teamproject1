@@ -8,13 +8,15 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
-import main.CardSelect;
+import dataload.LoadData;
+import main.CardImage;
 
 public class Test
 {
 
 	public static void main(String[] args)
 	{
+		LoadData data = LoadData.getInstance();
 		//MainFrame m = new MainFrame();
 		testframe m = new testframe();
 		
@@ -23,15 +25,14 @@ public class Test
 
 class testframe extends JFrame
 {
-	CardSelect p = new CardSelect();
+	CardImage p = new CardImage(5);
 	public testframe()
 	{
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setSize(1280, 720);
 		this.add(p);
 		p.setVisible(true);
-		p.setBounds(0, 0, 1280, 720);
-		this.pack();
 	}
 }
 
