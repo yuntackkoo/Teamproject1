@@ -9,14 +9,13 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 
 import dataload.LoadData;
-import main.CardImage;
+import main.DeckEditPage;
 
 public class Test
 {
 
 	public static void main(String[] args)
 	{
-		LoadData data = LoadData.getInstance();
 		//MainFrame m = new MainFrame();
 		testframe m = new testframe();
 		
@@ -25,7 +24,7 @@ public class Test
 
 class testframe extends JFrame
 {
-	CardImage p = new CardImage(5);
+	DeckEditPage p = new DeckEditPage();
 	public testframe()
 	{
 		this.setVisible(true);

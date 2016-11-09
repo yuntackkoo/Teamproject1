@@ -2,6 +2,7 @@ package dataload;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -18,21 +19,19 @@ public class LoadData
 	private static List<CardForm> Card = new ArrayList<CardForm>();
 	private int max;
 	private String[] CardName;
+	private File getMax = new File("Card");
 	private LoadData()
 	{
 		try
 		{
-			reader = new Scanner(new FileInputStream("Card.txt"));
-			max = reader.nextInt();
+			max = getMax.listFiles().length/2;
 			CardImageList = new Image[max];
-			System.out.println(max);
-			reader.close();
 			CardName = new String[max];
 			Toolkit tool = Toolkit.getDefaultToolkit();
 			for (int i = 0; i < max; i++)
 			{
-				CardImageList[i] = tool.getImage(Integer.toString(i+1) + ".png");
-				reader = new Scanner(new FileReader(Integer.toString(i+1) + ".txt")).useDelimiter("#");
+				CardImageList[i] = tool.getImage("Card/"+Integer.toString(i+1) + ".png");
+				reader = new Scanner(new FileReader("Card/"+Integer.toString(i+1) + ".txt")).useDelimiter("#");
 				CardName[i] = reader.next();
 				if(reader.next().compareTo("Pawn") == 0)
 				{
@@ -76,6 +75,12 @@ public class LoadData
 	{
 		return CardName[index];
 	}
+
+	public int getMax()
+	{
+		return max;
+	}
+	
 	
 }
 

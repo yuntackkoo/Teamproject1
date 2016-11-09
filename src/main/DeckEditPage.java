@@ -3,6 +3,8 @@ package main;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -30,25 +32,25 @@ public class DeckEditPage extends JPanel
 	private Scanner sc;
 	private LoadData data = LoadData.getInstance();
 	private JList list_1;
+	private CardImage[] cardimage = new CardImage[8];
+	private JPanel me = this;
 	/**
 	 * Create the panel.
 	 */
 	public DeckEditPage()
 	{
 		this.setSize(1280, 720);
-		setLayout(new MigLayout("", "[::20][60,grow][60][60][::40,grow][60,grow][60][60][40][60,grow][60][60][40][60,grow][60][60][50][grow]", "[::20,grow][grow][grow][grow][::30,grow][grow][grow][grow][80][50][40]"));
+		setLayout(new MigLayout("", "[::20][60][60][60][40][60][60][60][40][60,grow][60][60][40][60][60][60][50][grow]", "[::20][grow][grow][grow][::30,grow][grow][grow][grow][80][50][40]"));
 		
-		CardImage cardImage_1 = new CardImage(2);
-		add(cardImage_1, "cell 1 1 3 3,grow");
+		for(int i=0;i<8;i++)
+		{
+			cardimage[i] = new CardImage(i+1);
+		}
 		
-		CardImage cardImage_2 = new CardImage(3);
-		add(cardImage_2, "cell 5 1 3 3,grow");
-		
-		CardImage cardImage_4 = new CardImage(5);
-		add(cardImage_4, "cell 9 1 3 3,grow");
-		
-		CardImage cardImage_6 = new CardImage(7);
-		add(cardImage_6, "cell 13 1 3 3,grow");
+		add(cardimage[0], "cell 1 1 3 3,grow");
+		add(cardimage[1], "cell 5 1 3 3,grow");
+		add(cardimage[2], "cell 9 1 3 3,grow");
+		add(cardimage[3], "cell 13 1 3 3,grow");
 		
 		JPanel panel_7 = new JPanel();
 		panel_7.setBackground(Color.WHITE);
@@ -88,23 +90,43 @@ public class DeckEditPage extends JPanel
 		list_1 = new JList();
 		scrollPane_1.setViewportView(list_1);
 		
-		CardImage cardImage = new CardImage(1);
-		add(cardImage, "cell 1 5 3 3,grow");
+		add(cardimage[4], "cell 1 5 3 3,grow");
+		add(cardimage[5], "cell 5 5 3 3,grow");
+		add(cardimage[6], "cell 9 5 3 3,grow");
+		add(cardimage[7], "cell 13 5 3 3,grow");
 		
-		CardImage cardImage_3 = new CardImage(3);
-		add(cardImage_3, "cell 5 5 3 3,grow");
-		
-		CardImage cardImage_5 = new CardImage(5);
-		add(cardImage_5, "cell 9 5 3 3,grow");
-		
-		CardImage cardImage_7 = new CardImage(7);
-		add(cardImage_7, "cell 13 5 3 3,grow");
-		
-		JButton btnNewButton = new JButton("New button");
+		JButton btnNewButton = new JButton("뒤로");
 		add(btnNewButton, "cell 5 9 2 1,grow");
+		btnNewButton.addActionListener(new ActionListener()
+		{
+			
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				for(int i=0;i<8;i++)
+				{
+					cardimage[i].setPage(-1);
+				}
+				me.repaint();
+			}
+		});
 		
-		JButton btnNewButton_1 = new JButton("New button");
+		
+		JButton btnNewButton_1 = new JButton("앞으로");
 		add(btnNewButton_1, "cell 9 9 2 1,grow");
+		btnNewButton_1.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				for(int i=0;i<8;i++)
+				{
+					cardimage[i].setPage(1);
+				}
+				me.repaint();
+			}
+		});
 		
 	}
 }
