@@ -1,4 +1,5 @@
 package main;
+import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -12,14 +13,17 @@ import javax.swing.JPanel;
 public class MainFrame extends JFrame
 {
 	GameStart game = new GameStart();
-	MainMenu main = new MainMenu(game);
+	DeckEditPage edit = new DeckEditPage();
+	MainMenu main = new MainMenu(game,edit);
 	public MainFrame()
 	{
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.add(game);
+		this.add(game,BorderLayout.CENTER);
 		game.setVisible(false);
-		this.add(main);
+		this.add(edit,BorderLayout.CENTER);
+		edit.setVisible(false);
+		this.add(main,BorderLayout.CENTER);
 		main.setVisible(true);
 		this.pack();
 		FrameUpdate update = new FrameUpdate(this);
@@ -39,8 +43,11 @@ class FrameUpdate extends Thread
 	
 	public void run()
 	{
-		main.game.getPlayer().getFieldlist().update();
-		main.game.getPlayer().getHandlist().update();
+		if(main.main.isGame())
+		{
+			main.game.getPlayer().getFieldlist().update();
+			main.game.getPlayer().getHandlist().update();
+		}
 		try {
 			this.sleep((int)1000/fps);
 		} catch (InterruptedException e) {}
@@ -58,13 +65,16 @@ class MainMenu extends JPanel
 	JButton deckedit = new JButton("µ¦ ¼öÁ¤");
 	MainMenu main = this;
 	GameStart s;
+	DeckEditPage edit;
+	private boolean Game = false;
 	int width = 400;
 	int height = 50;
 	int xlocation = (1280-width)/2;
 	
-	public MainMenu(GameStart s)
+	public MainMenu(GameStart s,DeckEditPage edit)
 	{
 		this.s = s;
+		this.edit = edit;
 		this.setPreferredSize(new Dimension(1280, 720));
 		this.setLayout(null);
 		this.add(start);
@@ -72,12 +82,12 @@ class MainMenu extends JPanel
 		start.addActionListener(new gStart());
 		this.add(deckedit);
 		deckedit.setBounds(xlocation, 200, width, height);
+		deckedit.addActionListener(new dEdit());
 	}
 	
 	
 	private class gStart implements ActionListener
 	{
-
 		@Override
 		public void actionPerformed(ActionEvent e) 
 		{
@@ -85,6 +95,26 @@ class MainMenu extends JPanel
 			s.setVisible(true);
 		}
 	}
+	
+	private class dEdit implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			main.setVisible(false);
+			edit.setVisible(true);
+			System.out.println(edit.getLocation());
+			System.out.println(edit.isVisible());
+			System.out.println(edit.isValid());
+		}
+	}
+
+	public boolean isGame()
+	{
+		return Game;
+	}
+	
+	
 }
 
 
