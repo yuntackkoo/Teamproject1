@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -44,10 +45,11 @@ public class DeckEditPage extends JPanel
 	private CardImage[] cardimage = new CardImage[8];
 	private DeckEditPage me = this;
 	private FileInputStream stream;
-	private Map<Integer,Integer> CardValueList = new HashMap();
-	private Map<Integer,String> CardNameList = new HashMap();
-	private List<String> ShowCardList = new LinkedList<>();
+	private Map<Integer, Integer> CardValueList = new HashMap();
+	private Map<Integer, String> CardNameList = new HashMap();
+	private Integer[] KeyList = new Integer[40];
 	private int CardValueSum;
+
 	/**
 	 * Create the panel.
 	 */
@@ -144,9 +146,29 @@ public class DeckEditPage extends JPanel
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
-				if((e.getModifiersEx() & MouseEvent.BUTTON3_DOWN_MASK) !=0)
+				try
 				{
-					
+					if(e.isMetaDown())
+					{
+						Integer deleteKey = KeyList[cardlist.getSelectedIndex()];
+						if(CardValueList.get(deleteKey) > 1)
+						{
+							CardValueList.put(deleteKey, CardValueList.get(deleteKey) - 1);
+							CardNameList.put(deleteKey, data.getCardName(deleteKey) + 
+									"      X  " + Integer.toString(CardValueList.get(deleteKey)));
+							UpdateCardList();
+						}
+						else
+						{
+							CardValueList.remove(deleteKey);
+							CardNameList.remove(deleteKey);
+							UpdateCardList();
+						}
+					}
+				}
+				catch(ArrayIndexOutOfBoundsException e1)
+				{
+					JOptionPane.showMessageDialog(null, "제거할 카드를 선택 해 주세요");
 				}
 			}
 			
@@ -271,16 +293,11 @@ public class DeckEditPage extends JPanel
 		});
 		
 	}
-	
+
 	public void UpdateCardList()
 	{
-		ShowCardList.clear();
-		System.out.println(ShowCardList.isEmpty());
-		for(String Card : CardNameList.values())
-		{
-			ShowCardList.add(Card);
-		}
-		cardlist.setListData((Object[]) ShowCardList.toArray());
+		CardNameList.keySet().toArray(this.KeyList);
+		cardlist.setListData((Object[]) CardNameList.values().toArray());
 	}
 
 	public int getCardValueSum()
@@ -293,4 +310,3 @@ public class DeckEditPage extends JPanel
 		CardValueSum++;
 	}
 }
-
