@@ -51,12 +51,12 @@ public class GameStart extends JPanel
 		plyClient.setBounds(500, 300, 200, 150);
 		plyClient.addActionListener(new ClientAction());
 		
-		player.add(input);
+		//player.add(input);
 		input.setEditable(true);
 		input.setBounds(0, 0, 750, 20);
 		input.addActionListener(new Chatclass());
 		
-		player.add(output);
+		//player.add(output);
 		output.setBounds(0, 100, 750, 20);
 		output.setEditable(false);
 	}

@@ -7,6 +7,11 @@ public class ServerPlayer extends PlayerBase
 {
 	private boolean turn;
 	
+	public ServerPlayer()
+	{
+		
+	}
+	
 	public ReplyMassage mProcess(Massage m)
 	{
 		switch(m.getAction())

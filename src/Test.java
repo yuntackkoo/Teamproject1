@@ -20,15 +20,15 @@ public class Test
 
 	public static void main(String[] args)
 	{
-		MainFrame m = new MainFrame();
-		//testframe m = new testframe();
+		//MainFrame m = new MainFrame();
+		testframe m = new testframe();
 		
 	}
 }
 
 class testframe extends JFrame
 {
-	panel p = new panel();
+	testa p = new testa();
 	public testframe()
 	{
 		this.setVisible(true);

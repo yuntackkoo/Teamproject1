@@ -31,15 +31,10 @@ public class Hand extends JPanel implements CardTrans
 	
 	public Hand()
 	{
-		FlowLayout f = new FlowLayout();
-		f.setHgap(0);
-		f.setVgap(0);
-		this.setLayout(f);
-		this.setPreferredSize(new Dimension(750, 130));
+		this.setLayout(new GridLayout());
 		for(int i =0;i<10;i++)
 		{
 			this.add(HandComponent[i] = new JButton());
-			HandComponent[i].setPreferredSize(new Dimension(75, 130));
 		}
 	}
 	

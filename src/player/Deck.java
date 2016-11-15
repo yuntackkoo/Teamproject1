@@ -28,7 +28,6 @@ public class Deck extends JPanel implements CardTrans
 	
 	public Deck()
 	{
-		this.setPreferredSize(new Dimension(100,160));
 	}
 	@Override
 	protected void paintComponent(Graphics g)

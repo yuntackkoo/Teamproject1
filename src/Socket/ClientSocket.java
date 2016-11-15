@@ -53,7 +53,8 @@ public class ClientSocket extends Thread
 					case ReplyMassage.GameStart:
 					{
 						game.getServerPanel().setVisible(false);
-						game.getPlayer().showUI();
+						game.getPlayer().getMe().showUI();
+						System.out.println(game.getPlayer().getThey().isVisible());
 						break;
 					}
 					case ReplyMassage.Chat:
@@ -63,9 +64,9 @@ public class ClientSocket extends Thread
 					}
 					case ReplyMassage.Attack:
 					{
-						game.getPlayer().getFieldlist().setFiled(Rp.getMe());
+						game.getPlayer().getMe().getFieldlist().setFiled(Rp.getMe());
 						game.getThey().getFieldlist().setFiled(Rp.getThey());
-						System.out.println(game.getPlayer().getFieldlist().getFiled());
+						System.out.println(game.getPlayer().getMe().getFieldlist().getFiled());
 					}
 				}
 			} catch (InterruptedException e) {

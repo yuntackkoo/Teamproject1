@@ -29,6 +29,7 @@ public class MainFrame extends JFrame
 		FrameUpdate update = new FrameUpdate(this);
 		update.fps = 60;
 		update.start();
+		System.out.println(this.getSize());
 	}
 }
 
@@ -45,8 +46,8 @@ class FrameUpdate extends Thread
 	{
 		if(main.main.isGame())
 		{
-			main.game.getPlayer().getFieldlist().update();
-			main.game.getPlayer().getHandlist().update();
+			main.game.getPlayer().getMe().getFieldlist().update();
+			main.game.getPlayer().getMe().getHandlist().update();
 		}
 		try {
 			this.sleep((int)1000/fps);

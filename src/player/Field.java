@@ -41,7 +41,6 @@ public class Field extends JPanel implements CardTrans
 	}
 	public Field()
 	{
-		this.setPreferredSize(new Dimension(600, 200));
 		this.setLayout(new GridLayout());
 		for(int i =0;i<5;i++)
 		{
@@ -51,8 +50,7 @@ public class Field extends JPanel implements CardTrans
 	@Override
 	public void update(Graphics g)
 	{
-		// TODO Auto-generated method stub
-		super.update(g);
+		
 	}
 	public void update()
 	{

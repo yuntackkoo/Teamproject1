@@ -51,43 +51,11 @@ public class PlayerBase extends JPanel
 	
 	public PlayerBase()
 	{
-		this.setLayout(null);
-		this.add(decklist);
-		this.add(fieldlist);
-		this.add(handlist);
-		this.add(gravelist);
 		this.setVisible(false);
 	}
+	public void showCardEffect(CardForm c)
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }
-
-abstract class ClientPlayer extends PlayerBase
-{
-	private int LocationX;
-	private int LocationY;
-	
-	public int getLocationX() {
-		return LocationX;
-	}
-	public void setLocationX(int locationX) {
-		LocationX = locationX;
-	}
-	public int getLocationY() {
-		return LocationY;
-	}
-	public void setLocationY(int locationY) {
-		LocationY = locationY;
-	}
-	public abstract void showUI();
-	public abstract void showCardEffect(CardForm c);
-	public abstract void showGraveList();
-}
-
-
-
-interface CardTrans
-{
-	abstract public void addCard(CardForm Card);
-	abstract public CardForm disCard(int i);
-}
-
-

@@ -1,22 +1,58 @@
 package player;
 
-import java.awt.Color;
+import javax.swing.JPanel;
 
 import Socket.ClientSocket;
 import Socket.Massage;
 import card.CardForm;
-import card.Type1;
+import net.miginfocom.swing.MigLayout;
 
-public class Player extends ClientPlayer
+public class Player extends JPanel
 {
 	private boolean turn;
 	private String Handle;
 	private String targetCard;
-	private CardForm a = new Type1(); 
+	private They they = new They();
+	private ClientPlayer me = new ClientPlayer()
+	{
+		@Override
+		public void showGraveList()
+		{
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void showCardEffect(CardForm c)
+		{
+			// TODO Auto-generated method stub
+			
+		}
+	};
 	
 	public String getHandle()
 	{
 		return Handle;
+	}
+
+	public ClientPlayer getMe()
+	{
+		return me;
+	}
+
+	public void setMe(ClientPlayer me)
+	{
+		this.me = me;
+	}
+
+	public They getThey()
+	{
+		return they;
+	}
+
+	public void setThey(They they)
+	{
+		this.they = they;
 	}
 
 	public void setHandle(String handle)
@@ -31,39 +67,17 @@ public class Player extends ClientPlayer
 	public void setTargetCard(String targetCard) {
 		this.targetCard = targetCard;
 	}
-
-	@Override
-	public void showUI() 
-	{
-		super.setVisible(true);
-	}
-
-	@Override
-	public void showCardEffect(CardForm c) 
-	{
-		
-	}
-
-	@Override
-	public void showGraveList() 
-	{
-		
-	}
 	
 
 	public Player()
 	{
-		Massage.setMe(this);
-		this.setLayout(null);
-		super.setBounds(350, 360, 930, 360);
-		super.getHandlist().setLocation(0, 200);
-		super.getHandlist().setSize(super.getHandlist().getPreferredSize());
-		super.getFieldlist().setLocation(0, 0);
-		super.getFieldlist().setSize(super.getFieldlist().getPreferredSize());
-		super.getDecklist().setLocation(800, 200);
-		super.getDecklist().setSize(super.getDecklist().getPreferredSize());
-		super.getGravelist().setLocation(700, 0);
-		super.getGravelist().setSize(super.getGravelist().getPreferredSize());
+		this.setSize(1280, 720);
+		setLayout(new MigLayout("", "[200][grow][200]", "[grow][grow]"));
+		
+		
+		They they = new They();
+		add(they, "cell 1 0,grow");
+		add(me,"cell 1 1,grow");
 	}
 	
 	public void turnEnd()
@@ -75,6 +89,4 @@ public class Player extends ClientPlayer
 	{
 		ClientSocket.sendMassage(Massage.getMassage(Massage.Surrender));
 	}
-	
-	
 }

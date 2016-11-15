@@ -1,9 +1,9 @@
 package player;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridLayout;
+
+import javax.swing.plaf.PanelUI;
 
 import card.CardForm;
 
@@ -11,22 +11,11 @@ public class They extends ClientPlayer
 {
 	public They()
 	{
-		this.setLayout(null);
-		super.setBounds(350, 360, 930, 360);
-		super.getHandlist().setBounds(0, 260, 600, 100);
-		super.getHandlist().setBackground(Color.black);
-		super.getDecklist().setBounds(600, 210, 300, 150);
-		super.getDecklist().setBackground(Color.yellow);
-		super.getGravelist().setBounds(600, 100, 100, 100);
-		super.getGravelist().setBackground(Color.red);
-		super.getFieldlist().setBounds(0, 0, 600, 260);
-		super.getFieldlist().setBackground(Color.blue);
 	}
 
 	@Override
 	public void showUI() 
 	{
-		
 	}
 	
 	
@@ -34,8 +23,9 @@ public class They extends ClientPlayer
 	@Override
 	protected void paintComponent(Graphics g)
 	{
+		
 		Graphics2D g2 = (Graphics2D) g;
-		g2.rotate(Math.toRadians(180), 350F, 360F);
+		g2.rotate(-Math.PI, this.getLocationX()+this.getWidth()/2.0F, this.getLocationY()+this.getHeight()/2.0F);
 	}
 
 	@Override

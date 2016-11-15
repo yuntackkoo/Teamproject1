@@ -34,7 +34,6 @@ public class Grave extends JPanel implements CardTrans
 	public Grave()
 	{
 		//this.setLayout(new CardLayout());
-		this.setPreferredSize(new Dimension(200, 200));
 		this.setBackground(Color.blue);
 	}
 	@Override
