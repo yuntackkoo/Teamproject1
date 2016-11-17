@@ -15,7 +15,7 @@ import card.Pawn;
 public class Field extends JPanel implements CardTrans
 {
 	private boolean[] filed_target = new boolean[5];
-	private List<Pawn> Filed = new LinkedList<>();
+	private List<Pawn> Filed = null;
 	private JButton[] FieldComponent = new JButton[5];
 	public List<Pawn> getFiled()
 	{

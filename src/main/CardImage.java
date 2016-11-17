@@ -106,7 +106,7 @@ public class CardImage extends JPanel
 	{
 		LoadData data = LoadData.getInstance();
 		Pawn cardtmp = (Pawn) card;
-		BufferedImage img =new BufferedImage(300,300,data.getImage(card.getCardNumber()).getType()); 
+		BufferedImage img = new BufferedImage(300,300,data.getImage(card.getCardNumber()).getType()); 
 		Graphics2D g2 = img.createGraphics();
 		g2.drawImage(data.getImage(card.getCardNumber()), 0, 0, 300, 300, null);
 		g2.drawArc(0, 0, 50, 50, 0, 360);

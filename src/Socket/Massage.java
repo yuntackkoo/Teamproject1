@@ -7,13 +7,14 @@ import java.util.List;
 import card.CardForm;
 import player.Player;
 
-public abstract class Massage implements Serializable,Chating,Attacking
+public abstract class Massage implements Serializable,Chating,Attacking,Joining
 {
 	static public final int Draw = 1;
 	static public final int Chat = 2;
 	static public final int OK = 3;
 	static public final int Summon = 4;
 	static public final int Attack = 5;
+	static public final int DeckList = 97;
 	static public final int JOIN = 98;
 	static public final int TurnEnd = 99;
 	static public final int Surrender = 100;
@@ -89,8 +90,17 @@ interface Attacking
 	abstract public String getHandle();
 	
 	abstract public String getTarget();
-	
 }
+
+interface Joining
+{
+	abstract public List<Integer> getDeckList();
+	abstract public void setDeckList(List<Integer> list);
+}
+
+
+
+
 class MassageFactory extends Massage
 {
 
@@ -108,6 +118,16 @@ class MassageFactory extends Massage
 
 	@Override
 	public void setChat(String chat) {	}
+	
+	
+
+	@Override
+	public List<Integer> getDeckList()
+	{return null;}
+
+	@Override
+	public void setDeckList(List<Integer> list)
+	{}
 
 	@Override
 	public String getChat() {return null;}
@@ -147,10 +167,26 @@ class OK extends MassageFactory
 class Join extends MassageFactory
 {
 	private int Action = this.JOIN;
+	private List<Integer> decklist;
 
 	public int getAction() {
 		return Action;
 	}
+
+	@Override
+	public List<Integer> getDeckList()
+	{
+		return this.decklist;
+	}
+
+	@Override
+	public void setDeckList(List<Integer> list)
+	{
+		this.decklist = list;
+	}
+	
+	
+	
 }
 
 class Summon extends MassageFactory
@@ -191,9 +227,7 @@ class Attack extends MassageFactory
 	public String getTarget()
 	{
 		return this.Target;
-	}
-
-	
+	}	
 }
 
 class TurnEnd extends MassageFactory

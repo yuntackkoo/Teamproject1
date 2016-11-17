@@ -20,21 +20,20 @@ public class Test
 
 	public static void main(String[] args)
 	{
-		//MainFrame m = new MainFrame();
-		testframe m = new testframe();
-		
+		MainFrame m = new MainFrame();
+		//testframe m = new testframe();
 	}
 }
 
 class testframe extends JFrame
 {
-	testa p = new testa();
+	testp p = new testp();
 	public testframe()
 	{
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setSize(1280, 720);
 		this.add(p);
+		this.pack();
 	}
 }
 

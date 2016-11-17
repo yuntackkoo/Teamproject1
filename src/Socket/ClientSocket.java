@@ -38,8 +38,6 @@ public class ClientSocket extends Thread
 		}
 		recei.start();
 		send.start();
-		sendMassage((Massage) Massage.getMassage(Massage.JOIN));
-		sendMassage(Massage.getMassage(Massage.Draw));
 	}
 	
 	public void run()
@@ -53,7 +51,7 @@ public class ClientSocket extends Thread
 					case ReplyMassage.GameStart:
 					{
 						game.getServerPanel().setVisible(false);
-						game.getPlayer().getMe().showUI();
+						game.getPlayer().setVisible(true);
 						System.out.println(game.getPlayer().getThey().isVisible());
 						break;
 					}
@@ -67,6 +65,26 @@ public class ClientSocket extends Thread
 						game.getPlayer().getMe().getFieldlist().setFiled(Rp.getMe());
 						game.getThey().getFieldlist().setFiled(Rp.getThey());
 						System.out.println(game.getPlayer().getMe().getFieldlist().getFiled());
+					}
+					case ReplyMassage.Update:
+					{
+						if(Rp.getField() != null)
+						{
+							game.getPlayer().getMe().getFieldlist().setFiled(Rp.getField().get(Rp.MyField));
+							game.getPlayer().getThey().getFieldlist().setFiled(Rp.getField().get(Rp.MyField));
+						}
+						if(Rp.getGrave() != null)
+						{
+							game.getPlayer().getMe().getGravelist().setGrave(Rp.getGrave().get(Rp.MyGrave));
+							game.getPlayer().getThey().getGravelist().setGrave(Rp.getGrave().get(Rp.TheyGrave));
+						}
+						if(Rp.getMeHand() != null)
+						{
+							game.getPlayer().getMe().getHandlist().setHand(Rp.getMeHand());
+						}
+						game.getPlayer().getThey().setHand(Rp.getTheyHand());
+						game.getPlayer().getThey().setDeck(Rp.getDeck(Rp.TheyDeck));
+						game.getPlayer().getMe().setDeck(Rp.getDeck(Rp.MyDeck));
 					}
 				}
 			} catch (InterruptedException e) {

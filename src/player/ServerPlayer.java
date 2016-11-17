@@ -1,11 +1,18 @@
 package player;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import Socket.Massage;
 import Socket.ReplyMassage;
+import card.CardForm;
+import dataload.LoadData;
 
 public class ServerPlayer extends PlayerBase
 {
 	private boolean turn;
+	private List<CardForm> myDeck = new LinkedList<>();
+	private LoadData data = LoadData.getInstance();
 	
 	public ServerPlayer()
 	{
@@ -51,6 +58,25 @@ public class ServerPlayer extends PlayerBase
 		
 	}
 	
+	
+	
+	public List<CardForm> getMyDeck()
+	{
+		return myDeck;
+	}
+
+	public void setMyDeck(List<CardForm> myDeck)
+	{
+		this.myDeck = myDeck;
+	}
+	
+	public void createMyDeck(List<Integer> deck)
+	{
+		for(int cardnumber : deck)
+		{
+			this.myDeck.add(data.getCard(cardnumber));
+		}
+	}
 	public void setTurn(boolean turn) 
 	{
 		this.turn = turn;

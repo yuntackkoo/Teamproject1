@@ -2,20 +2,23 @@ package Socket;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import card.CardForm;
 import card.Pawn;
 import player.ServerPlayer;
 
-public abstract class ReplyMassage implements Serializable,RChating,RAttacking
+public abstract class ReplyMassage implements Serializable,RChating,RAttacking,Updating
 {
 	static public final int Draw = 1;
 	static public final int Chat = 2;
 	static public final int OK = 3;
 	static public final int Summon = 4;
 	static public final int Attack = 5;
+	static public final int Update = 6;
 	static public final int JOIN = 98;
 	static public final int TurnEnd = 99;
 	static public final int Surrender = 100;
@@ -97,44 +100,50 @@ class ReplyMassageFactory extends ReplyMassage
 	
 	@Override
 	public List<Pawn> getMe()
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
+	{return null;}
 
 	@Override
 	public List<Pawn> getThey()
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	{return null;}
 	@Override
 	public void setMe(List<Pawn> me)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
+	{}
 	@Override
 	public void setThey(List<Pawn> they)
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	{}
+	@Override
+	public Map<Integer, List> getField()
+	{return null;}
+	@Override
+	public void setField(int own, List<Pawn> Field)
+	{}
+	@Override
+	public Map<Integer, List> getGrave()
+	{return null;}
+	@Override
+	public void setGrave(int own, List<Pawn> Grave)
+	{}
+	@Override
+	public int getDeck(int own)
+	{return 0;}
+	@Override
+	public void setDeck(int own, int value)
+	{}
+	@Override
+	public List<CardForm> getMeHand()
+	{return null;}
+	@Override
+	public void setMeHand(List<CardForm> Hand)
+	{}
+	@Override
+	public int getTheyHand()
+	{return 0;}
+	@Override
+	public void setTheyHand(int Hand)
+	{}
 	
 	
 }
-
-
-class RDraw extends ReplyMassageFactory
-{
-	public RDraw()
-	{
-		
-	}
-}
-
 
 class GameStart extends ReplyMassageFactory
 {
@@ -207,6 +216,74 @@ class RAttack extends ReplyMassageFactory
 	{
 		return Me.get(0).toString()+They.get(0).toString();
 	}
+}
+
+class Update extends ReplyMassageFactory
+{
+	@Override
+	public int getAction()
+	{
+		return super.Update;
+	}
 	
+	Map<Integer, List> Field = null;
+	Map<Integer, List> Grave = null;
+	int[] Deck = new int[2];
+	List<CardForm> MyHand = null;
+	int theyHand;
+	
+	@Override
+	public Map<Integer, List> getField()
+	{
+		return this.Field;
+	}
+
+	@Override
+	public void setField(int own, List<Pawn> Field)
+	{
+		this.Field.put(own, Field);
+	}
+
+	@Override
+	public Map<Integer, List> getGrave()
+	{
+		return this.Grave;
+	}
+
+	@Override
+	public void setGrave(int own, List<Pawn> Grave)
+	{
+		this.Grave.put(own, Grave);
+	}
+
+	@Override
+	public void setDeck(int own, int value)
+	{
+		this.Deck[own] = value;
+	}
+
+	@Override
+	public List<CardForm> getMeHand()
+	{
+		return this.MyHand;
+	}
+
+	@Override
+	public void setMeHand(List<CardForm> Hand)
+	{
+		this.MyHand = Hand;
+	}
+
+	@Override
+	public int getTheyHand()
+	{
+		return this.theyHand;
+	}
+
+	@Override
+	public void setTheyHand(int hand)
+	{
+		this.theyHand = hand;
+	}
 	
 }

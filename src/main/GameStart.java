@@ -1,17 +1,25 @@
 package main;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
 
 import javax.swing.JButton;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import Socket.ClientSocket;
 import Socket.GameServer;
 import Socket.Massage;
-import card.Type1;
-import card.Type2;
 import player.Player;
 import player.They;
 
@@ -27,7 +35,9 @@ public class GameStart extends JPanel
 	private They they = new They();
 	private GameStart game = this;
 	private JPanel ServerPanel = new JPanel();
-
+	private JList<File>decklist = new JList<File>(); 
+	private JScrollPane decklistscroll = new JScrollPane();
+	
 	public GameStart()
 	{
 		this.setLayout(null);
@@ -37,19 +47,27 @@ public class GameStart extends JPanel
 		ServerPanel.setLayout(null);
 		this.add(player);
 		
+		decklistscroll.setViewportView(decklist);
 		
 		ServerPanel.add(ip);
 		ip.setBounds(100, 100, 750, 20);
 		ip.setEditable(true);
+		
 		ServerPanel.add(port);
 		port.setBounds(100, 150, 750, 20);
 		port.setEditable(true);
+		
 		ServerPanel.add(playServer);
 		playServer.setBounds(100, 300, 200, 150);
 		playServer.addActionListener(new ServerAction());
+		
 		ServerPanel.add(plyClient);
 		plyClient.setBounds(500, 300, 200, 150);
 		plyClient.addActionListener(new ClientAction());
+		
+		ServerPanel.add(decklistscroll);
+		decklistscroll.setBounds(900, 300, 150, 50);
+		decklist.setListData(new File("Deck").listFiles());
 		
 		//player.add(input);
 		input.setEditable(true);
@@ -70,10 +88,51 @@ public class GameStart extends JPanel
 		@Override
 		public void actionPerformed(ActionEvent e) 
 		{
+			File tmp;
+			tmp = decklist.getSelectedValue();
+			Scanner sc = null;
+			List<Integer> deck = new LinkedList<>();
+			try
+			{
+				sc = new Scanner(new FileReader(tmp));
+				sc.useDelimiter("#");
+				if(sc.nextInt() < 40)
+					JOptionPane.showMessageDialog(null, "덱이 미완성 입니다.");
+				else
+				{
+					for(;sc.hasNext();)
+					{
+						Integer cardnumber = sc.nextInt();
+						Integer cardvalue = sc.nextInt();
+						for(int i =0;i<cardvalue;i++)
+						{
+							deck.add(cardnumber);
+						}
+					}
+				}
+				System.out.println(deck.toString());
+			}
+			catch (FileNotFoundException e1)
+			{
+				JOptionPane.showMessageDialog(null, "덱이 존재하지 않습니다.");
+			}
+			catch (NullPointerException e2)
+			{
+				JOptionPane.showMessageDialog(null, "덱을 선택해 주세요.");
+			}
+			finally
+			{
+				if(sc != null)
+					sc.close();
+			}
+			
 			GameServer soc = new GameServer(Integer.parseInt(port.getText()));
 			soc.start();
 			ClientSocket csoc = new ClientSocket("127.0.0.1", Integer.parseInt(port.getText()), game);
 			csoc.start();
+			Massage msg = Massage.getMassage(Massage.JOIN);
+			msg.setDeckList(deck);
+			ClientSocket.sendMassage(msg);
 			
 		}
 	}
@@ -83,8 +142,44 @@ public class GameStart extends JPanel
 		@Override
 		public void actionPerformed(ActionEvent e) 
 		{
+			File tmp;
+			tmp = decklist.getSelectedValue();
+			Scanner sc = null;
+			List<Integer> deck = new ArrayList<>();
+			try
+			{
+				sc = new Scanner(new FileReader(tmp));
+				sc.useDelimiter("#");
+				if(sc.nextInt() < 40)
+					JOptionPane.showMessageDialog(null, "덱이 미완성 입니다.");
+				else
+				{
+					for(;sc.hasNext();)
+					{
+						Integer cardnumber = sc.nextInt();
+						Integer cardvalue = sc.nextInt();
+						for(int i =0;i<cardvalue;i++)
+						{
+							deck.add(cardnumber);
+						}
+					}
+				}
+				System.out.println(deck.toString());
+			}
+			catch (FileNotFoundException e1)
+			{
+				JOptionPane.showMessageDialog(null, "덱이 존재하지 않습니다.");
+			}
+			finally
+			{
+				if(sc != null)
+					sc.close();
+			}
 			ClientSocket csoc = new ClientSocket(ip.getText(), Integer.parseInt(port.getText()),game);
 			csoc.start();
+			Massage msg = Massage.getMassage(Massage.JOIN);
+			msg.setDeckList(deck);
+			ClientSocket.sendMassage(msg);
 		}
 	}
 	

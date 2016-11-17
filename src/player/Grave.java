@@ -16,10 +16,9 @@ import card.CardForm;
 
 public class Grave extends JPanel implements CardTrans
 {
-	private List<CardForm> Grave = new ArrayList<>();
+	private List<CardForm> Grave = null;
 	private boolean[] grave_target;
-	private List<JButton> GraveComponent = new ArrayList<>();
-	int i=0;
+	
 	@Override
 	public void addCard(CardForm Card)
 	{
@@ -33,7 +32,6 @@ public class Grave extends JPanel implements CardTrans
 	
 	public Grave()
 	{
-		//this.setLayout(new CardLayout());
 		this.setBackground(Color.blue);
 	}
 	@Override
@@ -41,4 +39,13 @@ public class Grave extends JPanel implements CardTrans
 	{
 	}
 	
+	public void setGrave(List<CardForm> grave)
+	{
+		this.Grave = grave;
+	}
+	
+	public List<CardForm> getGrave()
+	{
+		return this.Grave;
+	}
 }

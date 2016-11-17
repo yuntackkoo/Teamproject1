@@ -1,43 +1,33 @@
 package player;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import javax.swing.plaf.PanelUI;
 
 import card.CardForm;
+import net.miginfocom.swing.MigLayout;
 
-public class They extends ClientPlayer
+public class They extends PlayerBase
 {
 	public They()
 	{
+		this.setSize(880, 360);
+		this.setLayout(new MigLayout("", "[50][50][grow][grow][grow][grow][grow][grow][50][50]", "[grow][30][grow]"));
+		Grave grave = super.getGravelist();
+		grave.setBackground(Color.WHITE);
+		this.add(grave, "cell 0 2 2 1,grow");
+		player.Field field = super.getFieldlist();
+		this.add(field, "cell 2 2 6 1,grow");
+		Hand hand = super.getHandlist();
+		this.add(hand, "cell 2 0 6 1,grow");
+		Deck deck = super.getDecklist();
+		deck.setBackground(Color.WHITE);
+		this.add(deck, "cell 8 0 2 1,grow");
 	}
-
-	@Override
-	public void showUI() 
-	{
-	}
-	
-	
-	
-	@Override
-	protected void paintComponent(Graphics g)
-	{
-		
-		Graphics2D g2 = (Graphics2D) g;
-		g2.rotate(-Math.PI, this.getLocationX()+this.getWidth()/2.0F, this.getLocationY()+this.getHeight()/2.0F);
-	}
-
-	@Override
-	public void showCardEffect(CardForm c) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void showGraveList() {
-		// TODO Auto-generated method stub
-		
-	}
-	
+	public void showCardEffect(CardForm c)
+	{}
+	public void showGraveList()
+	{}
 }

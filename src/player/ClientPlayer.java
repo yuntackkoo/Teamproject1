@@ -6,7 +6,7 @@ import card.CardForm;
 import net.miginfocom.swing.MigLayout;
 import java.awt.Color;
 
-public abstract class ClientPlayer extends PlayerBase
+public class ClientPlayer extends PlayerBase
 {
 	public ClientPlayer()
 	{
@@ -23,6 +23,7 @@ public abstract class ClientPlayer extends PlayerBase
 		deck.setBackground(Color.WHITE);
 		this.add(deck, "cell 8 2 2 1,grow");
 	}
+	
 	private int LocationX;
 	private int LocationY;
 	
@@ -38,14 +39,10 @@ public abstract class ClientPlayer extends PlayerBase
 	public void setLocationY(int locationY) {
 		LocationY = locationY;
 	}
-	public void showUI()
-	{
-		this.setVisible(true);
-	}
-	public abstract void showCardEffect(CardForm c);
-	public abstract void showGraveList();
-	
-	
+	public void showCardEffect(CardForm c)
+	{}
+	public void showGraveList()
+	{}
 }
 
 interface CardTrans

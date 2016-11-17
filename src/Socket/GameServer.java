@@ -3,18 +3,15 @@ package Socket;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.Inet4Address;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Collections;
 import java.util.LinkedList;
-import java.util.NoSuchElementException;
-import java.util.Queue;
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import card.Type1;
-import card.Type2;
+import card.CardForm;
 import player.ServerPlayer;
 
 public class GameServer extends Thread
@@ -36,6 +33,9 @@ public class GameServer extends Thread
 	private boolean they_state;
 	private ServerPlayer hostp = new ServerPlayer();
 	private ServerPlayer theyp = new ServerPlayer();
+	private List<Integer> hostdeck;
+	private List<Integer> theydeck;
+	private boolean state;
 	
 	public GameServer(int port)
 	{
@@ -85,59 +85,40 @@ public class GameServer extends Thread
 		{
 			soc = new ServerSocket(this.portnumber);
 			ssoc = soc.accept();
-			if(ssoc.getInetAddress().toString().compareTo("/127.0.0.1")==0)
+			if (ssoc.getInetAddress().toString().compareTo("/127.0.0.1") == 0)
 			{
 				outhost = new ObjectOutputStream(ssoc.getOutputStream());
-				host = new Server(ssoc,this.host_q);
+				host = new Server(ssoc, this.host_q);
+			} else
+			{
+				ssoc = soc.accept();
+				they = new Server(ssoc, this.they_q);
+				outthey = new ObjectOutputStream(ssoc.getOutputStream());
 			}
-		}
-		catch(Exception e)
-		{
-			System.out.println("p1연결에 실패 했습니다.");
-			System.exit(-1);
-		}
-		try
-		{
 			ssoc = soc.accept();
-			they = new Server(ssoc,this.they_q);
+			they = new Server(ssoc, this.they_q);
 			outthey = new ObjectOutputStream(ssoc.getOutputStream());
 		}
-		catch(Exception e)
+		catch (Exception e)
 		{
-			System.out.println("p2연결에 실패 했습니다.");
-			e.printStackTrace();
+			System.out.println("연결에 실패 했습니다.");
 			System.exit(-1);
 		}
-		
 		host.start();
 		they.start();
-			try 
-			{
-				if(host_q.take().getAction() == Massage.JOIN)
-					this.host_state = true;
-				System.out.println("조인 메세지를 처리 했습니다");
-				if(they_q.take().getAction() == Massage.JOIN)
-				{
-					System.out.println("메세지 처리");
-					this.they_state = true;
-				}
-				System.out.println("조인 메세지를 처리 했습니다.");
-			}
-			catch (InterruptedException e) 
-			{
-				e.printStackTrace();
-			}
-			this.sendToAll(new GameStart());
-			System.out.println("스타트 메세지를 보냈습니다.");
-			hostp.getFieldlist().getFiled().add(new Type1());
-			theyp.getFieldlist().getFiled().add(new Type2());
+		
+		this.sendHost(ReplyMassage.getRMassage(ReplyMassage.JOIN, hostp));
+		this.sendThey(ReplyMassage.getRMassage(ReplyMassage.JOIN, theyp));
+		System.out.println("스타트 메세지를 보냈습니다.");
 		for(;;)
 		{
+			this.state = true;
 			try {
 			if(host_q.isEmpty())
 			{
 				if(they_q.isEmpty())
 				{
+					this.state = false;
 					this.sleep(Long.MAX_VALUE);
 				}
 				else
@@ -166,9 +147,24 @@ public class GameServer extends Thread
 							this.sendThey(rm);
 							this.sendHost(rm1);
 						}
+						case Massage.JOIN:
+						{
+							this.theydeck = theym.getDeckList();
+							Collections.shuffle(theydeck);
+							theyp.createMyDeck(theydeck);
+							List<CardForm> deck = new LinkedList<>();
+							for(int i=0;i<5;i++)
+							{
+								deck.add(theyp.getMyDeck().remove(0));
+							}
+							theyp.getHandlist().setHand(deck);
+							if(hostp.getHandlist().getHand() != null)
+							{
+								
+							}
+						}
 					}
 				}
-				
 			}
 			else
 			{
@@ -195,6 +191,12 @@ public class GameServer extends Thread
 						rm1.setMe(hostp.getFieldlist().getFiled());
 						this.sendThey(rm1);
 						this.sendHost(rm);
+					}
+					case Massage.JOIN:
+					{
+						this.hostdeck = hostm.getDeckList();
+						Collections.shuffle(hostdeck);
+						hostp.createMyDeck(hostdeck);
 					}
 				}
 			}
@@ -228,11 +230,21 @@ public class GameServer extends Thread
 				{
 					m1.put((Massage)in.readObject());
 					System.out.println(m1.peek());
-					me.interrupt();
+					if(!me.isState())
+					{
+						me.interrupt();
+					}
 				}
 			}
 			catch(Exception e)
 			{}
 		}
 	}
+
+	public boolean isState()
+	{
+		return state;
+	}
+	
+	
 }

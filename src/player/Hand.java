@@ -15,7 +15,7 @@ import card.CardForm;
 
 public class Hand extends JPanel implements CardTrans
 {
-	private List<CardForm> Hand = new LinkedList<>();
+	private List<CardForm> Hand = null;
 	private boolean[] hand_target = new boolean[10];
 	private JButton[] HandComponent = new JButton[10];
 	@Override
@@ -36,6 +36,16 @@ public class Hand extends JPanel implements CardTrans
 		{
 			this.add(HandComponent[i] = new JButton());
 		}
+	}
+	
+	public List<CardForm> getHand()
+	{
+		return this.Hand;
+	}
+	
+	public void setHand(List<CardForm> hand)
+	{
+		this.Hand = hand;
 	}
 	
 	public void update()
