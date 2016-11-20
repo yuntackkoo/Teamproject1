@@ -112,7 +112,7 @@ public class CardImage extends JPanel
 		g2.drawArc(0, 0, 50, 50, 0, 360);
 		g2.drawArc(0, 250, 50, 50, 0, 360);
 		g2.drawArc(250, 250, 50, 50, 0, 360);
-		g2.setFont(new Font("πŸ≈¡",Font.PLAIN,20));
+		g2.setFont(new Font("πŸ≈¡",Font.PLAIN,30));
 		if(card.getCost() < card.getCurrentCost())
 		{
 			g2.setColor(Color.red);

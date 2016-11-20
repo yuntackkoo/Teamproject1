@@ -21,19 +21,20 @@ public class CardViewer extends JButton
 	public void setCard(CardForm card)
 	{
 		this.card = card;
+		this.setVisible(true);
 	}
 
 	@Override
 	protected void paintComponent(Graphics g)
 	{
-		try
+		if(this.card != null)
 		{
 			BufferedImage img;
 			super.paintComponent(g);
 			img = CardImage.get((Pawn) card);
 			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
 		}
-		catch(NullPointerException e)
+		else
 		{
 			this.setVisible(false);
 		}

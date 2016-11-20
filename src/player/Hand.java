@@ -13,7 +13,7 @@ public class Hand extends JPanel implements CardTrans
 {
 	private List<CardForm> Hand = new LinkedList<>();
 	private boolean[] hand_target = new boolean[10];
-	private JButton[] HandComponent = new JButton[10];
+	private CardViewer[] Component = new CardViewer[10];
 	private boolean change;
 	
 	@Override
@@ -32,7 +32,7 @@ public class Hand extends JPanel implements CardTrans
 		this.setLayout(new GridLayout());
 		for(int i =0;i<10;i++)
 		{
-			this.add(HandComponent[i] = new JButton());
+			this.add(Component[i] = new CardViewer());
 		}
 	}
 	
@@ -48,16 +48,15 @@ public class Hand extends JPanel implements CardTrans
 	
 	public void update()
 	{
-		for(int i =0;i<10;i++)
+		for(int i=0; i<10;i++)
 		{
 			try
 			{
-				this.HandComponent[i].setText(Integer.toString(this.Hand.get(i).getCardNumber()));
+				Component[i].setCard(Hand.get(i));
+				Component[i].repaint();
 			}
-			catch (Exception e)
-			{
-				this.HandComponent[i].setVisible(false);
-			}
+			catch(Exception e)
+			{}
 		}
 	}
 	

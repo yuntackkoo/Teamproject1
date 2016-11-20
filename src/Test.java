@@ -27,7 +27,7 @@ public class Test
 
 class testframe extends JFrame
 {
-	testp p = new testp();
+	testa p = new testa();
 	public testframe()
 	{
 		this.setVisible(true);
@@ -35,25 +35,4 @@ class testframe extends JFrame
 		this.add(p);
 		this.pack();
 	}
-}
-
-class panel extends Canvas
-{
-	LoadData data = LoadData.getInstance();
-	public panel()
-	{
-		this.setPreferredSize(new Dimension(840, 720));
-	}
-
-	@Override
-	public void paint(Graphics g)
-	{
-		BufferedImage tmp;
-		Graphics2D g2;
-		g2 = (Graphics2D) g;
-		tmp = CardImage.get((Pawn)data.getCard(1));
-		
-		g2.drawImage(tmp, 0, 0, 720, 640, null);
-	}
-	
 }

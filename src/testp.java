@@ -7,7 +7,7 @@ import player.ClientPlayer;
 
 public class testp extends JPanel
 {
-
+	
 	/**
 	 * Create the panel.
 	 */
