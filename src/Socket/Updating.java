@@ -18,7 +18,7 @@ public interface Updating
 	public static int TheyGrave = 2;
 	
 	abstract public Map<Integer,List> getGrave();
-	abstract public void setGrave(int own,List<Pawn> Grave);
+	abstract public void setGrave(int own,List<CardForm> Grave);
 
 	public static int MyDeck = 0;
 	public static int TheyDeck = 1;

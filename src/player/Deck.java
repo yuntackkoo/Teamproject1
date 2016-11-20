@@ -14,7 +14,7 @@ public class Deck extends JPanel implements CardTrans
 {
 	private transient List<CardForm> Deck = new ArrayList<>();
 	private boolean decktarget;
-	private int haveCard;
+	private boolean change;
 	@Override
 	public void addCard(CardForm Card) 
 	{
@@ -35,6 +35,27 @@ public class Deck extends JPanel implements CardTrans
 		
 		this.setBackground(Color.black);
 		super.paintComponent(g);
+	}
+	public int getDeckSize()
+	{
+		return Deck.size();
+	}
+
+	public boolean isChange()
+	{
+		return change;
+	}
+	public void setChange(boolean change)
+	{
+		this.change = change;
+	}
+	public List<CardForm> getDeck()
+	{
+		return Deck;
+	}
+	public void setDeck(List<CardForm> deck)
+	{
+		Deck = deck;
 	}
 	
 	

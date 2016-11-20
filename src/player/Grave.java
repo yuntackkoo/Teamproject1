@@ -18,6 +18,7 @@ public class Grave extends JPanel implements CardTrans
 {
 	private List<CardForm> Grave = null;
 	private boolean[] grave_target;
+	private boolean change;
 	
 	@Override
 	public void addCard(CardForm Card)
@@ -47,5 +48,15 @@ public class Grave extends JPanel implements CardTrans
 	public List<CardForm> getGrave()
 	{
 		return this.Grave;
+	}
+	
+
+	public boolean isChange()
+	{
+		return change;
+	}
+	public void setChange(boolean change)
+	{
+		this.change = change;
 	}
 }

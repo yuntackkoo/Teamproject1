@@ -17,6 +17,9 @@ public class Field extends JPanel implements CardTrans
 	private boolean[] filed_target = new boolean[5];
 	private List<Pawn> Filed = null;
 	private JButton[] FieldComponent = new JButton[5];
+	private boolean change;
+	
+	
 	public List<Pawn> getFiled()
 	{
 		return Filed;
@@ -66,6 +69,14 @@ public class Field extends JPanel implements CardTrans
 			}
 		}
 	}
-	
+
+	public boolean isChange()
+	{
+		return change;
+	}
+	public void setChange(boolean change)
+	{
+		this.change = change;
+	}
 }
 

@@ -21,7 +21,7 @@ public abstract class ReplyMassage implements Serializable,RChating,RAttacking,U
 	static public final int Update = 6;
 	static public final int JOIN = 98;
 	static public final int TurnEnd = 99;
-	static public final int Surrender = 100;
+	static public final int Surrender = 100; 
 	static public final int GameStart = 999;
 	
 	public abstract int getAction();
@@ -61,6 +61,86 @@ public abstract class ReplyMassage implements Serializable,RChating,RAttacking,U
 		{
 			return null;
 		}
+	}
+	
+	public static final ReplyMassage getRMassage(boolean host,ServerPlayer hostp,ServerPlayer theyp)
+	{
+		Update rm = new Update();
+		if(host)
+		{
+			if(hostp.getDecklist().isChange())
+			{
+				rm.setDeck(rm.MyDeck, hostp.getDecklist().getDeckSize());
+			}
+			if(hostp.getHandlist().isChange())
+			{
+				rm.setMeHand(hostp.getHandlist().getHand());
+			}
+			if(hostp.getGravelist().isChange())
+			{
+				rm.setGrave(rm.MyGrave, hostp.getGravelist().getGrave());
+			}
+			if(hostp.getFieldlist().isChange())
+			{
+				rm.setField(rm.MyField, hostp.getFieldlist().getFiled());
+			}
+			
+			
+			if(theyp.getDecklist().isChange())
+			{
+				rm.setDeck(rm.theyHand, theyp.getDecklist().getDeckSize());
+			}
+			if(theyp.getHandlist().isChange())
+			{
+				rm.setTheyHand(theyp.getHandlist().getHand().size());
+			}
+			if(theyp.getGravelist().isChange())
+			{
+				rm.setGrave(rm.TheyGrave, theyp.getGravelist().getGrave());
+			}
+			if(theyp.getFieldlist().isChange())
+			{
+				rm.setField(rm.TheyField, theyp.getFieldlist().getFiled());
+			}
+		}
+		else
+		{
+			if(theyp.getDecklist().isChange())
+			{
+				rm.setDeck(rm.MyDeck, theyp.getDecklist().getDeckSize());
+			}
+			if(theyp.getHandlist().isChange())
+			{
+				rm.setMeHand(theyp.getHandlist().getHand());
+			}
+			if(theyp.getGravelist().isChange())
+			{
+				rm.setGrave(rm.MyGrave, theyp.getGravelist().getGrave());
+			}
+			if(theyp.getFieldlist().isChange())
+			{
+				rm.setField(rm.MyField, theyp.getFieldlist().getFiled());
+			}
+			
+			
+			if(hostp.getDecklist().isChange())
+			{
+				rm.setDeck(rm.theyHand, hostp.getDecklist().getDeckSize());
+			}
+			if(hostp.getHandlist().isChange())
+			{
+				rm.setTheyHand(hostp.getHandlist().getHand().size());
+			}
+			if(hostp.getGravelist().isChange())
+			{
+				rm.setGrave(rm.TheyGrave, hostp.getGravelist().getGrave());
+			}
+			if(hostp.getFieldlist().isChange())
+			{
+				rm.setField(rm.TheyField, hostp.getFieldlist().getFiled());
+			}
+		}
+		return rm;
 	}
 	
 }
@@ -121,7 +201,7 @@ class ReplyMassageFactory extends ReplyMassage
 	public Map<Integer, List> getGrave()
 	{return null;}
 	@Override
-	public void setGrave(int own, List<Pawn> Grave)
+	public void setGrave(int own, List<CardForm> Grave)
 	{}
 	@Override
 	public int getDeck(int own)
@@ -251,7 +331,7 @@ class Update extends ReplyMassageFactory
 	}
 
 	@Override
-	public void setGrave(int own, List<Pawn> Grave)
+	public void setGrave(int own, List<CardForm> Grave)
 	{
 		this.Grave.put(own, Grave);
 	}

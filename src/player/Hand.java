@@ -1,9 +1,5 @@
 package player;
 
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,9 +11,11 @@ import card.CardForm;
 
 public class Hand extends JPanel implements CardTrans
 {
-	private List<CardForm> Hand = null;
+	private List<CardForm> Hand = new LinkedList<>();
 	private boolean[] hand_target = new boolean[10];
 	private JButton[] HandComponent = new JButton[10];
+	private boolean change;
+	
 	@Override
 	public void addCard(CardForm Card) 
 	{
@@ -62,4 +60,14 @@ public class Hand extends JPanel implements CardTrans
 			}
 		}
 	}
+	
+	public boolean isChange()
+	{
+		return change;
+	}
+	public void setChange(boolean change)
+	{
+		this.change = change;
+	}
+	
 }

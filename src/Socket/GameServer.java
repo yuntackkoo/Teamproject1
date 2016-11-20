@@ -12,6 +12,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import card.CardForm;
+import dataload.LoadData;
 import player.ServerPlayer;
 
 public class GameServer extends Thread
@@ -31,11 +32,10 @@ public class GameServer extends Thread
 	private Server they;
 	private boolean host_state;
 	private boolean they_state;
-	private ServerPlayer hostp = new ServerPlayer();
-	private ServerPlayer theyp = new ServerPlayer();
-	private List<Integer> hostdeck;
-	private List<Integer> theydeck;
+	private ServerPlayer hostp = new ServerPlayer(true);
+	private ServerPlayer theyp = new ServerPlayer(false);
 	private boolean state;
+	private LoadData data = LoadData.getInstance();
 	
 	public GameServer(int port)
 	{
@@ -146,22 +146,39 @@ public class GameServer extends Thread
 							rm1.setMe(hostp.getFieldlist().getFiled());
 							this.sendThey(rm);
 							this.sendHost(rm1);
+							break;
 						}
 						case Massage.JOIN:
 						{
-							this.theydeck = theym.getDeckList();
-							Collections.shuffle(theydeck);
-							theyp.createMyDeck(theydeck);
-							List<CardForm> deck = new LinkedList<>();
+							ReplyMassage hostrm;
+							ReplyMassage theyrm;
+							for(int i = 0;i<theym.getDeckList().size();i++)
+							{
+								theyp.getDecklist().addCard(data.getCard(theym.getDeckList().remove(0)));
+							}
+							Collections.shuffle(theyp.getDecklist().getDeck());
+							theyp.getHandlist().setChange(true);
+							theyp.getDecklist().setChange(true);
 							for(int i=0;i<5;i++)
 							{
-								deck.add(theyp.getMyDeck().remove(0));
+								theyp.getHandlist().addCard(theyp.getDecklist().disCard(0));
 							}
-							theyp.getHandlist().setHand(deck);
 							if(hostp.getHandlist().getHand() != null)
 							{
-								
+								hostrm = ReplyMassage.getRMassage(true, hostp, theyp);
+								theyrm = ReplyMassage.getRMassage(false, hostp, theyp);
+								hostp.getHandlist().setChange(false);
+								hostp.getGravelist().setChange(false);
+								hostp.getFieldlist().setChange(false);
+								hostp.getDecklist().setChange(false);
+								theyp.getHandlist().setChange(false);
+								theyp.getGravelist().setChange(false);
+								theyp.getFieldlist().setChange(false);
+								theyp.getDecklist().setChange(false);
+								this.sendHost(hostrm);
+								this.sendThey(theyrm);
 							}
+							break;
 						}
 					}
 				}
@@ -191,12 +208,40 @@ public class GameServer extends Thread
 						rm1.setMe(hostp.getFieldlist().getFiled());
 						this.sendThey(rm1);
 						this.sendHost(rm);
+						break;
 					}
 					case Massage.JOIN:
 					{
-						this.hostdeck = hostm.getDeckList();
-						Collections.shuffle(hostdeck);
-						hostp.createMyDeck(hostdeck);
+						ReplyMassage hostrm;
+						ReplyMassage theyrm;
+						for(int i = 0;i<hostm.getDeckList().size();i++)
+						{
+							hostp.getDecklist().addCard(data.getCard(hostm.getDeckList().remove(0)));
+						}
+						
+						Collections.shuffle(hostp.getDecklist().getDeck());
+						hostp.getHandlist().setChange(true);
+						hostp.getDecklist().setChange(true);
+						for(int i=0;i<5;i++)
+						{
+							hostp.getHandlist().addCard(hostp.getDecklist().disCard(0));
+						}
+						if(hostp.getHandlist().getHand() != null)
+						{
+							hostrm = ReplyMassage.getRMassage(true, hostp, theyp);
+							theyrm = ReplyMassage.getRMassage(false, hostp, theyp);
+							hostp.getHandlist().setChange(false);
+							hostp.getGravelist().setChange(false);
+							hostp.getFieldlist().setChange(false);
+							hostp.getDecklist().setChange(false);
+							theyp.getHandlist().setChange(false);
+							theyp.getGravelist().setChange(false);
+							theyp.getFieldlist().setChange(false);
+							theyp.getDecklist().setChange(false);
+							this.sendHost(hostrm);
+							this.sendThey(theyrm);
+						}
+						break;
 					}
 				}
 			}
@@ -245,6 +290,4 @@ public class GameServer extends Thread
 	{
 		return state;
 	}
-	
-	
 }
