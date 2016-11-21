@@ -11,7 +11,7 @@ import card.CardForm;
 import card.Pawn;
 import player.ServerPlayer;
 
-public abstract class ReplyMassage implements Serializable,RChating,RAttacking,Updating
+public abstract class ReplyMassage implements Serializable,RChating,Updating,TurnChange
 {
 	static public final int Draw = 1;
 	static public final int Chat = 2;
@@ -21,7 +21,8 @@ public abstract class ReplyMassage implements Serializable,RChating,RAttacking,U
 	static public final int Update = 6;
 	static public final int JOIN = 98;
 	static public final int TurnEnd = 99;
-	static public final int Surrender = 100; 
+	static public final int TurnStart = 100;
+	static public final int Surrender = 101; 
 	static public final int GameStart = 999;
 	
 	public abstract int getAction();
@@ -45,22 +46,27 @@ public abstract class ReplyMassage implements Serializable,RChating,RAttacking,U
 		{
 			return null;
 		}
-		else if(action == 5)
-		{
-			return new RAttack();
-		}
 		else if(action == 98)
 		{
 			return new GameStart();
 		}
-		else if(action == 99)
+		return null;
+	}
+	
+	public static final ReplyMassage getRMassage(int action)
+	{
+		switch(action)
 		{
-			return null;
+			case ReplyMassage.TurnEnd:
+			{
+				return new RTurnEnd();
+			}
+			case ReplyMassage.TurnStart:
+			{
+				return new RTurnStart();
+			}
 		}
-		else
-		{
-			return null;
-		}
+		return null;
 	}
 	
 	public static final ReplyMassage getRMassage(boolean host,ServerPlayer hostp,ServerPlayer theyp)
@@ -151,24 +157,18 @@ interface RChating
 	abstract public void setChat(String chat);
 }
 
-interface Drawing
-{
-	abstract public int getHand();
-	abstract public CardForm getDrawCard();
-	abstract public List getDeckList();
-	abstract public int getDeck();
-}
 
-interface RAttacking
-{
-	abstract List<Pawn> getMe();
-	abstract List<Pawn> getThey();
-	abstract void setMe(List<Pawn> me);
-	abstract void setThey(List<Pawn> they);
-}
 
 class ReplyMassageFactory extends ReplyMassage
 {
+	@Override
+	public void setUpdate(ReplyMassage rm)
+	{}
+
+	@Override
+	public ReplyMassage getUpdate()
+	{return null;}
+
 	@Override
 	public String getChat() {return null;}
 
@@ -177,20 +177,6 @@ class ReplyMassageFactory extends ReplyMassage
 	
 	@Override
 	public int getAction() {return 0;}
-	
-	@Override
-	public List<Pawn> getMe()
-	{return null;}
-
-	@Override
-	public List<Pawn> getThey()
-	{return null;}
-	@Override
-	public void setMe(List<Pawn> me)
-	{}
-	@Override
-	public void setThey(List<Pawn> they)
-	{}
 	@Override
 	public Map<Integer, List> getField()
 	{return null;}
@@ -222,7 +208,6 @@ class ReplyMassageFactory extends ReplyMassage
 	public void setTheyHand(int Hand)
 	{}
 	
-	
 }
 
 class GameStart extends ReplyMassageFactory
@@ -230,6 +215,38 @@ class GameStart extends ReplyMassageFactory
 	private int Action = 999;
 	public int getAction() {
 		return Action;
+	}
+}
+
+class RTurnEnd extends ReplyMassageFactory
+{
+	private int action = super.TurnEnd;
+	private ReplyMassage update;
+	@Override
+	public void setUpdate(ReplyMassage rm)
+	{
+		this.update = rm;
+	}
+	@Override
+	public ReplyMassage getUpdate()
+	{
+		return this.update;
+	}
+}
+
+class RTurnStart extends ReplyMassageFactory
+{
+	private int action = super.TurnEnd;
+	private ReplyMassage update;
+	@Override
+	public void setUpdate(ReplyMassage rm)
+	{
+		this.update = rm;
+	}
+	@Override
+	public ReplyMassage getUpdate()
+	{
+		return this.update;
 	}
 }
 
@@ -250,51 +267,6 @@ class Rchat extends ReplyMassageFactory implements RChating
 	public void setChat(String chat) 
 	{
 		this.chat = chat;
-	}
-}
-
-class RAttack extends ReplyMassageFactory
-{
-	private int Action = ReplyMassage.Attack;
-	
-	public int getAction()
-	{
-		return this.Action;
-	}
-	List<Pawn> Me = new ArrayList<>();
-	List<Pawn> They = new ArrayList<>();
-	@Override
-	public List<Pawn> getMe()
-	{
-		return Me;
-	}
-	@Override
-	public List<Pawn> getThey()
-	{
-		return They;
-	}
-	@Override
-	public void setMe(List<Pawn> me)
-	{
-		this.Me = new LinkedList<>();
-		for(int i=0;i<me.size();i++)
-		{
-			this.Me.add((Pawn) me.get(i).copy());
-		}
-	}
-	@Override
-	public void setThey(List<Pawn> they)
-	{
-		this.They = new LinkedList<>();
-		for(int i=0;i<they.size();i++)
-		{
-			this.They.add((Pawn) they.get(i).copy());
-		}
-	}
-	@Override
-	public String toString()
-	{
-		return Me.get(0).toString()+They.get(0).toString();
 	}
 }
 

@@ -16,6 +16,7 @@ public class Player extends JPanel
 	private String targetCard;
 	private They they = new They();
 	private ClientPlayer me = new ClientPlayer();
+	private PlayerRightPanel RightPanel = new PlayerRightPanel();
 	
 	public String getHandle()
 	{
@@ -56,6 +57,8 @@ public class Player extends JPanel
 		they.setVisible(true);
 		add(me, "cell 1 1,grow");
 		me.setVisible(true);
+		add(RightPanel,"cell 2 0 1 2,grow");
+		RightPanel.setVisible(true);
 		this.setVisible(false);
 	}
 	
@@ -64,8 +67,26 @@ public class Player extends JPanel
 		ClientSocket.sendMassage(Massage.getMassage(Massage.TurnEnd));
 	}
 	
+	public boolean isTurn()
+	{
+		return turn;
+	}
+
+	public void setTurn(boolean turn)
+	{
+		this.turn = turn;
+		this.RightPanel.setTurn(this.turn);
+	}
+
 	public void surrender()
 	{
 		ClientSocket.sendMassage(Massage.getMassage(Massage.Surrender));
 	}
+
+	public PlayerRightPanel getRightPanel()
+	{
+		return RightPanel;
+	}
+	
+	
 }

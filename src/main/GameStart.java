@@ -69,14 +69,7 @@ public class GameStart extends JPanel
 		decklistscroll.setBounds(900, 300, 150, 50);
 		decklist.setListData(new File("Deck").listFiles());
 		
-		//player.add(input);
-		input.setEditable(true);
-		input.setBounds(0, 0, 750, 20);
-		input.addActionListener(new Chatclass());
 		
-		//player.add(output);
-		output.setBounds(0, 100, 750, 20);
-		output.setEditable(false);
 	}
 	
 	public JPanel getServerPanel() {

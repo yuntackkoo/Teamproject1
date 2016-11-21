@@ -57,14 +57,8 @@ public class ClientSocket extends Thread
 					}
 					case ReplyMassage.Chat:
 					{
-						game.getOutput().setText(Rp.getChat());
+						game.getPlayer().getRightPanel().getOutput().append(Rp.getChat() + "\n");
 						break;
-					}
-					case ReplyMassage.Attack:
-					{
-						game.getPlayer().getMe().getFieldlist().setFiled(Rp.getMe());
-						game.getThey().getFieldlist().setFiled(Rp.getThey());
-						System.out.println(game.getPlayer().getMe().getFieldlist().getFiled());
 					}
 					case ReplyMassage.Update:
 					{
@@ -97,6 +91,20 @@ public class ClientSocket extends Thread
 						game.getPlayer().getThey().setHand(Rp.getTheyHand());
 						game.getPlayer().getThey().setDeck(Rp.getDeck(Rp.TheyDeck));
 						game.getPlayer().getMe().setDeck(Rp.getDeck(Rp.MyDeck));
+						System.out.println("asdjfkljqklwe");
+						break;
+					}
+					case ReplyMassage.TurnStart:
+					{
+						game.getPlayer().setTurn(true);
+						this.Rq.put(Rp.getUpdate());
+						break;
+					}
+					case ReplyMassage.TurnEnd:
+					{
+						game.getPlayer().setTurn(false);
+						this.Rq.put(Rp.getUpdate());
+						break;
 					}
 				}
 			} catch (InterruptedException e) {

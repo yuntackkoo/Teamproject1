@@ -24,21 +24,19 @@ public class ServerPlayer extends PlayerBase
 		{
 			case Massage.Draw:
 			{
-				super.setDeck(super.getDeck()-1);
+				CardForm drawcard = super.getDecklist().disCard(0);
+				super.getDecklist().setChange(true);
 				if(super.getDeck() < 10)
 				{
-					super.setHand(super.getHand() + 1);
-					super.setDeck(super.getDeck() - 1);
-					super.getHandlist().addCard(super.getDecklist().disCard(0));
-					return ReplyMassage.getRMassage(ReplyMassage.Draw,this);
+					super.getHandlist().addCard(drawcard);
+					super.getHandlist().setChange(true);
 				}
 				else
 				{
-					super.setGrave(super.getGrave() + 1);
-					super.setDeck(super.getDeck() - 1);
-					super.getDecklist().addCard(super.getDecklist().disCard(0));
-					return ReplyMassage.getRMassage(ReplyMassage.Draw, this);
+					super.getGravelist().addCard(drawcard);
+					super.getGravelist().setChange(true);
 				}
+				break;
 			}
 			case Massage.Chat:
 			{
@@ -49,7 +47,7 @@ public class ServerPlayer extends PlayerBase
 			case Massage.Attack:
 			{
 				ReplyMassage rm = ReplyMassage.getRMassage(ReplyMassage.Attack, this);
-				return rm;
+				break;
 			}
 		}
 		

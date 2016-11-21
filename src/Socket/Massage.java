@@ -233,6 +233,13 @@ class Attack extends MassageFactory
 class TurnEnd extends MassageFactory
 {
 	private int Action = this.TurnEnd;
+
+	@Override
+	public int getAction()
+	{
+		return this.Action;
+	}
+	
 }
 
 class Surrender extends MassageFactory

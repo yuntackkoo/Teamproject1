@@ -126,8 +126,15 @@ public class GameServer extends Thread
 					Massage theym = they_q.take();
 					switch(theym.getAction())
 					{
-						case Massage.Draw:
+	
+						case ReplyMassage.Draw:
 						{
+							theyp.mProcess(theym);
+							ReplyMassage hostrm = ReplyMassage.getRMassage(true, hostp, theyp);
+							ReplyMassage theyrm = ReplyMassage.getRMassage(false, hostp, theyp);
+							this.changestate();
+							this.sendHost(hostrm);
+							this.sendThey(theyrm);
 							break;
 						}
 						case Massage.Chat:
@@ -137,15 +144,7 @@ public class GameServer extends Thread
 						}
 						case Massage.Attack:
 						{
-							theyp.getFieldlist().getFiled().get(0).attack(hostp.getFieldlist().getFiled().get(0));
-							ReplyMassage rm = theyp.mProcess(theym);
-							ReplyMassage rm1 = theyp.mProcess(theym);
-							rm.setMe(theyp.getFieldlist().getFiled());
-							rm.setThey(hostp.getFieldlist().getFiled());
-							rm1.setThey(theyp.getFieldlist().getFiled());
-							rm1.setMe(hostp.getFieldlist().getFiled());
-							this.sendThey(rm);
-							this.sendHost(rm1);
+							
 							break;
 						}
 						case Massage.JOIN:
@@ -167,17 +166,22 @@ public class GameServer extends Thread
 							{
 								hostrm = ReplyMassage.getRMassage(true, hostp, theyp);
 								theyrm = ReplyMassage.getRMassage(false, hostp, theyp);
-								hostp.getHandlist().setChange(false);
-								hostp.getGravelist().setChange(false);
-								hostp.getFieldlist().setChange(false);
-								hostp.getDecklist().setChange(false);
-								theyp.getHandlist().setChange(false);
-								theyp.getGravelist().setChange(false);
-								theyp.getFieldlist().setChange(false);
-								theyp.getDecklist().setChange(false);
+								this.changestate();
 								this.sendHost(hostrm);
 								this.sendThey(theyrm);
 							}
+							break;
+						}
+						case Massage.TurnEnd:
+						{
+							ReplyMassage theyrm = ReplyMassage.getRMassage(ReplyMassage.TurnEnd);
+							ReplyMassage hostrm = ReplyMassage.getRMassage(ReplyMassage.TurnStart);
+							hostp.mProcess(Massage.getMassage(Massage.Draw));
+							theyrm.setUpdate(ReplyMassage.getRMassage(false, hostp, theyp));
+							hostrm.setUpdate(ReplyMassage.getRMassage(true, hostp, theyp));
+							this.changestate();
+							this.sendThey(theyrm);
+							this.sendHost(hostrm);
 							break;
 						}
 					}
@@ -190,6 +194,12 @@ public class GameServer extends Thread
 				{
 					case ReplyMassage.Draw:
 					{
+						hostp.mProcess(hostm);
+						ReplyMassage hostrm = ReplyMassage.getRMassage(true, hostp, theyp);
+						ReplyMassage theyrm = ReplyMassage.getRMassage(false, hostp, theyp);
+						this.changestate();
+						this.sendHost(hostrm);
+						this.sendThey(theyrm);
 						break;
 					}
 					case ReplyMassage.Chat:
@@ -199,15 +209,6 @@ public class GameServer extends Thread
 					}
 					case Massage.Attack:
 					{
-						theyp.getFieldlist().getFiled().get(0).attack(hostp.getFieldlist().getFiled().get(0));
-						ReplyMassage rm = theyp.mProcess(hostm);
-						ReplyMassage rm1 = theyp.mProcess(hostm);
-						rm.setMe(theyp.getFieldlist().getFiled());
-						rm.setThey(hostp.getFieldlist().getFiled());
-						rm1.setThey(theyp.getFieldlist().getFiled());
-						rm1.setMe(hostp.getFieldlist().getFiled());
-						this.sendThey(rm1);
-						this.sendHost(rm);
 						break;
 					}
 					case Massage.JOIN:
@@ -230,17 +231,22 @@ public class GameServer extends Thread
 						{
 							hostrm = ReplyMassage.getRMassage(true, hostp, theyp);
 							theyrm = ReplyMassage.getRMassage(false, hostp, theyp);
-							hostp.getHandlist().setChange(false);
-							hostp.getGravelist().setChange(false);
-							hostp.getFieldlist().setChange(false);
-							hostp.getDecklist().setChange(false);
-							theyp.getHandlist().setChange(false);
-							theyp.getGravelist().setChange(false);
-							theyp.getFieldlist().setChange(false);
-							theyp.getDecklist().setChange(false);
+							this.changestate();
 							this.sendHost(hostrm);
 							this.sendThey(theyrm);
 						}
+						break;
+					}
+					case Massage.TurnEnd:
+					{
+						ReplyMassage hostrm = ReplyMassage.getRMassage(ReplyMassage.TurnEnd);
+						ReplyMassage theyrm = ReplyMassage.getRMassage(ReplyMassage.TurnStart);
+						theyp.mProcess(Massage.getMassage(Massage.Draw));
+						theyrm.setUpdate(ReplyMassage.getRMassage(false, hostp, theyp));
+						hostrm.setUpdate(ReplyMassage.getRMassage(true, hostp, theyp));
+						this.changestate();
+						this.sendThey(theyrm);
+						this.sendHost(hostrm);
 						break;
 					}
 				}
@@ -274,7 +280,6 @@ public class GameServer extends Thread
 				for(;;)
 				{
 					m1.put((Massage)in.readObject());
-					System.out.println(m1.peek());
 					if(!me.isState())
 					{
 						me.interrupt();
@@ -289,5 +294,17 @@ public class GameServer extends Thread
 	public boolean isState()
 	{
 		return state;
+	}
+	
+	public void changestate()
+	{
+		hostp.getHandlist().setChange(false);
+		hostp.getGravelist().setChange(false);
+		hostp.getFieldlist().setChange(false);
+		hostp.getDecklist().setChange(false);
+		theyp.getHandlist().setChange(false);
+		theyp.getGravelist().setChange(false);
+		theyp.getFieldlist().setChange(false);
+		theyp.getDecklist().setChange(false);
 	}
 }
