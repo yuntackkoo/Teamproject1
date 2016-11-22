@@ -69,82 +69,53 @@ public abstract class ReplyMassage implements Serializable,RChating,Updating,Tur
 		return null;
 	}
 	
-	public static final ReplyMassage getRMassage(boolean host,ServerPlayer hostp,ServerPlayer theyp)
+	public static final ReplyMassage getRMassage(boolean host,ServerPlayer vhostp,ServerPlayer vtheyp)
 	{
 		Update rm = new Update();
+		ServerPlayer hostp;
+		ServerPlayer theyp;
 		if(host)
 		{
-			if(hostp.getDecklist().isChange())
-			{
-				rm.setDeck(rm.MyDeck, hostp.getDecklist().getDeckSize());
-			}
-			if(hostp.getHandlist().isChange())
-			{
-				rm.setMeHand(hostp.getHandlist().getHand());
-			}
-			if(hostp.getGravelist().isChange())
-			{
-				rm.setGrave(rm.MyGrave, hostp.getGravelist().getGrave());
-			}
-			if(hostp.getFieldlist().isChange())
-			{
-				rm.setField(rm.MyField, hostp.getFieldlist().getFiled());
-			}
-			
-			
-			if(theyp.getDecklist().isChange())
-			{
-				rm.setDeck(rm.theyHand, theyp.getDecklist().getDeckSize());
-			}
-			if(theyp.getHandlist().isChange())
-			{
-				rm.setTheyHand(theyp.getHandlist().getHand().size());
-			}
-			if(theyp.getGravelist().isChange())
-			{
-				rm.setGrave(rm.TheyGrave, theyp.getGravelist().getGrave());
-			}
-			if(theyp.getFieldlist().isChange())
-			{
-				rm.setField(rm.TheyField, theyp.getFieldlist().getFiled());
-			}
+			hostp = vhostp;
+			theyp = vtheyp;
 		}
 		else
 		{
-			if(theyp.getDecklist().isChange())
-			{
-				rm.setDeck(rm.MyDeck, theyp.getDecklist().getDeckSize());
-			}
-			if(theyp.getHandlist().isChange())
-			{
-				rm.setMeHand(theyp.getHandlist().getHand());
-			}
-			if(theyp.getGravelist().isChange())
-			{
-				rm.setGrave(rm.MyGrave, theyp.getGravelist().getGrave());
-			}
-			if(theyp.getFieldlist().isChange())
-			{
-				rm.setField(rm.MyField, theyp.getFieldlist().getFiled());
-			}
-			
-			
-			if(hostp.getDecklist().isChange())
-			{
-				rm.setDeck(rm.theyHand, hostp.getDecklist().getDeckSize());
-			}
-			if(hostp.getHandlist().isChange())
-			{
-				rm.setTheyHand(hostp.getHandlist().getHand().size());
-			}
-			if(hostp.getGravelist().isChange())
-			{
-				rm.setGrave(rm.TheyGrave, hostp.getGravelist().getGrave());
-			}
-			if(hostp.getFieldlist().isChange())
-			{
-				rm.setField(rm.TheyField, hostp.getFieldlist().getFiled());
-			}
+			hostp = vtheyp;
+			theyp = vhostp;
+		}
+		if (hostp.getDecklist().isChange())
+		{
+			rm.setDeck(rm.MyDeck, hostp.getDecklist().getDeckSize());
+		}
+		if (hostp.getHandlist().isChange())
+		{
+			rm.setMeHand(hostp.getHandlist().getHand());
+		}
+		if (hostp.getGravelist().isChange())
+		{
+			rm.setGrave(rm.MyGrave, hostp.getGravelist().getGrave());
+		}
+		if (hostp.getFieldlist().isChange())
+		{
+			rm.setField(rm.MyField, hostp.getFieldlist().getFiled());
+		}
+
+		if (theyp.getDecklist().isChange())
+		{
+			rm.setDeck(rm.theyHand, theyp.getDecklist().getDeckSize());
+		}
+		if (theyp.getHandlist().isChange())
+		{
+			rm.setTheyHand(theyp.getHandlist().getHand().size());
+		}
+		if (theyp.getGravelist().isChange())
+		{
+			rm.setGrave(rm.TheyGrave, theyp.getGravelist().getGrave());
+		}
+		if (theyp.getFieldlist().isChange())
+		{
+			rm.setField(rm.TheyField, theyp.getFieldlist().getFiled());
 		}
 		return rm;
 	}

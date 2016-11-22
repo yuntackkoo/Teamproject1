@@ -30,4 +30,9 @@ public class They extends PlayerBase
 	{}
 	public void showGraveList()
 	{}
+	
+	public void update()
+	{
+		
+	}
 }

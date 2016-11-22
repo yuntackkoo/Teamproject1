@@ -188,6 +188,8 @@ public class GameServer extends Thread
 						{
 							ReplyMassage theyrm = ReplyMassage.getRMassage(ReplyMassage.TurnEnd);
 							ReplyMassage hostrm = ReplyMassage.getRMassage(ReplyMassage.TurnStart);
+							
+							//카드 드로우
 							CardForm drawcard = hostp.getDecklist().disCard(0);
 							hostp.getDecklist().setChange(true);
 							if(hostp.getHandlist().getHand().size() < 10)
@@ -200,6 +202,8 @@ public class GameServer extends Thread
 								hostp.getGravelist().addCard(drawcard);
 								hostp.getGravelist().setChange(true);
 							}
+							
+							
 							theyrm.setUpdate(ReplyMassage.getRMassage(false, hostp, theyp));
 							hostrm.setUpdate(ReplyMassage.getRMassage(true, hostp, theyp));
 							this.changestate();

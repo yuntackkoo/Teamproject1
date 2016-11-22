@@ -15,6 +15,7 @@ public class Hand extends JPanel implements CardTrans
 	private boolean[] hand_target = new boolean[10];
 	private CardViewer[] Component = new CardViewer[10];
 	private boolean change;
+	private boolean they;
 	
 	@Override
 	public void addCard(CardForm Card) 

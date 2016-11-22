@@ -96,7 +96,6 @@ public class ClientSocket extends Thread
 					{
 						game.getPlayer().setTurn(true);
 						game.getPlayer().getMe().getHandlist().setHand(Rp.getUpdate().getMeHand());
-						System.out.println(Rp.getUpdate().getMeHand().size());
 						break;
 					}
 					case ReplyMassage.TurnEnd:
