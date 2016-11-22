@@ -26,7 +26,7 @@ public class ServerPlayer extends PlayerBase
 			{
 				CardForm drawcard = super.getDecklist().disCard(0);
 				super.getDecklist().setChange(true);
-				if(super.getDeck() < 10)
+				if(super.getHandlist().getHand().size() < 10)
 				{
 					super.getHandlist().addCard(drawcard);
 					super.getHandlist().setChange(true);
@@ -36,6 +36,7 @@ public class ServerPlayer extends PlayerBase
 					super.getGravelist().addCard(drawcard);
 					super.getGravelist().setChange(true);
 				}
+				System.out.println(super.getDecklist().getDeckSize());
 				break;
 			}
 			case Massage.Chat:

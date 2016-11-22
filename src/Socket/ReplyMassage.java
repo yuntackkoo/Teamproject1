@@ -232,11 +232,18 @@ class RTurnEnd extends ReplyMassageFactory
 	{
 		return this.update;
 	}
+	@Override
+	public int getAction()
+	{
+		return this.action;
+	}
+	
+	
 }
 
 class RTurnStart extends ReplyMassageFactory
 {
-	private int action = super.TurnEnd;
+	private int action = super.TurnStart;
 	private ReplyMassage update;
 	@Override
 	public void setUpdate(ReplyMassage rm)
@@ -248,6 +255,13 @@ class RTurnStart extends ReplyMassageFactory
 	{
 		return this.update;
 	}
+	@Override
+	public int getAction()
+	{
+		return this.action;
+	}
+	
+	
 }
 
 class Rchat extends ReplyMassageFactory implements RChating

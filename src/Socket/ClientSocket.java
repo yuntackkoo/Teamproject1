@@ -52,7 +52,6 @@ public class ClientSocket extends Thread
 					{
 						game.getServerPanel().setVisible(false);
 						game.getPlayer().setVisible(true);
-						System.out.println(game.getPlayer().getThey().isVisible());
 						break;
 					}
 					case ReplyMassage.Chat:
@@ -91,19 +90,19 @@ public class ClientSocket extends Thread
 						game.getPlayer().getThey().setHand(Rp.getTheyHand());
 						game.getPlayer().getThey().setDeck(Rp.getDeck(Rp.TheyDeck));
 						game.getPlayer().getMe().setDeck(Rp.getDeck(Rp.MyDeck));
-						System.out.println("asdjfkljqklwe");
 						break;
 					}
 					case ReplyMassage.TurnStart:
 					{
 						game.getPlayer().setTurn(true);
-						this.Rq.put(Rp.getUpdate());
+						game.getPlayer().getMe().getHandlist().setHand(Rp.getUpdate().getMeHand());
+						System.out.println(Rp.getUpdate().getMeHand().size());
 						break;
 					}
 					case ReplyMassage.TurnEnd:
 					{
 						game.getPlayer().setTurn(false);
-						this.Rq.put(Rp.getUpdate());
+						game.getPlayer().getThey().setHand(Rp.getUpdate().getTheyHand());
 						break;
 					}
 				}

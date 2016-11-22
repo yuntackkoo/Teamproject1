@@ -129,7 +129,18 @@ public class GameServer extends Thread
 	
 						case ReplyMassage.Draw:
 						{
-							theyp.mProcess(theym);
+							CardForm drawcard = theyp.getDecklist().disCard(0);
+							theyp.getDecklist().setChange(true);
+							if(theyp.getHandlist().getHand().size() < 10)
+							{
+								theyp.getHandlist().addCard(drawcard);
+								theyp.getHandlist().setChange(true);
+							}
+							else
+							{
+								theyp.getGravelist().addCard(drawcard);
+								theyp.getGravelist().setChange(true);
+							}
 							ReplyMassage hostrm = ReplyMassage.getRMassage(true, hostp, theyp);
 							ReplyMassage theyrm = ReplyMassage.getRMassage(false, hostp, theyp);
 							this.changestate();
@@ -151,7 +162,8 @@ public class GameServer extends Thread
 						{
 							ReplyMassage hostrm;
 							ReplyMassage theyrm;
-							for(int i = 0;i<theym.getDeckList().size();i++)
+							int size = theym.getDeckList().size();
+							for(int i = 0;i<size;i++)
 							{
 								theyp.getDecklist().addCard(data.getCard(theym.getDeckList().remove(0)));
 							}
@@ -176,7 +188,18 @@ public class GameServer extends Thread
 						{
 							ReplyMassage theyrm = ReplyMassage.getRMassage(ReplyMassage.TurnEnd);
 							ReplyMassage hostrm = ReplyMassage.getRMassage(ReplyMassage.TurnStart);
-							hostp.mProcess(Massage.getMassage(Massage.Draw));
+							CardForm drawcard = hostp.getDecklist().disCard(0);
+							hostp.getDecklist().setChange(true);
+							if(hostp.getHandlist().getHand().size() < 10)
+							{
+								hostp.getHandlist().addCard(drawcard);
+								hostp.getHandlist().setChange(true);
+							}
+							else
+							{
+								hostp.getGravelist().addCard(drawcard);
+								hostp.getGravelist().setChange(true);
+							}
 							theyrm.setUpdate(ReplyMassage.getRMassage(false, hostp, theyp));
 							hostrm.setUpdate(ReplyMassage.getRMassage(true, hostp, theyp));
 							this.changestate();
@@ -194,7 +217,19 @@ public class GameServer extends Thread
 				{
 					case ReplyMassage.Draw:
 					{
-						hostp.mProcess(hostm);
+						CardForm drawcard = theyp.getDecklist().disCard(0);
+						hostp.getDecklist().setChange(true);
+						if(hostp.getHandlist().getHand().size() < 10)
+						{
+							hostp.getHandlist().addCard(drawcard);
+							hostp.getHandlist().setChange(true);
+						}
+						else
+						{
+							hostp.getGravelist().addCard(drawcard);
+							hostp.getGravelist().setChange(true);
+						}
+						
 						ReplyMassage hostrm = ReplyMassage.getRMassage(true, hostp, theyp);
 						ReplyMassage theyrm = ReplyMassage.getRMassage(false, hostp, theyp);
 						this.changestate();
@@ -215,7 +250,8 @@ public class GameServer extends Thread
 					{
 						ReplyMassage hostrm;
 						ReplyMassage theyrm;
-						for(int i = 0;i<hostm.getDeckList().size();i++)
+						int size = hostm.getDeckList().size();
+						for(int i = 0;i<size;i++)
 						{
 							hostp.getDecklist().addCard(data.getCard(hostm.getDeckList().remove(0)));
 						}
@@ -241,7 +277,18 @@ public class GameServer extends Thread
 					{
 						ReplyMassage hostrm = ReplyMassage.getRMassage(ReplyMassage.TurnEnd);
 						ReplyMassage theyrm = ReplyMassage.getRMassage(ReplyMassage.TurnStart);
-						theyp.mProcess(Massage.getMassage(Massage.Draw));
+						CardForm drawcard = theyp.getDecklist().disCard(0);
+						theyp.getDecklist().setChange(true);
+						if(theyp.getHandlist().getHand().size() < 10)
+						{
+							theyp.getHandlist().addCard(drawcard);
+							theyp.getHandlist().setChange(true);
+						}
+						else
+						{
+							theyp.getGravelist().addCard(drawcard);
+							theyp.getGravelist().setChange(true);
+						}
 						theyrm.setUpdate(ReplyMassage.getRMassage(false, hostp, theyp));
 						hostrm.setUpdate(ReplyMassage.getRMassage(true, hostp, theyp));
 						this.changestate();

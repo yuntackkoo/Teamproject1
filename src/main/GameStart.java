@@ -125,6 +125,7 @@ public class GameStart extends JPanel
 			csoc.start();
 			Massage msg = Massage.getMassage(Massage.JOIN);
 			msg.setDeckList(deck);
+			System.out.println(msg.getDeckList());
 			ClientSocket.sendMassage(msg);
 			
 		}
@@ -157,7 +158,6 @@ public class GameStart extends JPanel
 						}
 					}
 				}
-				System.out.println(deck.toString());
 			}
 			catch (FileNotFoundException e1)
 			{
@@ -172,6 +172,7 @@ public class GameStart extends JPanel
 			csoc.start();
 			Massage msg = Massage.getMassage(Massage.JOIN);
 			msg.setDeckList(deck);
+			System.out.println(msg.getDeckList());
 			ClientSocket.sendMassage(msg);
 		}
 	}
