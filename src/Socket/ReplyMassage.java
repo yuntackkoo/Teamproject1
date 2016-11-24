@@ -3,7 +3,6 @@ package Socket;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -88,35 +87,86 @@ public abstract class ReplyMassage implements Serializable,RChating,Updating,Tur
 		{
 			rm.setDeck(rm.MyDeck, hostp.getDecklist().getDeckSize());
 		}
+		else
+		{
+			rm.setDeck(rm.MyDeck, -1);
+		}
 		if (hostp.getHandlist().isChange())
 		{
-			rm.setMeHand(hostp.getHandlist().getHand());
+			for(int i =0;i<hostp.getHandlist().getHand().size();i++)
+			{
+				rm.getMeHand().add(hostp.getHandlist().getHand().get(i).copy());
+			}
+		}
+		else
+		{
+			rm.setMeHand(null);
 		}
 		if (hostp.getGravelist().isChange())
 		{
-			rm.setGrave(rm.MyGrave, hostp.getGravelist().getGrave());
+			for(int i = 0;i<hostp.getGravelist().getGrave().size();i++)
+			{
+				rm.getGrave(Updating.MyGrave).add(hostp.getGravelist().getGrave().get(i).copy());
+			}
+		}
+		else
+		{
+			rm.setGrave(Updating.MyGrave, null);
 		}
 		if (hostp.getFieldlist().isChange())
 		{
-			rm.setField(rm.MyField, hostp.getFieldlist().getFiled());
+			for(int i = 0;i<hostp.getFieldlist().getFiled().size();i++)
+			{
+				rm.getField(Updating.MyGrave).add((Pawn) hostp.getFieldlist().getFiled().get(i).copy());
+			}
+		}
+		else
+		{
+			rm.setField(Updating.MyField, null);
 		}
 
 		if (theyp.getDecklist().isChange())
 		{
-			rm.setDeck(rm.theyHand, theyp.getDecklist().getDeckSize());
+			rm.setDeck(rm.TheyDeck, theyp.getDecklist().getDeckSize());
 		}
+		else
+		{
+			rm.setDeck(rm.TheyDeck, -1);
+		}
+		
+		
+		
 		if (theyp.getHandlist().isChange())
 		{
 			rm.setTheyHand(theyp.getHandlist().getHand().size());
 		}
-		if (theyp.getGravelist().isChange())
+		else
 		{
-			rm.setGrave(rm.TheyGrave, theyp.getGravelist().getGrave());
+			rm.setTheyHand(null);
 		}
 		if (theyp.getFieldlist().isChange())
 		{
-			rm.setField(rm.TheyField, theyp.getFieldlist().getFiled());
+			for(int i = 0;i<theyp.getFieldlist().getFiled().size();i++)
+			{
+				rm.getField(Updating.TheyGrave).add((Pawn) theyp.getFieldlist().getFiled().get(i).copy());
+			}
 		}
+		else
+		{
+			rm.setField(Updating.TheyGrave, null);
+		}
+		if (theyp.getFieldlist().isChange())
+		{
+			for(int i = 0;i<theyp.getFieldlist().getFiled().size();i++)
+			{
+				rm.getField(Updating.TheyField).add((Pawn) theyp.getFieldlist().getFiled().get(i).copy());
+			}
+		}
+		else
+		{
+			rm.setField(Updating.TheyField, null);
+		}
+
 		return rm;
 	}
 	
@@ -149,19 +199,19 @@ class ReplyMassageFactory extends ReplyMassage
 	@Override
 	public int getAction() {return 0;}
 	@Override
-	public Map<Integer, List> getField()
+	public List<Pawn> getField(int own)
 	{return null;}
 	@Override
 	public void setField(int own, List<Pawn> Field)
 	{}
 	@Override
-	public Map<Integer, List> getGrave()
+	public List<CardForm> getGrave(int own)
 	{return null;}
 	@Override
 	public void setGrave(int own, List<CardForm> Grave)
 	{}
 	@Override
-	public int getDeck(int own)
+	public Integer getDeck(int own)
 	{return 0;}
 	@Override
 	public void setDeck(int own, int value)
@@ -173,10 +223,10 @@ class ReplyMassageFactory extends ReplyMassage
 	public void setMeHand(List<CardForm> Hand)
 	{}
 	@Override
-	public int getTheyHand()
+	public Integer getTheyHand()
 	{return 0;}
 	@Override
-	public void setTheyHand(int Hand)
+	public void setTheyHand(Integer Hand)
 	{}
 	
 }
@@ -231,8 +281,6 @@ class RTurnStart extends ReplyMassageFactory
 	{
 		return this.action;
 	}
-	
-	
 }
 
 class Rchat extends ReplyMassageFactory implements RChating
@@ -263,34 +311,49 @@ class Update extends ReplyMassageFactory
 		return super.Update;
 	}
 	
-	Map<Integer, List> Field = null;
-	Map<Integer, List> Grave = null;
-	int[] Deck = new int[2];
-	List<CardForm> MyHand = null;
-	int theyHand;
+	List<Pawn>[] Field = new ArrayList[2];
+	
+	List<CardForm>[] Grave = new ArrayList[2];
+	Integer[] Deck = new Integer[2];
+	List<CardForm> MyHand = new ArrayList<>();
+	Integer theyHand;
+	
+	public Update()
+	{
+		Field[Updating.MyField] = new ArrayList<>();
+		Field[Updating.TheyField] = new ArrayList<>();
+		
+		Grave[Updating.MyGrave] = new ArrayList<>();
+		Grave[Updating.TheyGrave] = new ArrayList<>();
+		
+		Deck[Updating.MyDeck] = new Integer(1);
+		Deck[Updating.TheyDeck] = new Integer(1);
+	}
+	
+	
 	
 	@Override
-	public Map<Integer, List> getField()
+	public List<Pawn> getField(int own)
 	{
-		return this.Field;
+		return this.Field[own];
 	}
 
 	@Override
 	public void setField(int own, List<Pawn> Field)
 	{
-		this.Field.put(own, Field);
+		this.Field[own] = Field;
 	}
 
 	@Override
-	public Map<Integer, List> getGrave()
+	public List<CardForm> getGrave(int own)
 	{
-		return this.Grave;
+		return this.Grave[own];
 	}
 
 	@Override
 	public void setGrave(int own, List<CardForm> Grave)
 	{
-		this.Grave.put(own, Grave);
+		this.Grave[own] = Grave;
 	}
 
 	@Override
@@ -312,13 +375,13 @@ class Update extends ReplyMassageFactory
 	}
 
 	@Override
-	public int getTheyHand()
+	public Integer getTheyHand()
 	{
 		return this.theyHand;
 	}
 
 	@Override
-	public void setTheyHand(int hand)
+	public void setTheyHand(Integer hand)
 	{
 		this.theyHand = hand;
 	}

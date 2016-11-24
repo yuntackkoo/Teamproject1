@@ -44,8 +44,9 @@ public class ClientSocket extends Thread
 	{
 		for(;;)
 		{
+			ReplyMassage Rp;
 			try {
-				ReplyMassage Rp = Rq.take();
+				Rp = Rq.take();
 				switch(Rp.getAction())
 				{
 					case ReplyMassage.GameStart:
@@ -61,47 +62,50 @@ public class ClientSocket extends Thread
 					}
 					case ReplyMassage.Update:
 					{
-						if(Rp.getField() != null)
+						if(Rp.getField(Rp.MyField) != null)
 						{
-							if(Rp.getField().get(Rp.MyField) != null)
-							{
-								game.getPlayer().getMe().getFieldlist().setFiled(Rp.getField().get(Rp.MyField));
-							}
-							if(Rp.getField().get(Rp.MyField) != null)
-							{
-								game.getPlayer().getThey().getFieldlist().setFiled(Rp.getField().get(Rp.MyField));
-							}
+							game.getPlayer().getMe().getFieldlist().setFiled(Rp.getField(Rp.MyField));
 						}
-						if(Rp.getGrave() != null)
+						if(Rp.getField(Rp.MyField) != null)
 						{
-							if(Rp.getGrave().get(Rp.MyGrave) != null)
-							{
-								game.getPlayer().getMe().getGravelist().setGrave(Rp.getGrave().get(Rp.MyGrave));
-							}
-							if(Rp.getGrave().get(Rp.TheyGrave) != null)
-							{
-								game.getPlayer().getThey().getGravelist().setGrave(Rp.getGrave().get(Rp.TheyGrave));
-							}
+							game.getPlayer().getThey().getFieldlist().setFiled(Rp.getField(Rp.MyField));
+						}
+						if(Rp.getGrave(Rp.MyGrave) != null)
+						{
+							game.getPlayer().getMe().getGravelist().setGrave(Rp.getGrave(Rp.MyGrave));
+						}
+						if(Rp.getGrave(Rp.TheyGrave) != null)
+						{
+							game.getPlayer().getThey().getGravelist().setGrave(Rp.getGrave(Rp.TheyGrave));
 						}
 						if(Rp.getMeHand() != null)
 						{
 							game.getPlayer().getMe().getHandlist().setHand(Rp.getMeHand());
 						}
-						game.getPlayer().getThey().setHand(Rp.getTheyHand());
-						game.getPlayer().getThey().setDeck(Rp.getDeck(Rp.TheyDeck));
-						game.getPlayer().getMe().setDeck(Rp.getDeck(Rp.MyDeck));
+						if(Rp.getTheyHand() != null)
+						{
+							game.getPlayer().getThey().setHand(Rp.getTheyHand());
+						}
+						if(Rp.getDeck(Rp.TheyDeck) != -1)
+						{
+							game.getPlayer().getThey().setDeck(Rp.getDeck(Rp.TheyDeck));
+						}
+						if(Rp.getDeck(Rp.MyDeck) != -1)
+						{
+							game.getPlayer().getMe().setDeck(Rp.getDeck(Rp.MyDeck));
+						}
 						break;
 					}
 					case ReplyMassage.TurnStart:
 					{
 						game.getPlayer().setTurn(true);
-						game.getPlayer().getMe().getHandlist().setHand(Rp.getUpdate().getMeHand());
+						Rq.add(Rp.getUpdate());
 						break;
 					}
 					case ReplyMassage.TurnEnd:
 					{
 						game.getPlayer().setTurn(false);
-						game.getPlayer().getThey().setHand(Rp.getUpdate().getTheyHand());
+						Rq.add(Rp.getUpdate());
 						break;
 					}
 				}
@@ -109,7 +113,10 @@ public class ClientSocket extends Thread
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+			finally
+			{
+				Rp = null;
+			}
 			
 		}
 	}

@@ -233,7 +233,6 @@ public class GameServer extends Thread
 							hostp.getGravelist().addCard(drawcard);
 							hostp.getGravelist().setChange(true);
 						}
-						
 						ReplyMassage hostrm = ReplyMassage.getRMassage(true, hostp, theyp);
 						ReplyMassage theyrm = ReplyMassage.getRMassage(false, hostp, theyp);
 						this.changestate();

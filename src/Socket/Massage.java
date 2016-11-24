@@ -137,6 +137,12 @@ class MassageFactory extends Massage
 class Draw extends MassageFactory
 {
 	private int Action = this.Draw;
+
+	@Override
+	public int getAction()
+	{
+		return this.Action;
+	}
 }
 
 class Chat extends MassageFactory

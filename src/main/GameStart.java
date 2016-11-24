@@ -174,6 +174,7 @@ public class GameStart extends JPanel
 			msg.setDeckList(deck);
 			System.out.println(msg.getDeckList());
 			ClientSocket.sendMassage(msg);
+			player.setTurn(false);
 		}
 	}
 	
