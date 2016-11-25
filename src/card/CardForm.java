@@ -19,19 +19,18 @@ public abstract class CardForm implements Serializable
 	private int CardNumber;
 	private int CurrentCost;
 	private int cost;
-	private String loc;
+	private int loc;
 	private int xloc = 0;
 	private int yloc = 0;
-	private Player onw;
 	private CardForm me = this;
-	static int Deck = 1;
-	static int Field = 2;
-	static int Grave = 3;
-	static int Hand = 4;
+	static public int Deck = 1;
+	static public int Field = 2;
+	static public int Grave = 3;
+	static public int Hand = 4;
 
 	private boolean ShowImage = false;
 
-	public abstract void CardUse();
+	public abstract void CardUse(int handle);
 
 	public abstract void effect();
 	public abstract void attack(CardForm other);
@@ -47,23 +46,7 @@ public abstract class CardForm implements Serializable
 	public CardForm copy()
 	{return null;}
 	
-	public Player getOnw()
-	{
-		return onw;
-	}
-
-	public void setOnw(Player onw)
-	{
-		this.onw = onw;
-	}
-
-	private void add(Container con, Component c, int locx, int locy)
-	{
-		con.setBounds(locx, locy, 100, 100);
-		con.add(c);
-	}
-
-	public String getLoc()
+	public int getLoc()
 	{
 		return loc;
 	}
@@ -88,7 +71,7 @@ public abstract class CardForm implements Serializable
 		this.cost = cost;
 	}
 
-	public void setLoc(String loc)
+	public void setLoc(int loc)
 	{
 		this.loc = loc;
 	}

@@ -25,6 +25,7 @@ public class LoadData
 	private String[] CardName; // 카드 이름들 저장
 	private String[] CardToolTip;// 카드의 툴팁 저장
 	private File getMax = new File("Card");//카드 폴더를 파일 형태로 불러옴
+	private BufferedImage BackImage;
 	private LoadData()//생성자가 private 이 객체는 외부에서 생성할 수 없음
 	{
 		try
@@ -48,6 +49,7 @@ public class LoadData
 					CardToolTip[i] = reader.next();
 				}
 			}
+			BackImage = ImageIO.read(new File("TheyHand.png"));
 		} catch (Exception e)
 		{
 			e.printStackTrace();
@@ -91,6 +93,11 @@ public class LoadData
 	public String getCardToolTip(int index)
 	{
 		return CardToolTip[index];
+	}
+
+	public BufferedImage getBackImage()
+	{
+		return BackImage;
 	}
 	
 	

@@ -22,6 +22,8 @@ public class ClientPlayer extends PlayerBase
 		Deck deck = super.getDecklist();
 		deck.setBackground(Color.WHITE);
 		this.add(deck, "cell 8 2 2 1,grow");
+		
+		hand.setThey(false);
 	}
 	
 	private int LocationX;

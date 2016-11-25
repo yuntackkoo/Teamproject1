@@ -43,7 +43,7 @@ public class PlayerRightPanel extends JPanel
 				}
 			}
 		});
-		add(btnNewButton, "cell 3 1");
+		add(btnNewButton, "cell 0 1 4 1,growx");
 		
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, "cell 0 2 4 2,grow");

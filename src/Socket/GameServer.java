@@ -153,6 +153,18 @@ public class GameServer extends Thread
 							this.sendToAll(theyp.mProcess(theym));
 							break;
 						}
+						case Massage.Summon:
+						{
+							theyp.getFieldlist().setChange(true);
+							theyp.getHandlist().setChange(true);
+							theyp.getFieldlist().addCard(theyp.getHandlist().disCard(theym.getHandle()));
+							ReplyMassage hostrm = ReplyMassage.getRMassage(true, hostp, theyp);
+							ReplyMassage theyrm = ReplyMassage.getRMassage(false, hostp, theyp);
+							this.changestate();
+							this.sendHost(hostrm);
+							this.sendThey(theyrm);
+							break;
+						}
 						case Massage.Attack:
 						{
 							
@@ -243,6 +255,18 @@ public class GameServer extends Thread
 					case ReplyMassage.Chat:
 					{
 						this.sendToAll(hostp.mProcess(hostm));
+						break;
+					}
+					case Massage.Summon:
+					{
+						hostp.getFieldlist().setChange(true);
+						hostp.getHandlist().setChange(true);
+						hostp.getFieldlist().addCard(hostp.getHandlist().disCard(hostm.getHandle()));
+						ReplyMassage hostrm = ReplyMassage.getRMassage(true, hostp, theyp);
+						ReplyMassage theyrm = ReplyMassage.getRMassage(false, hostp, theyp);
+						this.changestate();
+						this.sendHost(hostrm);
+						this.sendThey(theyrm);
 						break;
 					}
 					case Massage.Attack:

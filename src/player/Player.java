@@ -1,12 +1,14 @@
 package player;
 
-import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
 import Socket.ClientSocket;
 import Socket.Massage;
-import card.CardForm;
 import net.miginfocom.swing.MigLayout;
 
 public class Player extends JPanel
@@ -17,6 +19,32 @@ public class Player extends JPanel
 	private They they = new They();
 	private ClientPlayer me = new ClientPlayer();
 	private PlayerRightPanel RightPanel = new PlayerRightPanel();
+	private static Point Screenlocation;
+
+	public Player()
+	{
+		this.setSize(1280, 720);
+		setLayout(new MigLayout("", "[grow][880][200]", "[grow][grow]"));
+
+		add(they, "cell 1 0,grow");
+		they.setVisible(true);
+		add(me, "cell 1 1,grow");
+		me.setVisible(true);
+		add(RightPanel,"cell 2 0 1 2,grow");
+		RightPanel.setVisible(true);
+		this.setVisible(false);
+		
+		this.addMouseListener(new MouseAdapter()
+		{
+
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				System.out.println(e.getLocationOnScreen());
+			}
+			
+		});
+	}
 	
 	public String getHandle()
 	{
@@ -48,20 +76,6 @@ public class Player extends JPanel
 	}
 	
 
-	public Player()
-	{
-		this.setSize(1280, 720);
-		setLayout(new MigLayout("", "[grow][880][grow]", "[grow][grow]"));
-
-		add(they, "cell 1 0,grow");
-		they.setVisible(true);
-		add(me, "cell 1 1,grow");
-		me.setVisible(true);
-		add(RightPanel,"cell 2 0 1 2,grow");
-		RightPanel.setVisible(true);
-		this.setVisible(false);
-	}
-	
 	public void turnEnd()
 	{
 		ClientSocket.sendMassage(Massage.getMassage(Massage.TurnEnd));
@@ -87,6 +101,17 @@ public class Player extends JPanel
 	{
 		return RightPanel;
 	}
+
+	@Override
+	protected void paintComponent(Graphics g)
+	{
+		super.paintComponent(g);
+		this.Screenlocation = this.getLocationOnScreen();
+	}
 	
+	public static Point Location()
+	{
+		return Screenlocation;
+	}
 	
 }

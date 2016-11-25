@@ -24,9 +24,11 @@ public class Pawn extends CardForm
 		p.currentlife -= this.currentatt;
 	}
 
-	public void CardUse()
+	public void CardUse(int handle)
 	{
-		ClientSocket.sendMassage(Massage.getMassage(Massage.Summon));
+		Massage tmp = Massage.getMassage(Massage.Summon);
+		tmp.setHandle(handle);
+		ClientSocket.sendMassage(tmp);
 	}
 	
 	public CardForm copy()
@@ -35,7 +37,6 @@ public class Pawn extends CardForm
 		tmp.setCardNumber(super.getCardNumber());
 		tmp.setCost(super.getCost());
 		tmp.setLoc(super.getLoc());
-		tmp.setOnw(super.getOnw());
 		Pawn tmp2 = (Pawn)tmp;
 		tmp2.currentatt = this.currentatt;
 		tmp2.currentlife = this.currentlife;
@@ -106,7 +107,6 @@ public class Pawn extends CardForm
 	@Override
 	public String toString()
 	{
-		return "Pawn [Race=" + Race + ", currentatt=" + currentatt + ", currentlife=" + currentlife + ", getCost()="
-				+ getCost() + "]";
+		return Integer.toString(super.getCardNumber());
 	}
 }

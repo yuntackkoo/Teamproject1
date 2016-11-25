@@ -27,12 +27,10 @@ public class Test
 
 class testframe extends JFrame
 {
-	testa p = new testa();
 	public testframe()
 	{
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.add(p);
 		this.pack();
 	}
 }

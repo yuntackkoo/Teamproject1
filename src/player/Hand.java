@@ -16,10 +16,12 @@ public class Hand extends JPanel implements CardTrans
 	private CardViewer[] Component = new CardViewer[10];
 	private boolean change;
 	private boolean they;
+	private int haveCard;
 	
 	@Override
 	public void addCard(CardForm Card) 
 	{
+		Card.setLoc(CardForm.Hand);
 		Hand.add(Card);
 	}
 	@Override
@@ -33,7 +35,7 @@ public class Hand extends JPanel implements CardTrans
 		this.setLayout(new GridLayout());
 		for(int i =0;i<10;i++)
 		{
-			this.add(Component[i] = new CardViewer());
+			this.add(Component[i] = new CardViewer(they));
 		}
 	}
 	
@@ -49,15 +51,34 @@ public class Hand extends JPanel implements CardTrans
 	
 	public void update()
 	{
-		for(int i=0; i<10;i++)
+		if(change)
 		{
-			try
+			if(!they)
 			{
-				Component[i].setCard(Hand.get(i));
-				Component[i].repaint();
+				for(int i=0; i<10;i++)
+				{
+					try
+					{
+						Component[i].setCard(null);
+						Component[i].setCard(Hand.get(i));
+						Component[i].repaint();
+					}
+					catch(Exception e)
+					{}
+				}
+				change = false;
 			}
-			catch(Exception e)
-			{}
+			else
+			{
+				for(int i=0;i<10;i++)
+				{
+					Component[i].setDrawable(false);
+				}
+				for(int i=0;i<this.haveCard;i++)
+				{
+					Component[i].setDrawable(true);
+				}
+			}
 		}
 	}
 	
@@ -69,5 +90,23 @@ public class Hand extends JPanel implements CardTrans
 	{
 		this.change = change;
 	}
+	public boolean isThey()
+	{
+		return they;
+	}
+	public void setThey(boolean they)
+	{
+		this.they = they;
+	}
+	public int getHaveCard()
+	{
+		return haveCard;
+	}
+	public void setHaveCard(int haveCard)
+	{
+		this.haveCard = haveCard;
+	}
+	
+	
 	
 }

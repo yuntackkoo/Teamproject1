@@ -25,6 +25,8 @@ public class They extends PlayerBase
 		Deck deck = super.getDecklist();
 		deck.setBackground(Color.WHITE);
 		this.add(deck, "cell 8 0 2 1,grow");
+		
+		hand.setThey(true);
 	}
 	public void showCardEffect(CardForm c)
 	{}

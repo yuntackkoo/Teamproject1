@@ -66,9 +66,9 @@ public class ClientSocket extends Thread
 						{
 							game.getPlayer().getMe().getFieldlist().setFiled(Rp.getField(Rp.MyField));
 						}
-						if(Rp.getField(Rp.MyField) != null)
+						if(Rp.getField(Rp.TheyField) != null)
 						{
-							game.getPlayer().getThey().getFieldlist().setFiled(Rp.getField(Rp.MyField));
+							game.getPlayer().getThey().getFieldlist().setFiled(Rp.getField(Rp.TheyField));
 						}
 						if(Rp.getGrave(Rp.MyGrave) != null)
 						{
@@ -81,18 +81,20 @@ public class ClientSocket extends Thread
 						if(Rp.getMeHand() != null)
 						{
 							game.getPlayer().getMe().getHandlist().setHand(Rp.getMeHand());
+							game.getPlayer().getMe().getHandlist().setChange(true);
 						}
+						
 						if(Rp.getTheyHand() != null)
 						{
-							game.getPlayer().getThey().setHand(Rp.getTheyHand());
+							game.getPlayer().getThey().getHandlist().setHaveCard(Rp.getTheyHand());
 						}
 						if(Rp.getDeck(Rp.TheyDeck) != -1)
 						{
-							game.getPlayer().getThey().setDeck(Rp.getDeck(Rp.TheyDeck));
+							game.getPlayer().getThey().getDecklist().setHaveCard(Rp.getDeck(ReplyMassage.TheyDeck));
 						}
 						if(Rp.getDeck(Rp.MyDeck) != -1)
 						{
-							game.getPlayer().getMe().setDeck(Rp.getDeck(Rp.MyDeck));
+							game.getPlayer().getMe().getDecklist().setHaveCard(Rp.getDeck(ReplyMassage.MyDeck));
 						}
 						break;
 					}

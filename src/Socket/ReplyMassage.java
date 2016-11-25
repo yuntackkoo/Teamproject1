@@ -83,6 +83,7 @@ public abstract class ReplyMassage implements Serializable,RChating,Updating,Tur
 			hostp = vtheyp;
 			theyp = vhostp;
 		}
+		
 		if (hostp.getDecklist().isChange())
 		{
 			rm.setDeck(rm.MyDeck, hostp.getDecklist().getDeckSize());
@@ -91,6 +92,7 @@ public abstract class ReplyMassage implements Serializable,RChating,Updating,Tur
 		{
 			rm.setDeck(rm.MyDeck, -1);
 		}
+		
 		if (hostp.getHandlist().isChange())
 		{
 			for(int i =0;i<hostp.getHandlist().getHand().size();i++)
@@ -102,6 +104,7 @@ public abstract class ReplyMassage implements Serializable,RChating,Updating,Tur
 		{
 			rm.setMeHand(null);
 		}
+		
 		if (hostp.getGravelist().isChange())
 		{
 			for(int i = 0;i<hostp.getGravelist().getGrave().size();i++)
@@ -113,6 +116,7 @@ public abstract class ReplyMassage implements Serializable,RChating,Updating,Tur
 		{
 			rm.setGrave(Updating.MyGrave, null);
 		}
+		
 		if (hostp.getFieldlist().isChange())
 		{
 			for(int i = 0;i<hostp.getFieldlist().getFiled().size();i++)
@@ -148,7 +152,7 @@ public abstract class ReplyMassage implements Serializable,RChating,Updating,Tur
 		{
 			for(int i = 0;i<theyp.getFieldlist().getFiled().size();i++)
 			{
-				rm.getField(Updating.TheyGrave).add((Pawn) theyp.getFieldlist().getFiled().get(i).copy());
+				rm.getField(Updating.TheyField).add((Pawn) theyp.getFieldlist().getFiled().get(i).copy());
 			}
 		}
 		else

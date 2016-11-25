@@ -3,6 +3,7 @@ package player;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import card.Pawn;
 public class Field extends JPanel implements CardTrans
 {
 	private boolean[] filed_target = new boolean[5];
-	private List<Pawn> Filed = null;
+	private List<Pawn> Filed = new ArrayList<>();
 	private JButton[] FieldComponent = new JButton[5];
 	private boolean change;
 	
@@ -35,6 +36,7 @@ public class Field extends JPanel implements CardTrans
 	@Override
 	public void addCard(CardForm Card) 
 	{
+		Card.setLoc(CardForm.Field);
 		Filed.add((Pawn)Card);
 	}
 	@Override
