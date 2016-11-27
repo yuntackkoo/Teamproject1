@@ -47,7 +47,7 @@ public class ServerPlayer extends PlayerBase
 			}
 			case Massage.Attack:
 			{
-				ReplyMassage rm = ReplyMassage.getRMassage(ReplyMassage.Attack, this);
+				
 				break;
 			}
 		}

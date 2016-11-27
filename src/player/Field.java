@@ -17,8 +17,9 @@ public class Field extends JPanel implements CardTrans
 {
 	private boolean[] filed_target = new boolean[5];
 	private List<Pawn> Filed = new ArrayList<>();
-	private JButton[] FieldComponent = new JButton[5];
+	private CardViewer[] Component = new CardViewer[5];
 	private boolean change;
+	private boolean they;
 	
 	
 	public List<Pawn> getFiled()
@@ -27,17 +28,13 @@ public class Field extends JPanel implements CardTrans
 	}
 	public void setFiled(List<Pawn> filed)
 	{
-		this.Filed = new LinkedList<>();
-		for(int i=0;i<filed.size();i++)
-		{
-			this.Filed.add((Pawn) filed.get(i).copy());
-		}
+		this.Filed = filed;
 	}
 	@Override
 	public void addCard(CardForm Card) 
 	{
 		Card.setLoc(CardForm.Field);
-		Filed.add((Pawn)Card);
+		Filed.add((Pawn)Card.copy());
 	}
 	@Override
 	public CardForm disCard(int i) 
@@ -49,26 +46,26 @@ public class Field extends JPanel implements CardTrans
 		this.setLayout(new GridLayout());
 		for(int i =0;i<5;i++)
 		{
-			this.add(FieldComponent[i] = new JButton());
+			this.add(Component[i] = new CardViewer(CardForm.Field));
 		}
-	}
-	@Override
-	public void update(Graphics g)
-	{
-		
 	}
 	public void update()
 	{
-		for(int i =0;i<5;i++)
+		if(change)
 		{
-			try
+			for(int i=0;i<5;i++)
 			{
-				this.FieldComponent[i].setText(Integer.toString(this.Filed.get(i).getCurrentlife()));
+				Component[i].setCard(null);
 			}
-			catch (Exception e)
+			for(int i=0;i<Filed.size();i++)
 			{
-				this.FieldComponent[i].setVisible(false);
+				Component[i].setCard(Filed.get(i));
 			}
+			for(int i=0;i<5;i++)
+			{
+				Component[i].repaint();
+			}
+			this.change = false;
 		}
 	}
 
@@ -80,5 +77,19 @@ public class Field extends JPanel implements CardTrans
 	{
 		this.change = change;
 	}
+	public boolean isThey()
+	{
+		return they;
+	}
+	public void setThey(boolean they)
+	{
+		this.they = they;
+		for(int i=0;i<5;i++)
+		{
+			this.Component[i].setThey(this.they);
+		}
+	}
+	
+	
 }
 

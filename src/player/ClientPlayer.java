@@ -24,6 +24,7 @@ public class ClientPlayer extends PlayerBase
 		this.add(deck, "cell 8 2 2 1,grow");
 		
 		hand.setThey(false);
+		field.setThey(false);
 	}
 	
 	private int LocationX;

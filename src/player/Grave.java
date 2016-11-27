@@ -24,7 +24,7 @@ public class Grave extends JPanel implements CardTrans
 	public void addCard(CardForm Card)
 	{
 		Card.setLoc(CardForm.Grave);
-		Grave.add(Card);
+		Grave.add(Card.copy());
 	}
 	@Override
 	public CardForm disCard(int i) 

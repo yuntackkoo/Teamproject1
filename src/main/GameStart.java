@@ -125,7 +125,6 @@ public class GameStart extends JPanel
 			csoc.start();
 			Massage msg = Massage.getMassage(Massage.JOIN);
 			msg.setDeckList(deck);
-			System.out.println(msg.getDeckList());
 			ClientSocket.sendMassage(msg);
 			
 		}
@@ -172,7 +171,6 @@ public class GameStart extends JPanel
 			csoc.start();
 			Massage msg = Massage.getMassage(Massage.JOIN);
 			msg.setDeckList(deck);
-			System.out.println(msg.getDeckList());
 			ClientSocket.sendMassage(msg);
 			player.setTurn(false);
 		}

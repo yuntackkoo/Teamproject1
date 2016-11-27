@@ -109,7 +109,6 @@ public class GameServer extends Thread
 		
 		this.sendHost(ReplyMassage.getRMassage(ReplyMassage.JOIN, hostp));
 		this.sendThey(ReplyMassage.getRMassage(ReplyMassage.JOIN, theyp));
-		System.out.println("스타트 메세지를 보냈습니다.");
 		for(;;)
 		{
 			this.state = true;
@@ -123,10 +122,10 @@ public class GameServer extends Thread
 				}
 				else
 				{
+					//클라이언트가 보낸 메세지 처리
 					Massage theym = they_q.take();
 					switch(theym.getAction())
 					{
-	
 						case ReplyMassage.Draw:
 						{
 							CardForm drawcard = theyp.getDecklist().disCard(0);
@@ -167,7 +166,15 @@ public class GameServer extends Thread
 						}
 						case Massage.Attack:
 						{
-							
+							theyp.getFieldlist().setChange(true);
+							hostp.getFieldlist().setChange(true);
+							theyp.getFieldlist().getFiled().get(theym.getMyFieldCard())
+							.attack(hostp.getFieldlist().getFiled().get(theym.getAttackTarget()));
+							ReplyMassage hostrm = ReplyMassage.getRMassage(true, hostp, theyp);
+							ReplyMassage theyrm = ReplyMassage.getRMassage(false, hostp, theyp);
+							this.changestate();
+							this.sendHost(hostrm);
+							this.sendThey(theyrm);
 							break;
 						}
 						case Massage.JOIN:
@@ -228,6 +235,7 @@ public class GameServer extends Thread
 			}
 			else
 			{
+				//호스트가 보낸 메세지 처리
 				Massage hostm = host_q.take();
 				switch(hostm.getAction())
 				{
@@ -271,6 +279,15 @@ public class GameServer extends Thread
 					}
 					case Massage.Attack:
 					{
+						theyp.getFieldlist().setChange(true);
+						hostp.getFieldlist().setChange(true);
+						hostp.getFieldlist().getFiled().get(hostm.getMyFieldCard())
+						.attack(theyp.getFieldlist().getFiled().get(hostm.getAttackTarget()));
+						ReplyMassage hostrm = ReplyMassage.getRMassage(true, hostp, theyp);
+						ReplyMassage theyrm = ReplyMassage.getRMassage(false, hostp, theyp);
+						this.changestate();
+						this.sendHost(hostrm);
+						this.sendThey(theyrm);
 						break;
 					}
 					case Massage.JOIN:

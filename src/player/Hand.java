@@ -22,7 +22,7 @@ public class Hand extends JPanel implements CardTrans
 	public void addCard(CardForm Card) 
 	{
 		Card.setLoc(CardForm.Hand);
-		Hand.add(Card);
+		Hand.add(Card.copy());
 	}
 	@Override
 	public CardForm disCard(int i) 
@@ -35,7 +35,7 @@ public class Hand extends JPanel implements CardTrans
 		this.setLayout(new GridLayout());
 		for(int i =0;i<10;i++)
 		{
-			this.add(Component[i] = new CardViewer(they));
+			this.add(Component[i] = new CardViewer(CardForm.Hand));
 		}
 	}
 	
@@ -66,19 +66,24 @@ public class Hand extends JPanel implements CardTrans
 					catch(Exception e)
 					{}
 				}
-				change = false;
 			}
 			else
 			{
 				for(int i=0;i<10;i++)
 				{
-					Component[i].setDrawable(false);
-				}
-				for(int i=0;i<this.haveCard;i++)
-				{
-					Component[i].setDrawable(true);
+					this.Component[i].setVisible(true);
+					if(i < this.haveCard)
+					{
+						this.Component[i].setDrawable(true);
+					}
+					else
+					{
+						this.Component[i].setDrawable(false);
+					}
+					this.Component[i].repaint();
 				}
 			}
+			change = false;
 		}
 	}
 	
@@ -97,6 +102,10 @@ public class Hand extends JPanel implements CardTrans
 	public void setThey(boolean they)
 	{
 		this.they = they;
+		for(int i=0;i<10;i++)
+		{
+			this.Component[i].setThey(this.they);
+		}
 	}
 	public int getHaveCard()
 	{

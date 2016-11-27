@@ -83,7 +83,7 @@ public abstract class ReplyMassage implements Serializable,RChating,Updating,Tur
 			hostp = vtheyp;
 			theyp = vhostp;
 		}
-		
+		//호스트의 덱의 변화
 		if (hostp.getDecklist().isChange())
 		{
 			rm.setDeck(rm.MyDeck, hostp.getDecklist().getDeckSize());
@@ -93,6 +93,7 @@ public abstract class ReplyMassage implements Serializable,RChating,Updating,Tur
 			rm.setDeck(rm.MyDeck, -1);
 		}
 		
+		//호스트의 패의 변화
 		if (hostp.getHandlist().isChange())
 		{
 			for(int i =0;i<hostp.getHandlist().getHand().size();i++)
@@ -105,6 +106,7 @@ public abstract class ReplyMassage implements Serializable,RChating,Updating,Tur
 			rm.setMeHand(null);
 		}
 		
+		//호스트의 묘지의 변화
 		if (hostp.getGravelist().isChange())
 		{
 			for(int i = 0;i<hostp.getGravelist().getGrave().size();i++)
@@ -117,6 +119,7 @@ public abstract class ReplyMassage implements Serializable,RChating,Updating,Tur
 			rm.setGrave(Updating.MyGrave, null);
 		}
 		
+		//호스트의 필드의 변화
 		if (hostp.getFieldlist().isChange())
 		{
 			for(int i = 0;i<hostp.getFieldlist().getFiled().size();i++)
@@ -128,7 +131,8 @@ public abstract class ReplyMassage implements Serializable,RChating,Updating,Tur
 		{
 			rm.setField(Updating.MyField, null);
 		}
-
+		
+		//상대방의 덱의 변화
 		if (theyp.getDecklist().isChange())
 		{
 			rm.setDeck(rm.TheyDeck, theyp.getDecklist().getDeckSize());
@@ -138,8 +142,7 @@ public abstract class ReplyMassage implements Serializable,RChating,Updating,Tur
 			rm.setDeck(rm.TheyDeck, -1);
 		}
 		
-		
-		
+		//상대방의 패의 변화
 		if (theyp.getHandlist().isChange())
 		{
 			rm.setTheyHand(theyp.getHandlist().getHand().size());
@@ -148,17 +151,8 @@ public abstract class ReplyMassage implements Serializable,RChating,Updating,Tur
 		{
 			rm.setTheyHand(null);
 		}
-		if (theyp.getFieldlist().isChange())
-		{
-			for(int i = 0;i<theyp.getFieldlist().getFiled().size();i++)
-			{
-				rm.getField(Updating.TheyField).add((Pawn) theyp.getFieldlist().getFiled().get(i).copy());
-			}
-		}
-		else
-		{
-			rm.setField(Updating.TheyGrave, null);
-		}
+		
+		//상대방의 필드의 변화
 		if (theyp.getFieldlist().isChange())
 		{
 			for(int i = 0;i<theyp.getFieldlist().getFiled().size();i++)
@@ -169,6 +163,19 @@ public abstract class ReplyMassage implements Serializable,RChating,Updating,Tur
 		else
 		{
 			rm.setField(Updating.TheyField, null);
+		}
+		
+		//상대방의 묘지의 변화
+		if (theyp.getGravelist().isChange())
+		{
+			for(int i = 0;i<theyp.getGravelist().getGrave().size();i++)
+			{
+				rm.getGrave(Updating.TheyGrave).add(theyp.getGravelist().getGrave().get(i).copy());
+			}
+		}
+		else
+		{
+			rm.setGrave(Updating.TheyField, null);
 		}
 
 		return rm;
@@ -315,20 +322,17 @@ class Update extends ReplyMassageFactory
 		return super.Update;
 	}
 	
-	List<Pawn>[] Field = new ArrayList[2];
+	List<Pawn> MyField = new ArrayList<>();
+	List<Pawn> TheyField = new ArrayList<>();
+	List<CardForm> MyGrave = new ArrayList<>();
+	List<CardForm> TheyGrave = new ArrayList<>();
 	
-	List<CardForm>[] Grave = new ArrayList[2];
 	Integer[] Deck = new Integer[2];
 	List<CardForm> MyHand = new ArrayList<>();
 	Integer theyHand;
 	
 	public Update()
 	{
-		Field[Updating.MyField] = new ArrayList<>();
-		Field[Updating.TheyField] = new ArrayList<>();
-		
-		Grave[Updating.MyGrave] = new ArrayList<>();
-		Grave[Updating.TheyGrave] = new ArrayList<>();
 		
 		Deck[Updating.MyDeck] = new Integer(1);
 		Deck[Updating.TheyDeck] = new Integer(1);
@@ -339,25 +343,53 @@ class Update extends ReplyMassageFactory
 	@Override
 	public List<Pawn> getField(int own)
 	{
-		return this.Field[own];
+		if(own == Updating.MyField)
+		{
+			return this.MyField;
+		}
+		else
+		{
+			return this.TheyField;
+		}
 	}
 
 	@Override
 	public void setField(int own, List<Pawn> Field)
 	{
-		this.Field[own] = Field;
+		if(own == Updating.MyField)
+		{
+			this.MyField = Field;
+		}
+		else
+		{
+			this.TheyField = Field;
+		}
 	}
 
 	@Override
 	public List<CardForm> getGrave(int own)
 	{
-		return this.Grave[own];
+		if(own == Updating.MyGrave)
+		{
+			return this.MyGrave;
+		}
+		else
+		{
+			return this.TheyGrave;
+		}
 	}
 
 	@Override
 	public void setGrave(int own, List<CardForm> Grave)
 	{
-		this.Grave[own] = Grave;
+		if(own == Updating.MyGrave)
+		{
+			this.MyGrave = Grave;
+		}
+		else
+		{
+			this.TheyGrave = Grave;
+		}
 	}
 
 	@Override

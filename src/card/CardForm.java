@@ -20,8 +20,6 @@ public abstract class CardForm implements Serializable
 	private int CurrentCost;
 	private int cost;
 	private int loc;
-	private int xloc = 0;
-	private int yloc = 0;
 	private CardForm me = this;
 	static public int Deck = 1;
 	static public int Field = 2;

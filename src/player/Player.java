@@ -35,14 +35,7 @@ public class Player extends JPanel
 		this.setVisible(false);
 		
 		this.addMouseListener(new MouseAdapter()
-		{
-
-			@Override
-			public void mouseClicked(MouseEvent e)
-			{
-				System.out.println(e.getLocationOnScreen());
-			}
-			
+		{	
 		});
 	}
 	
@@ -106,6 +99,10 @@ public class Player extends JPanel
 	protected void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
+		me.getFieldlist().update();
+		me.getHandlist().update();
+		they.getFieldlist().update();
+		they.getHandlist().update();
 		this.Screenlocation = this.getLocationOnScreen();
 	}
 	
@@ -113,5 +110,7 @@ public class Player extends JPanel
 	{
 		return Screenlocation;
 	}
+	
+	
 	
 }

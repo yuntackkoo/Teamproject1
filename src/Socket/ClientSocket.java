@@ -65,10 +65,12 @@ public class ClientSocket extends Thread
 						if(Rp.getField(Rp.MyField) != null)
 						{
 							game.getPlayer().getMe().getFieldlist().setFiled(Rp.getField(Rp.MyField));
+							game.getPlayer().getMe().getFieldlist().setChange(true);
 						}
 						if(Rp.getField(Rp.TheyField) != null)
 						{
 							game.getPlayer().getThey().getFieldlist().setFiled(Rp.getField(Rp.TheyField));
+							game.getPlayer().getThey().getFieldlist().setChange(true);
 						}
 						if(Rp.getGrave(Rp.MyGrave) != null)
 						{
@@ -87,6 +89,7 @@ public class ClientSocket extends Thread
 						if(Rp.getTheyHand() != null)
 						{
 							game.getPlayer().getThey().getHandlist().setHaveCard(Rp.getTheyHand());
+							game.getPlayer().getThey().getHandlist().setChange(true);
 						}
 						if(Rp.getDeck(Rp.TheyDeck) != -1)
 						{

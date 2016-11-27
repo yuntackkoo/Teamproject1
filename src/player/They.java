@@ -27,6 +27,7 @@ public class They extends PlayerBase
 		this.add(deck, "cell 8 0 2 1,grow");
 		
 		hand.setThey(true);
+		field.setThey(true);
 	}
 	public void showCardEffect(CardForm c)
 	{}

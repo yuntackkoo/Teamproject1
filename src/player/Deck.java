@@ -20,7 +20,7 @@ public class Deck extends JPanel implements CardTrans
 	public void addCard(CardForm Card)
 	{
 		Card.setLoc(CardForm.Deck);
-		Deck.add(Card);
+		Deck.add(Card.copy());
 	}
 	@Override
 	public CardForm disCard(int i) 
