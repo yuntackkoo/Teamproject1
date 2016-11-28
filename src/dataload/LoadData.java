@@ -5,7 +5,10 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -34,6 +37,7 @@ public class LoadData
 			CardImageList = new BufferedImage[max];
 			CardName = new String[max];
 			CardToolTip = new String[max];
+			
 			for (int i = 1; i < max; i++)
 			{
 				CardImageList[i] = CardImageList[i] = ImageIO.read(new File("Card/" + Integer.toString(i) + ".png"));

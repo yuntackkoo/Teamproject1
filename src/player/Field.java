@@ -90,6 +90,16 @@ public class Field extends JPanel implements CardTrans
 		}
 	}
 	
-	
+	public boolean clickComponent()
+	{
+		for(int i=0;i<5;i++)
+		{
+			if(this.Component[i].isPress())
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 }
 

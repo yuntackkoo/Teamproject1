@@ -4,8 +4,12 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.text.LayeredHighlighter.LayerPainter;
 
 import Socket.ClientSocket;
 import Socket.Massage;
@@ -20,6 +24,9 @@ public class Player extends JPanel
 	private ClientPlayer me = new ClientPlayer();
 	private PlayerRightPanel RightPanel = new PlayerRightPanel();
 	private static Point Screenlocation;
+	private Point startLocation=null;
+	private DrawTargetPanel target = null;
+	private JLayeredPane jlp = JLayeredPane.getLayeredPaneAbove(this);
 
 	public Player()
 	{
@@ -33,9 +40,55 @@ public class Player extends JPanel
 		add(RightPanel,"cell 2 0 1 2,grow");
 		RightPanel.setVisible(true);
 		this.setVisible(false);
+		target = new DrawTargetPanel(this.getSize());
 		
-		this.addMouseListener(new MouseAdapter()
-		{	
+		this.addMouseListener(new MouseListener()
+		{
+			
+			@Override
+			public void mouseReleased(MouseEvent e)
+			{
+				System.out.println("Á¾·á");
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e)
+			{
+				System.out.println(e.getPoint());
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e)
+			{
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e)
+			{
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+			}
+		});
+		this.addMouseMotionListener(new MouseMotionListener()
+		{
+			
+			@Override
+			public void mouseMoved(MouseEvent e)
+			{
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseDragged(MouseEvent e)
+			{
+				System.out.println(e.getPoint());
+			}
 		});
 	}
 	
@@ -98,12 +151,26 @@ public class Player extends JPanel
 	@Override
 	protected void paintComponent(Graphics g)
 	{
+		
 		super.paintComponent(g);
+		/*if(me.getHandlist().clickComponent() || me.getFieldlist().clickComponent())
+		{
+			if(this.startLocation == null)
+			{
+				this.startLocation = this.getMousePosition();
+			}
+			else
+			{
+				g.drawLine((int)this.startLocation.getX(), (int)this.startLocation.getY()
+						, (int)this.getMousePosition().getX(), (int)this.getMousePosition().getY());
+			}
+		}*/
 		me.getFieldlist().update();
 		me.getHandlist().update();
 		they.getFieldlist().update();
 		they.getHandlist().update();
 		this.Screenlocation = this.getLocationOnScreen();
+
 	}
 	
 	public static Point Location()

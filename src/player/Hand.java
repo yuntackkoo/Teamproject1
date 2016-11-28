@@ -116,6 +116,16 @@ public class Hand extends JPanel implements CardTrans
 		this.haveCard = haveCard;
 	}
 	
-	
+	public boolean clickComponent()
+	{
+		for(int i=0;i<10;i++)
+		{
+			if(this.Component[i].isPress())
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 	
 }

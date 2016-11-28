@@ -26,6 +26,8 @@ public class CardViewer extends JButton
 	private LoadData data = LoadData.getInstance();
 	private boolean drawable;
 	private int Location;
+	private boolean press = false;
+	
 	
 	public CardViewer(int loc)
 	{
@@ -52,9 +54,19 @@ public class CardViewer extends JButton
 			public void mouseReleased(MouseEvent e)
 			{
 				int target;
-				if(e.getY()<0 && e.getY() >-250 && e.getX() >=0 && e.getX()<=880)
+				if(e.getY()<0 && e.getY() >-250 && (e.getX()+getX()) >=0 && (e.getX()+getX())<=660)
 				{
-					target = e.getX()/176;
+					int tmp = e.getX() + getX();
+					if(tmp <= 132)
+						target = 0;
+					else if(tmp <= 132*2)
+						target = 1;
+					else if(tmp <= 132*3)
+						target = 2;
+					else if(tmp <= 132*4)
+						target = 3;
+					else
+						target = 4;
 				}
 				else
 				{
@@ -70,10 +82,13 @@ public class CardViewer extends JButton
 						ClientSocket.sendMassage(m);
 					}
 				}
+				press = false;
 			}
 			@Override
 			public void mousePressed(MouseEvent e)
-			{}
+			{
+				press = true;
+			}
 			
 			@Override
 			public void mouseExited(MouseEvent e)
@@ -162,6 +177,7 @@ public class CardViewer extends JButton
 			}
 		}
 		
+		
 	} 
 	
 	public void getHandle()
@@ -195,5 +211,11 @@ public class CardViewer extends JButton
 	{
 		this.they = they;
 	}
+
+	public boolean isPress()
+	{
+		return press;
+	}
+	
 	
 }
