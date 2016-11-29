@@ -2,19 +2,22 @@ package main;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 
 public class MainFrame extends JFrame
 {
-	GameStart game = new GameStart();
+	GameStart game = new GameStart(this.getLayeredPane());
 	DeckEditPage edit = new DeckEditPage();
 	MainMenu main = new MainMenu(game,edit);
+	
 	public MainFrame()
 	{
 		this.setVisible(true);
@@ -29,6 +32,7 @@ public class MainFrame extends JFrame
 		FrameUpdate update = new FrameUpdate(this);
 		update.fps = 60;
 		update.start();
+		this.createImage(game.getWidth(), game.getHeight());
 	}
 }
 

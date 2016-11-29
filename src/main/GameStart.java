@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.JButton;
+import javax.swing.JLayeredPane;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -20,6 +21,7 @@ import javax.swing.JTextField;
 import Socket.ClientSocket;
 import Socket.GameServer;
 import Socket.Massage;
+import player.DrawTargetPanel;
 import player.Player;
 import player.They;
 
@@ -31,14 +33,17 @@ public class GameStart extends JPanel
 	private JButton plyClient = new JButton("게임 참가");
 	private JTextField input = new JTextField("채팅 입력");
 	private JTextArea output = new JTextArea();
-	private Player player = new Player();
+	private DrawTargetPanel target = new DrawTargetPanel();
+	private Player player = new Player(target);
 	private They they = new They();
 	private GameStart game = this;
 	private JPanel ServerPanel = new JPanel();
 	private JList<File>decklist = new JList<File>(); 
 	private JScrollPane decklistscroll = new JScrollPane();
+	private JLayeredPane jpl;
 	
-	public GameStart()
+	
+	public GameStart(JLayeredPane jpl)
 	{
 		this.setLayout(null);
 		this.setBounds(0, 0, 1280, 720);
@@ -46,6 +51,7 @@ public class GameStart extends JPanel
 		ServerPanel.setBounds(0, 0, 1280, 720);
 		ServerPanel.setLayout(null);
 		this.add(player);
+		this.jpl = jpl;
 		
 		decklistscroll.setViewportView(decklist);
 		
@@ -69,7 +75,12 @@ public class GameStart extends JPanel
 		decklistscroll.setBounds(900, 300, 150, 50);
 		decklist.setListData(new File("Deck").listFiles());
 		
+		target.setSize(player.getSize());
+		target.setVisible(false);
 		
+		jpl.add(player);
+		jpl.add(target);
+		jpl.moveToBack(player);
 	}
 	
 	public JPanel getServerPanel() {

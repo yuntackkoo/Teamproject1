@@ -1,15 +1,14 @@
 package player;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.text.LayeredHighlighter.LayerPainter;
 
 import Socket.ClientSocket;
 import Socket.Massage;
@@ -26,13 +25,12 @@ public class Player extends JPanel
 	private static Point Screenlocation;
 	private Point startLocation=null;
 	private DrawTargetPanel target = null;
-	private JLayeredPane jlp = JLayeredPane.getLayeredPaneAbove(this);
 
-	public Player()
+	public Player(DrawTargetPanel target)
 	{
 		this.setSize(1280, 720);
 		setLayout(new MigLayout("", "[grow][880][200]", "[grow][grow]"));
-
+		
 		add(they, "cell 1 0,grow");
 		they.setVisible(true);
 		add(me, "cell 1 1,grow");
@@ -40,7 +38,7 @@ public class Player extends JPanel
 		add(RightPanel,"cell 2 0 1 2,grow");
 		RightPanel.setVisible(true);
 		this.setVisible(false);
-		target = new DrawTargetPanel(this.getSize());
+		this.target = target;
 		
 		this.addMouseListener(new MouseListener()
 		{
@@ -48,13 +46,13 @@ public class Player extends JPanel
 			@Override
 			public void mouseReleased(MouseEvent e)
 			{
-				System.out.println("Á¾·á");
+				target.setVisible(false);
 			}
 			
 			@Override
 			public void mousePressed(MouseEvent e)
 			{
-				System.out.println(e.getPoint());
+				target.setVisible(true);
 			}
 			
 			@Override
@@ -87,7 +85,8 @@ public class Player extends JPanel
 			@Override
 			public void mouseDragged(MouseEvent e)
 			{
-				System.out.println(e.getPoint());
+				target.setVisible(true);
+				target.repaint();
 			}
 		});
 	}
@@ -147,32 +146,37 @@ public class Player extends JPanel
 	{
 		return RightPanel;
 	}
-
+	
 	@Override
 	protected void paintComponent(Graphics g)
 	{
-		
+		Graphics2D g2 = (Graphics2D) g;
 		super.paintComponent(g);
-		/*if(me.getHandlist().clickComponent() || me.getFieldlist().clickComponent())
+		if(me.getHandlist().clickComponent() || me.getFieldlist().clickComponent())
 		{
 			if(this.startLocation == null)
 			{
 				this.startLocation = this.getMousePosition();
+				target.setStartLocation(this.startLocation);
 			}
 			else
 			{
-				g.drawLine((int)this.startLocation.getX(), (int)this.startLocation.getY()
-						, (int)this.getMousePosition().getX(), (int)this.getMousePosition().getY());
+				
+//				g.drawLine((int)this.startLocation.getX(), (int)this.startLocation.getY()
+//						, (int)this.getMousePosition().getX(), (int)this.getMousePosition().getY());
 			}
-		}*/
+		}
 		me.getFieldlist().update();
 		me.getHandlist().update();
 		they.getFieldlist().update();
 		they.getHandlist().update();
+		
 		this.Screenlocation = this.getLocationOnScreen();
-
 	}
 	
+	
+	
+
 	public static Point Location()
 	{
 		return Screenlocation;

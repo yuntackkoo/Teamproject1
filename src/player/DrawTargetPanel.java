@@ -14,10 +14,8 @@ public class DrawTargetPanel extends JPanel
 	/**
 	 * Create the panel.
 	 */
-	public DrawTargetPanel(Dimension d)
+	public DrawTargetPanel()
 	{
-		this.setBackground(new Color(255,0,0,0));
-		this.setSize(d);
 	}
 
 	@Override
@@ -31,6 +29,7 @@ public class DrawTargetPanel extends JPanel
 			g.drawLine((int)this.StartLocation.getX(), (int)this.StartLocation.getY()
 					, (int)this.getMousePosition().getX(), (int)this.getMousePosition().getY());
 		}
+		//g2.fillArc(300, 300, 300, 300, 0, 360);
 	}
 	
 	public void setStartLocation(Point startLocation)
