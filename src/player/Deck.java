@@ -34,7 +34,6 @@ public class Deck extends JPanel implements CardTrans
 	@Override
 	protected void paintComponent(Graphics g)
 	{
-		
 		this.setBackground(Color.black);
 		super.paintComponent(g);
 	}

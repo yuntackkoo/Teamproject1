@@ -8,6 +8,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import Socket.ClientSocket;
@@ -17,28 +19,25 @@ import net.miginfocom.swing.MigLayout;
 public class Player extends JPanel
 {
 	private boolean turn;
-	private String Handle;
-	private String targetCard;
-	private They they = new They();
-	private ClientPlayer me = new ClientPlayer();
 	private PlayerRightPanel RightPanel = new PlayerRightPanel();
 	private static Point Screenlocation;
 	private Point startLocation=null;
-	private DrawTargetPanel target = null;
-
-	public Player(DrawTargetPanel target)
+	private DrawTargetPanel target;
+	
+	public Player(JLayeredPane jpl)
 	{
+		target = new DrawTargetPanel();
 		this.setSize(1280, 720);
 		setLayout(new MigLayout("", "[grow][880][200]", "[grow][grow]"));
+		add(target,"cell 1 0 1 2,grow");
+		target.setVisible(true);
 		
-		add(they, "cell 1 0,grow");
-		they.setVisible(true);
-		add(me, "cell 1 1,grow");
-		me.setVisible(true);
+		
 		add(RightPanel,"cell 2 0 1 2,grow");
 		RightPanel.setVisible(true);
-		this.setVisible(false);
-		this.target = target;
+		this.setVisible(true);
+		
+		
 		
 		this.addMouseListener(new MouseListener()
 		{
@@ -46,13 +45,11 @@ public class Player extends JPanel
 			@Override
 			public void mouseReleased(MouseEvent e)
 			{
-				target.setVisible(false);
 			}
 			
 			@Override
 			public void mousePressed(MouseEvent e)
 			{
-				target.setVisible(true);
 			}
 			
 			@Override
@@ -85,41 +82,42 @@ public class Player extends JPanel
 			@Override
 			public void mouseDragged(MouseEvent e)
 			{
-				target.setVisible(true);
-				target.repaint();
 			}
 		});
 	}
 	
-	public String getHandle()
+	@Override
+	protected void paintComponent(Graphics g)
 	{
-		return Handle;
+		Graphics2D g2 = (Graphics2D) g;
+		
+		super.paintComponent(g);
+//		if(me.getHandlist().clickComponent() || me.getFieldlist().clickComponent())
+//		{
+//			if(this.startLocation == null)
+//			{
+//				this.startLocation = this.getMousePosition();
+//				target.setStartLocation(this.startLocation);
+//			}
+//			else
+//			{
+//				g.drawLine((int)this.startLocation.getX(), (int)this.startLocation.getY()
+//						, (int)this.getMousePosition().getX(), (int)this.getMousePosition().getY());
+//			}
+//		}
+		
+		this.Screenlocation = this.getLocationOnScreen();
 	}
 
 	public ClientPlayer getMe()
 	{
-		return me;
+		return target.getMe();
 	}
 
 	public They getThey()
 	{
-		return they;
+		return target.getThey();
 	}
-
-
-	public void setHandle(String handle)
-	{
-		Handle = handle;
-	}
-
-	public String getTargetCard() {
-		return targetCard;
-	}
-
-	public void setTargetCard(String targetCard) {
-		this.targetCard = targetCard;
-	}
-	
 
 	public void turnEnd()
 	{
@@ -146,41 +144,17 @@ public class Player extends JPanel
 	{
 		return RightPanel;
 	}
-	
-	@Override
-	protected void paintComponent(Graphics g)
-	{
-		Graphics2D g2 = (Graphics2D) g;
-		super.paintComponent(g);
-		if(me.getHandlist().clickComponent() || me.getFieldlist().clickComponent())
-		{
-			if(this.startLocation == null)
-			{
-				this.startLocation = this.getMousePosition();
-				target.setStartLocation(this.startLocation);
-			}
-			else
-			{
-				
-//				g.drawLine((int)this.startLocation.getX(), (int)this.startLocation.getY()
-//						, (int)this.getMousePosition().getX(), (int)this.getMousePosition().getY());
-			}
-		}
-		me.getFieldlist().update();
-		me.getHandlist().update();
-		they.getFieldlist().update();
-		they.getHandlist().update();
-		
-		this.Screenlocation = this.getLocationOnScreen();
-	}
-	
-	
-	
 
 	public static Point Location()
 	{
 		return Screenlocation;
 	}
+
+	public DrawTargetPanel getTarget()
+	{
+		return target;
+	}
+	
 	
 	
 	

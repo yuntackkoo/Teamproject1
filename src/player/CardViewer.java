@@ -164,8 +164,7 @@ public class CardViewer extends JButton
 				{
 					if(this.drawable)
 					{
-						BufferedImage img = data.getBackImage();
-						g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
+						g.drawImage(data.getBackImage(), 0, 0, this.getWidth(), this.getHeight(), null);
 					}
 				}
 				break;

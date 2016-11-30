@@ -142,7 +142,7 @@ public class CardImage extends JPanel
 			g2.setColor(Color.white);
 		}
 		g2.drawString(Integer.toString(cardtmp.getCurrentlife()), 270, 280);
-		g2 = null;
+		g2.dispose();
 		return img;
 	}
 	

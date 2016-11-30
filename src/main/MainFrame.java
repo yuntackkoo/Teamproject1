@@ -51,7 +51,7 @@ class FrameUpdate extends Thread
 		{
 			if(main.game.getPlayer().isVisible())
 			{
-				main.game.getPlayer().repaint();
+				main.game.getPlayer().getTarget().repaint();;
 			}
 			try {
 				this.sleep((int)1000/fps);
