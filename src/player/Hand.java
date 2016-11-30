@@ -61,7 +61,10 @@ public class Hand extends JPanel implements CardTrans
 					{
 						Component[i].setCard(null);
 						Component[i].setCard(Hand.get(i));
-						Component[i].repaint();
+						if(this.Component[i].getCard() != null)
+							this.Component[i].setVisible(true);
+						else
+							this.Component[i].setVisible(false);
 					}
 					catch(Exception e)
 					{}
@@ -71,16 +74,16 @@ public class Hand extends JPanel implements CardTrans
 			{
 				for(int i=0;i<10;i++)
 				{
-					this.Component[i].setVisible(true);
 					if(i < this.haveCard)
 					{
+						this.Component[i].setVisible(true);
 						this.Component[i].setDrawable(true);
 					}
 					else
 					{
+						this.Component[i].setVisible(false);
 						this.Component[i].setDrawable(false);
 					}
-					this.Component[i].repaint();
 				}
 			}
 			change = false;

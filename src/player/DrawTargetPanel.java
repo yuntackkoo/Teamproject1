@@ -16,6 +16,7 @@ public class DrawTargetPanel extends JPanel
 	 */
 	public DrawTargetPanel()
 	{
+		this.setBackground(new Color(255,0,0,0));
 	}
 
 	@Override

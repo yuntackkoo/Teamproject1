@@ -112,9 +112,8 @@ public class CardViewer extends JButton
 	public void setCard(CardForm card)
 	{
 		this.card = card;
-		this.setVisible(true);
 	}
-
+	
 	@Override
 	protected void paintComponent(Graphics g)
 	{
@@ -167,10 +166,6 @@ public class CardViewer extends JButton
 					{
 						BufferedImage img = data.getBackImage();
 						g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
-					}
-					else
-					{
-						this.setVisible(false);
 					}
 				}
 				break;

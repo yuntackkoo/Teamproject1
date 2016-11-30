@@ -63,7 +63,10 @@ public class Field extends JPanel implements CardTrans
 			}
 			for(int i=0;i<5;i++)
 			{
-				Component[i].repaint();
+				if(this.Component[i].getCard()!= null)
+					this.Component[i].setVisible(true);
+				else
+					this.Component[i].setVisible(false);
 			}
 			this.change = false;
 		}
