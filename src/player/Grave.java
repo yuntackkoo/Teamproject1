@@ -16,7 +16,7 @@ import card.CardForm;
 
 public class Grave extends JPanel implements CardTrans
 {
-	private List<CardForm> Grave = null;
+	private List<CardForm> Grave = new ArrayList<>();
 	private boolean[] grave_target;
 	private boolean change;
 	

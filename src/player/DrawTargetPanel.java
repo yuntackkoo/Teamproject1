@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -29,10 +31,6 @@ public class DrawTargetPanel extends JPanel
 		this.setSize(880, 720);
 		this.add(jpl);
 		jpl.setBounds(0, 0, 880, 720);
-//		this.add(they);
-//		they.setBounds(0, 0, 880, 360);
-//		this.add(me);
-//		me.setBounds(0, 360, 880, 360);
 		they.setVisible(true);
 		me.setVisible(true);
 		panel.setSize(880, 720);
@@ -44,6 +42,37 @@ public class DrawTargetPanel extends JPanel
 		me.setLocation(0, 360);
 		jpl.add(panel);
 		jpl.moveToFront(panel);
+		panel.setVisible(false);
+		
+		this.addMouseListener(new MouseListener()
+		{
+			
+			@Override
+			public void mouseReleased(MouseEvent e)
+			{
+				panel.setVisible(false);
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e)
+			{
+				panel.setStarPoint(e.getPoint());
+				panel.setVisible(true);
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e)
+			{}
+			
+			@Override
+			public void mouseEntered(MouseEvent e)
+			{}
+			
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{}
+		});
 	}
 	
 	@Override
@@ -52,12 +81,6 @@ public class DrawTargetPanel extends JPanel
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		
-//		if(StartLocation != null)
-//		{
-//			g.drawLine((int)this.StartLocation.getX(), (int)this.StartLocation.getY()
-//					, (int)this.getMousePosition().getX(), (int)this.getMousePosition().getY());
-//		}
-		//g2.fillArc(300, 300, 300, 300, 0, 360);
 		me.getFieldlist().update();
 		me.getHandlist().update();
 		they.getFieldlist().update();
