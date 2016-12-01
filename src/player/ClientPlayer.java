@@ -5,9 +5,13 @@ import java.lang.reflect.Field;
 import card.CardForm;
 import net.miginfocom.swing.MigLayout;
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class ClientPlayer extends PlayerBase
 {
+	private DrawTargetPanel target;
 	public ClientPlayer()
 	{
 		this.setSize(880, 360);

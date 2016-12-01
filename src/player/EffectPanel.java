@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.JPanel;
@@ -27,6 +28,45 @@ public class EffectPanel extends JPanel
 			@Override
 			public void mouseDragged(MouseEvent e)
 			{
+				x = e.getX();
+				y = e.getY();
+			}
+		});
+		this.addMouseListener(new MouseListener()
+		{
+			@Override
+			public void mouseReleased(MouseEvent e)
+			{
+				getParent().getParent().dispatchEvent(e);
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e)
+			{
+				// TODO Auto-generated method stub
+				x = e.getX();
+				y = e.getY();
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e)
+			{
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e)
+			{
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				// TODO Auto-generated method stub
+				
 			}
 		});
 	}

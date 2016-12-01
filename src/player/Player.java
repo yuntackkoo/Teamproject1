@@ -36,79 +36,8 @@ public class Player extends JPanel
 		add(RightPanel,"cell 2 0 1 2,grow");
 		RightPanel.setVisible(true);
 		this.setVisible(true);
-		
-		
-		
-		this.addMouseListener(new MouseListener()
-		{
-			
-			@Override
-			public void mouseReleased(MouseEvent e)
-			{
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e)
-			{
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e)
-			{
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e)
-			{
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e)
-			{
-			}
-		});
-		this.addMouseMotionListener(new MouseMotionListener()
-		{
-			
-			@Override
-			public void mouseMoved(MouseEvent e)
-			{
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseDragged(MouseEvent e)
-			{
-			}
-		});
 	}
 	
-	@Override
-	protected void paintComponent(Graphics g)
-	{
-		Graphics2D g2 = (Graphics2D) g;
-		
-		super.paintComponent(g);
-//		if(me.getHandlist().clickComponent() || me.getFieldlist().clickComponent())
-//		{
-//			if(this.startLocation == null)
-//			{
-//				this.startLocation = this.getMousePosition();
-//				target.setStartLocation(this.startLocation);
-//			}
-//			else
-//			{
-//				g.drawLine((int)this.startLocation.getX(), (int)this.startLocation.getY()
-//						, (int)this.getMousePosition().getX(), (int)this.getMousePosition().getY());
-//			}
-//		}
-		
-		this.Screenlocation = this.getLocationOnScreen();
-	}
-
 	public ClientPlayer getMe()
 	{
 		return target.getMe();

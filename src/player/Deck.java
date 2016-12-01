@@ -3,12 +3,19 @@ package player;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JToolTip;
 
 import card.CardForm;
+import dataload.LoadData;
 
 public class Deck extends JPanel implements CardTrans
 {
@@ -16,6 +23,9 @@ public class Deck extends JPanel implements CardTrans
 	private boolean decktarget;
 	private boolean change;
 	private int haveCard;
+	private LoadData data = LoadData.getInstance();
+	private BufferedImage img = data.getDeckImage();
+	
 	@Override
 	public void addCard(CardForm Card)
 	{
@@ -30,12 +40,23 @@ public class Deck extends JPanel implements CardTrans
 	
 	public Deck()
 	{
+		this.setIgnoreRepaint(true);
+		
+		this.addMouseListener(new MouseAdapter()
+		{
+
+			@Override
+			public void mousePressed(MouseEvent e)
+			{
+			}
+			
+		});
 	}
 	@Override
 	protected void paintComponent(Graphics g)
 	{
-		this.setBackground(Color.black);
 		super.paintComponent(g);
+		g.drawImage(img, 0, 0,this.getWidth(),this.getHeight(), null);
 	}
 	public int getDeckSize()
 	{
@@ -65,6 +86,7 @@ public class Deck extends JPanel implements CardTrans
 	public void setHaveCard(int haveCard)
 	{
 		this.haveCard = haveCard;
+		this.setToolTipText(Integer.toString(this.haveCard));
 	}
 	
 	

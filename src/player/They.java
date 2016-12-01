@@ -3,6 +3,8 @@ package player;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.plaf.PanelUI;
 
@@ -28,6 +30,7 @@ public class They extends PlayerBase
 		
 		hand.setThey(true);
 		field.setThey(true);
+		
 	}
 	public void showCardEffect(CardForm c)
 	{}

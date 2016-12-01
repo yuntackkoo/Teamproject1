@@ -14,6 +14,7 @@ import dataload.LoadData;
 import main.CardImage;
 import main.DeckEditPage;
 import main.MainFrame;
+import player.showGraveListPopup;
 
 public class Test
 {
@@ -21,6 +22,7 @@ public class Test
 	public static void main(String[] args)
 	{
 		MainFrame m = new MainFrame();
+		
 		//testframe m = new testframe();
 	}
 }

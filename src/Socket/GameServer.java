@@ -170,6 +170,7 @@ public class GameServer extends Thread
 							hostp.getFieldlist().setChange(true);
 							theyp.getFieldlist().getFiled().get(theym.getMyFieldCard())
 							.attack(hostp.getFieldlist().getFiled().get(theym.getAttackTarget()));
+							this.checkLife();
 							ReplyMassage hostrm = ReplyMassage.getRMassage(true, hostp, theyp);
 							ReplyMassage theyrm = ReplyMassage.getRMassage(false, hostp, theyp);
 							this.changestate();
@@ -283,6 +284,7 @@ public class GameServer extends Thread
 						hostp.getFieldlist().setChange(true);
 						hostp.getFieldlist().getFiled().get(hostm.getMyFieldCard())
 						.attack(theyp.getFieldlist().getFiled().get(hostm.getAttackTarget()));
+						this.checkLife();
 						ReplyMassage hostrm = ReplyMassage.getRMassage(true, hostp, theyp);
 						ReplyMassage theyrm = ReplyMassage.getRMassage(false, hostp, theyp);
 						this.changestate();
@@ -397,5 +399,27 @@ public class GameServer extends Thread
 		theyp.getGravelist().setChange(false);
 		theyp.getFieldlist().setChange(false);
 		theyp.getDecklist().setChange(false);
+	}
+	
+	public void checkLife()
+	{
+		for(int i =0;i<hostp.getFieldlist().getFiled().size();i++)
+		{
+			if(hostp.getFieldlist().getFiled().get(i).getCurrentlife()<=0)
+			{
+				hostp.getGravelist().addCard(hostp.getFieldlist().disCard(i));
+				hostp.getFieldlist().setChange(true);
+				hostp.getGravelist().setChange(true);
+			}
+		}
+		for(int i =0;i<theyp.getFieldlist().getFiled().size();i++)
+		{
+			if(theyp.getFieldlist().getFiled().get(i).getCurrentlife()<=0)
+			{
+				theyp.getGravelist().addCard(theyp.getFieldlist().disCard(i));
+				theyp.getFieldlist().setChange(true);
+				theyp.getGravelist().setChange(true);
+			}
+		}
 	}
 }

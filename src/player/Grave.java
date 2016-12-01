@@ -2,14 +2,12 @@ package player;
 
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import card.CardForm;
@@ -17,8 +15,10 @@ import card.CardForm;
 public class Grave extends JPanel implements CardTrans
 {
 	private List<CardForm> Grave = new ArrayList<>();
+	private List<CardViewer> Component = new ArrayList<>();
 	private boolean[] grave_target;
 	private boolean change;
+	private showGraveListPopup popup = new showGraveListPopup();
 	
 	@Override
 	public void addCard(CardForm Card)
@@ -35,15 +35,28 @@ public class Grave extends JPanel implements CardTrans
 	public Grave()
 	{
 		this.setBackground(Color.blue);
-	}
-	@Override
-	protected void printComponent(Graphics g)
-	{
+		this.setIgnoreRepaint(true);
+		this.setLayout(new CardLayout());
+		this.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mousePressed(MouseEvent e)
+			{
+				popup.main();
+			}
+		});
 	}
 	
 	public void setGrave(List<CardForm> grave)
 	{
 		this.Grave = grave;
+		int size = Grave.size() - Component.size();
+		for(int i = 0;i<size;i++)
+		{
+			this.Component.add(new CardViewer(CardForm.Grave));
+			Component.get(Component.size()-1).setCard(Grave.get(Grave.size()-1));
+			this.add(Component.get(Component.size()-1));
+		}
 	}
 	
 	public List<CardForm> getGrave()
@@ -56,6 +69,7 @@ public class Grave extends JPanel implements CardTrans
 	{
 		return change;
 	}
+	
 	public void setChange(boolean change)
 	{
 		this.change = change;

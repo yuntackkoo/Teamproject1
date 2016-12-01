@@ -11,12 +11,15 @@ import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
+import player.showGraveListPopup;
+
 
 public class MainFrame extends JFrame
 {
 	GameStart game = new GameStart(this.getLayeredPane());
 	DeckEditPage edit = new DeckEditPage();
 	MainMenu main = new MainMenu(game,edit);
+	
 	
 	public MainFrame()
 	{

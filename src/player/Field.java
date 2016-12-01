@@ -3,6 +3,8 @@ package player;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -48,6 +50,8 @@ public class Field extends JPanel implements CardTrans
 		{
 			this.add(Component[i] = new CardViewer(CardForm.Field));
 		}
+		
+		
 	}
 	public void update()
 	{
@@ -93,16 +97,5 @@ public class Field extends JPanel implements CardTrans
 		}
 	}
 	
-	public boolean clickComponent()
-	{
-		for(int i=0;i<5;i++)
-		{
-			if(this.Component[i].isPress())
-			{
-				return true;
-			}
-		}
-		return false;
-	}
 }
 

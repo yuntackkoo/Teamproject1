@@ -326,16 +326,14 @@ class Update extends ReplyMassageFactory
 	List<Pawn> TheyField = new ArrayList<>();
 	List<CardForm> MyGrave = new ArrayList<>();
 	List<CardForm> TheyGrave = new ArrayList<>();
+	int myDeck;
+	int theyDeck;
 	
-	Integer[] Deck = new Integer[2];
 	List<CardForm> MyHand = new ArrayList<>();
 	Integer theyHand;
 	
 	public Update()
 	{
-		
-		Deck[Updating.MyDeck] = new Integer(1);
-		Deck[Updating.TheyDeck] = new Integer(1);
 	}
 	
 	
@@ -395,7 +393,27 @@ class Update extends ReplyMassageFactory
 	@Override
 	public void setDeck(int own, int value)
 	{
-		this.Deck[own] = value;
+		if(own == Updating.MyDeck)
+		{
+			this.myDeck = value;
+		}
+		else
+		{
+			this.theyDeck = value;
+		}
+	}
+	
+	@Override
+	public Integer getDeck(int own)
+	{
+		if(own == Updating.MyDeck)
+		{
+			return this.myDeck;
+		}
+		else
+		{
+			return this.theyDeck;
+		}
 	}
 
 	@Override
@@ -421,5 +439,9 @@ class Update extends ReplyMassageFactory
 	{
 		this.theyHand = hand;
 	}
+
+
+	
+	
 	
 }

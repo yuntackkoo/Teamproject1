@@ -5,8 +5,10 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -36,7 +38,6 @@ public class DrawTargetPanel extends JPanel
 		panel.setSize(880, 720);
 		panel.setBackground(new Color(255,0,0,0));
 		
-		
 		jpl.add(they);
 		jpl.add(me);
 		me.setLocation(0, 360);
@@ -56,9 +57,10 @@ public class DrawTargetPanel extends JPanel
 			@Override
 			public void mousePressed(MouseEvent e)
 			{
+				e.translatePoint((int)(getMousePosition(true).getX()-e.getX()), (int)(getMousePosition(true).getY()-e.getY()));
 				panel.setStarPoint(e.getPoint());
 				panel.setVisible(true);
-				
+				panel.dispatchEvent(e);
 			}
 			
 			@Override
@@ -72,6 +74,20 @@ public class DrawTargetPanel extends JPanel
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{}
+		});
+		this.addMouseMotionListener(new MouseMotionListener()
+		{
+			@Override
+			public void mouseMoved(MouseEvent e)
+			{
+			}
+			
+			@Override
+			public void mouseDragged(MouseEvent e)
+			{
+				e.translatePoint((int)(getMousePosition(true).getX()-e.getX()), (int)(getMousePosition(true).getY()-e.getY()));
+				panel.dispatchEvent(e);
+			}
 		});
 	}
 	

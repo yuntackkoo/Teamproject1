@@ -1,6 +1,8 @@
 package player;
 
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -37,6 +39,17 @@ public class Hand extends JPanel implements CardTrans
 		{
 			this.add(Component[i] = new CardViewer(CardForm.Hand));
 		}
+		
+		this.addMouseListener(new MouseAdapter()
+		{
+
+			@Override
+			public void mousePressed(MouseEvent e)
+			{
+				getParent().dispatchEvent(e);
+				System.out.println("핸드 이벤트 송신");
+			}
+		});
 	}
 	
 	public List<CardForm> getHand()
@@ -119,16 +132,6 @@ public class Hand extends JPanel implements CardTrans
 		this.haveCard = haveCard;
 	}
 	
-	public boolean clickComponent()
-	{
-		for(int i=0;i<10;i++)
-		{
-			if(this.Component[i].isPress())
-			{
-				return true;
-			}
-		}
-		return false;
-	}
+
 	
 }

@@ -32,22 +32,7 @@ public class CardViewer extends JButton
 	public CardViewer(int loc)
 	{
 		this.Location = loc;
-		this.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				if(!they)
-				{
-					if(card.getLoc()==CardForm.Hand)
-					{
-						Massage m = Massage.getMassage(Massage.Summon);
-						m.setHandle(handle);
-						ClientSocket.sendMassage(m);
-					}
-				}
-			}
-		});
+		
 		this.addMouseListener(new MouseListener()
 		{
 			@Override
@@ -82,12 +67,30 @@ public class CardViewer extends JButton
 						ClientSocket.sendMassage(m);
 					}
 				}
-				press = false;
+				getParent().getParent().getParent().getParent().dispatchEvent(e);
+				System.out.println(e.getPoint());
 			}
 			@Override
 			public void mousePressed(MouseEvent e)
 			{
-				press = true;
+				if(e.getClickCount() == 1)
+				{
+					getParent().getParent().getParent().getParent().dispatchEvent(e);
+					if(loc == CardForm.Grave)
+						getParent().dispatchEvent(e);
+				}
+				if(e.getClickCount() == 2)
+				{
+					if(!they)
+					{
+						if(card.getLoc()==CardForm.Hand)
+						{
+							Massage m = Massage.getMassage(Massage.Summon);
+							m.setHandle(handle);
+							ClientSocket.sendMassage(m);
+						}
+					}
+				}
 			}
 			
 			@Override
@@ -101,6 +104,23 @@ public class CardViewer extends JButton
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{}
+		});
+		
+		this.addMouseMotionListener(new MouseMotionListener()
+		{
+			
+			@Override
+			public void mouseMoved(MouseEvent e)
+			{
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseDragged(MouseEvent e)
+			{
+				getParent().getParent().getParent().getParent().dispatchEvent(e);
+			}
 		});
 	}
 	
@@ -141,6 +161,8 @@ public class CardViewer extends JButton
 			}
 			case 3://묘지일때
 			{
+				super.paintComponent(g);
+				g.drawImage(data.getImage(card.getCardNumber()), 0, 0, this.getWidth(), this.getHeight(), null);
 				break;
 			}
 			case 4://핸드일때
@@ -206,10 +228,6 @@ public class CardViewer extends JButton
 		this.they = they;
 	}
 
-	public boolean isPress()
-	{
-		return press;
-	}
 	
 	
 }
