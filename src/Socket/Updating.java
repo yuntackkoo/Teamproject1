@@ -31,4 +31,15 @@ public interface Updating
 	
 	abstract public Integer getTheyHand();
 	abstract public void setTheyHand(Integer Hand);
+	
+	public static int MyMana = 0;
+	public static int TheyMana = 1;
+	
+	abstract public int getMana(int own);
+	abstract public void setMana(int own,int value);
+	
+	public static int MyLife = 0;
+	public static int TheyLife = 1;
+	abstract public int getLife(int own);
+	abstract public void setLife(int own,int value);
 }

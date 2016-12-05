@@ -1,14 +1,8 @@
 package dataload;
 
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,6 +10,7 @@ import java.util.Scanner;
 import javax.imageio.ImageIO;
 
 import card.CardForm;
+import card.Magic;
 import card.Pawn;
 
 public class LoadData
@@ -38,7 +33,7 @@ public class LoadData
 			CardImageList = new BufferedImage[max];
 			CardName = new String[max];
 			CardToolTip = new String[max];
-			
+			Card.add(new Pawn());
 			for (int i = 1; i < max; i++)
 			{
 				CardImageList[i] = CardImageList[i] = ImageIO.read(new File("Card/" + Integer.toString(i) + ".png"));
@@ -49,10 +44,15 @@ public class LoadData
 					Card.add(new Pawn(reader.next(), Integer.parseInt(reader.next()),
 							Integer.parseInt(reader.next()), Integer.parseInt(reader.next()), i));//읽어온 텍스트 파일을 파싱 종족,공격력,체력,코스트,툴팁 순서
 				}
+				else
+				{
+					Card.add(new Magic(reader.nextInt()));
+				}
 				if(reader.hasNext())
 				{
 					CardToolTip[i] = reader.next();
 				}
+				
 			}
 			BackImage = ImageIO.read(new File("TheyHand.png"));
 			DeckImage = ImageIO.read(new File("DeckImage.jpg"));
@@ -64,6 +64,21 @@ public class LoadData
 		{
 			if(reader != null)//스트림 종료
 				reader.close();
+		}
+		//네임드 카드들 재생성
+		for(int i = 1;i<max;i++)
+		{
+			try
+			{
+				CardForm tmp = this.Card.get(i).checkSpecialCard(Card.get(i),CardName[i]);
+				if(tmp != null)
+				{
+					this.Card.set(i, tmp);
+				}
+			}
+			catch (NullPointerException e)
+			{
+			}
 		}
 	}
 	

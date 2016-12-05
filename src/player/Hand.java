@@ -14,7 +14,6 @@ import card.CardForm;
 public class Hand extends JPanel implements CardTrans
 {
 	private List<CardForm> Hand = new LinkedList<>();
-	private boolean[] hand_target = new boolean[10];
 	private CardViewer[] Component = new CardViewer[10];
 	private boolean change;
 	private boolean they;
@@ -47,7 +46,6 @@ public class Hand extends JPanel implements CardTrans
 			public void mousePressed(MouseEvent e)
 			{
 				getParent().dispatchEvent(e);
-				System.out.println("핸드 이벤트 송신");
 			}
 		});
 	}
@@ -132,6 +130,24 @@ public class Hand extends JPanel implements CardTrans
 		this.haveCard = haveCard;
 	}
 	
-
+	public void checkHand(ClientPlayer p)
+	{
+		for(int i =0;i<this.Hand.size();i++)
+		{
+			this.Component[i].setUseable(this.Hand.get(i).condition(p));
+			this.Component[i].setSpConditon(this.Hand.get(i).spcondition(p));
+		}
+	}
 	
+	public CardForm focusCheck()
+	{
+		for(int i=0;i<Component.length;i++)
+		{
+			if(Component[i].isFocusOwner())
+			{
+				return Component[i].getCard();
+			}
+		}
+		return null;
+	}
 }

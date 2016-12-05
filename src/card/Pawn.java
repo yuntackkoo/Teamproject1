@@ -6,8 +6,13 @@ import java.awt.event.MouseEvent;
 
 import Socket.ClientSocket;
 import Socket.Massage;
+import dataload.LoadData;
+import player.ClientPlayer;
+import player.Field;
+import player.Hand;
+import player.ServerPlayer;
 
-public class Pawn extends CardForm
+public class Pawn extends CardForm implements Comparable
 {
 	private String Race;
 	private int nativeatt;
@@ -15,7 +20,7 @@ public class Pawn extends CardForm
 	private int currentatt;
 	private int currentlife;
 	private Pawn me = this;
-	private static boolean targeting;
+	private transient LoadData data = LoadData.getInstance();
 
 	public void attack(CardForm other)
 	{
@@ -24,11 +29,13 @@ public class Pawn extends CardForm
 		p.currentlife -= this.currentatt;
 	}
 
-	public void CardUse(int handle)
+	public boolean CardUse(int handle)
 	{
 		Massage tmp = Massage.getMassage(Massage.Summon);
 		tmp.setHandle(handle);
+		tmp.setCost(super.getCurrentCost());
 		ClientSocket.sendMassage(tmp);
+		return true;
 	}
 	
 	public CardForm copy()
@@ -47,12 +54,23 @@ public class Pawn extends CardForm
 		return tmp2;
 	}
 	
+	public void copy(CardForm scard)
+	{
+		Pawn card = (Pawn) scard;
+		this.setCardNumber(card.getCardNumber());
+		this.setCost(card.getCost());
+		this.setLoc(card.getLoc());
+		this.currentatt = card.currentatt;
+		this.currentlife = card.currentlife;
+		this.Race = card.Race;
+		this.nativeatt = card.nativeatt;
+		this.nativelife = card.nativelife;
+	}
 
 	@Override
-	public void effect()
+	public void effect(ServerPlayer hostp,ServerPlayer theyp,int target,boolean spcon)
 	{
-		// TODO Auto-generated method stub
-		
+		System.out.println("왜 니가 실행되?");
 	}
 	public Pawn()
 	{}
@@ -62,6 +80,25 @@ public class Pawn extends CardForm
 		this.Race = race;this.nativeatt = att;this.nativelife = life;
 		this.currentatt=att;this.currentlife=life;super.setCost(cost);super.setCurrentCost(cost);
 		super.setCardNumber(cardnumber);
+	}
+	
+
+	@Override
+	public int compareTo(Object o)
+	{
+		Pawn comp = (Pawn) o;
+		if(super.getCurrentCost() == comp.getCurrentCost() && this.getCurrentatt() == comp.getCurrentatt() && this.getCurrentlife() == comp.getCurrentlife())
+			return 0;
+		else
+			return -1;
+	}
+
+
+	@Override
+	public boolean spcondition(ClientPlayer p)
+	{
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	public int getNativeatt()
@@ -108,5 +145,31 @@ public class Pawn extends CardForm
 	public String toString()
 	{
 		return Integer.toString(super.getCardNumber());
+	}
+	
+	public CardForm checkSpecialCard(CardForm card,String CardName)
+	{
+		try
+		{
+			String name = "card."+CardName;
+			Class<?> tmp = Class.forName(name);
+			Pawn rePawn = (Pawn)tmp.newInstance();
+			rePawn.copy(card);
+			return (CardForm)rePawn;
+		}
+		catch(IllegalAccessException e1)
+		{
+			e1.printStackTrace();
+			return null;
+		}
+		catch(InstantiationException e2)
+		{
+			e2.printStackTrace();
+			return null;
+		}
+		catch(ClassNotFoundException e3)
+		{
+			return null;
+		}
 	}
 }

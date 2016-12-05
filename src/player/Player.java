@@ -1,25 +1,21 @@
 package player;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Point;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 
-import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import Socket.ClientSocket;
 import Socket.Massage;
+import card.Magic;
+import card.Pawn;
 import net.miginfocom.swing.MigLayout;
 
 public class Player extends JPanel
 {
 	private boolean turn;
 	private PlayerRightPanel RightPanel = new PlayerRightPanel();
+	private LeftPanel leftPanel = new LeftPanel(50);
 	private static Point Screenlocation;
 	private Point startLocation=null;
 	private DrawTargetPanel target;
@@ -28,7 +24,7 @@ public class Player extends JPanel
 	{
 		target = new DrawTargetPanel();
 		this.setSize(1280, 720);
-		setLayout(new MigLayout("", "[grow][880][200]", "[grow][grow]"));
+		setLayout(new MigLayout("", "[200][880][200]", "[grow][grow]"));
 		add(target,"cell 1 0 1 2,grow");
 		target.setVisible(true);
 		
@@ -36,6 +32,8 @@ public class Player extends JPanel
 		add(RightPanel,"cell 2 0 1 2,grow");
 		RightPanel.setVisible(true);
 		this.setVisible(true);
+		
+		add(leftPanel,"cell 0 0 1 2,grow");
 	}
 	
 	public ClientPlayer getMe()
@@ -84,7 +82,24 @@ public class Player extends JPanel
 		return target;
 	}
 	
-	
-	
-	
+	public void update()
+	{
+		this.target.Update();
+		if(target.getFocusCard() != null)
+		{
+			if(target.getFocusCard().getClass().getSimpleName().compareTo("Pawn")==0)
+			{
+				this.leftPanel.getCardPlainPanel().setCard((Pawn) target.getFocusCard());
+			}
+			else
+			{
+				this.leftPanel.getCardPlainPanel().setCard((Magic) target.getFocusCard());
+			}
+		}
+		this.leftPanel.setMyLife(target.getMe().getLife());
+		this.leftPanel.setTheyLife(target.getThey().getLife());
+		this.leftPanel.setMyMana(target.getMe().getMana());
+		this.leftPanel.setTheyMana(target.getThey().getMana());
+		this.leftPanel.reDraw();
+	}
 }

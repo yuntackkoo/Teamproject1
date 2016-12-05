@@ -2,18 +2,23 @@ package player;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
+import card.CardForm;
 
 public class showGraveListPopup extends JDialog
 {
 	private JPanel panel;
+	private List<CardViewer> Component = new ArrayList<>();
+	private List<CardForm> cardlist = new ArrayList<>();
 
 	/**
 	 * Launch the application.
@@ -66,11 +71,13 @@ public class showGraveListPopup extends JDialog
 		}
 	}
 	
-	public void setCard(List<CardViewer> list)
+	public void setCard(List<CardForm> list)
 	{
-		for(int i=0;i<list.size();i++)
+		int size = list.size() - this.cardlist.size();
+		for(int i=0;i<size;i++)
 		{
-			this.panel.add(list.get(i));
+			cardlist.add(list.get(i).copy());
+			
 		}
 	}
 

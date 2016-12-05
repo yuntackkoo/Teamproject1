@@ -42,7 +42,7 @@ public class Grave extends JPanel implements CardTrans
 			@Override
 			public void mousePressed(MouseEvent e)
 			{
-				popup.main();
+				//popup.main();
 			}
 		});
 	}

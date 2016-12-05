@@ -36,6 +36,9 @@ public class GameServer extends Thread
 	private ServerPlayer theyp = new ServerPlayer(false);
 	private boolean state;
 	private LoadData data = LoadData.getInstance();
+	private int hostturn = 0;
+	private int theyturn = 0;
+	private int pesnolnumber = 0;
 	
 	public GameServer(int port)
 	{
@@ -109,6 +112,11 @@ public class GameServer extends Thread
 		
 		this.sendHost(ReplyMassage.getRMassage(ReplyMassage.JOIN, hostp));
 		this.sendThey(ReplyMassage.getRMassage(ReplyMassage.JOIN, theyp));
+		hostp.setMana(5);
+		theyp.setMana(5);
+		hostp.setLife(50);
+		theyp.setLife(50);
+		
 		for(;;)
 		{
 			this.state = true;
@@ -186,6 +194,8 @@ public class GameServer extends Thread
 							for(int i = 0;i<size;i++)
 							{
 								theyp.getDecklist().addCard(data.getCard(theym.getDeckList().remove(0)));
+								theyp.getDecklist().getDeck().get(i).setPesnolnumber(this.pesnolnumber);
+								this.pesnolnumber++;
 							}
 							Collections.shuffle(theyp.getDecklist().getDeck());
 							theyp.getHandlist().setChange(true);
@@ -223,12 +233,36 @@ public class GameServer extends Thread
 								hostp.getGravelist().setChange(true);
 							}
 							
+							//¸¶³ª È¹µæ
+							hostturn++;
+							hostp.setMana(hostp.getMana() + hostturn);
 							
 							theyrm.setUpdate(ReplyMassage.getRMassage(false, hostp, theyp));
 							hostrm.setUpdate(ReplyMassage.getRMassage(true, hostp, theyp));
 							this.changestate();
 							this.sendThey(theyrm);
 							this.sendHost(hostrm);
+							break;
+						}
+						case Massage.UseEffect:
+						{
+							int handle;
+							handle = this.serch(theym.getCardNumber());
+							System.out.println(handle);
+							if(handle < 5)
+							{
+								hostp.getFieldlist().getFiled().get(handle).effect(hostp, theyp,theym.getTarget(),theym.getSpCondition());
+							}
+							else
+							{
+								handle -=5;
+								theyp.getFieldlist().getFiled().get(handle).effect(hostp, theyp,theym.getTarget(),theym.getSpCondition());
+							}
+							ReplyMassage theyrm = ReplyMassage.getRMassage(true, hostp, theyp);
+							ReplyMassage hostrm = ReplyMassage.getRMassage(false, hostp,theyp);
+							this.changestate();
+							this.sendHost(hostrm);
+							this.sendThey(theyrm);
 							break;
 						}
 					}
@@ -300,6 +334,8 @@ public class GameServer extends Thread
 						for(int i = 0;i<size;i++)
 						{
 							hostp.getDecklist().addCard(data.getCard(hostm.getDeckList().remove(0)));
+							hostp.getDecklist().getDeck().get(i).setPesnolnumber(this.pesnolnumber);
+							this.pesnolnumber++;
 						}
 						
 						Collections.shuffle(hostp.getDecklist().getDeck());
@@ -325,6 +361,7 @@ public class GameServer extends Thread
 						ReplyMassage theyrm = ReplyMassage.getRMassage(ReplyMassage.TurnStart);
 						CardForm drawcard = theyp.getDecklist().disCard(0);
 						theyp.getDecklist().setChange(true);
+						//Ä«µå µå·Î¿ì
 						if(theyp.getHandlist().getHand().size() < 10)
 						{
 							theyp.getHandlist().addCard(drawcard);
@@ -335,11 +372,37 @@ public class GameServer extends Thread
 							theyp.getGravelist().addCard(drawcard);
 							theyp.getGravelist().setChange(true);
 						}
+						
+						//¸¶³ª È¹µæ
+						theyturn++;
+						theyp.setMana(hostp.getMana() + theyturn);
+						
 						theyrm.setUpdate(ReplyMassage.getRMassage(false, hostp, theyp));
 						hostrm.setUpdate(ReplyMassage.getRMassage(true, hostp, theyp));
 						this.changestate();
 						this.sendThey(theyrm);
 						this.sendHost(hostrm);
+						break;
+					}
+					case Massage.UseEffect:
+					{
+						int handle;
+						handle = this.serch(hostm.getCardNumber());
+						System.out.println(handle);
+						if(handle < 5)
+						{
+							hostp.getFieldlist().getFiled().get(handle).effect(hostp, theyp,hostm.getTarget(),hostm.getSpCondition());
+						}
+						else
+						{
+							handle -=5;
+							theyp.getFieldlist().getFiled().get(handle).effect(hostp, theyp,hostm.getTarget(),hostm.getSpCondition());
+						}
+						ReplyMassage theyrm = ReplyMassage.getRMassage(true, hostp, theyp);
+						ReplyMassage hostrm = ReplyMassage.getRMassage(false, hostp,theyp);
+						this.changestate();
+						this.sendHost(hostrm);
+						this.sendThey(theyrm);
 						break;
 					}
 				}
@@ -421,5 +484,24 @@ public class GameServer extends Thread
 				theyp.getGravelist().setChange(true);
 			}
 		}
+	}
+	
+	public int serch(int pesnolnumber)
+	{
+		for(int i =0;i<theyp.getFieldlist().getFiled().size();i++)
+		{
+			if(theyp.getFieldlist().getFiled().get(i).getPesnolnumber() == pesnolnumber)
+			{
+				return i+5;
+			}
+		}
+		for(int i =0;i<hostp.getFieldlist().getFiled().size();i++)
+		{
+			if(hostp.getFieldlist().getFiled().get(i).getPesnolnumber() == pesnolnumber)
+			{
+				return i;
+			}
+		}
+		return -1;
 	}
 }

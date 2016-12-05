@@ -54,6 +54,7 @@ class FrameUpdate extends Thread
 		{
 			if(main.game.getPlayer().isVisible())
 			{
+				main.game.getPlayer().update();
 				main.game.getPlayer().getTarget().repaint();;
 			}
 			try {

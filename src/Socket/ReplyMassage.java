@@ -177,10 +177,14 @@ public abstract class ReplyMassage implements Serializable,RChating,Updating,Tur
 		{
 			rm.setGrave(Updating.TheyField, null);
 		}
-
+		
+		//각 플레이어의 마나
+		rm.setMana(Updating.MyMana, hostp.getMana());
+		rm.setMana(Updating.TheyMana, theyp.getMana());
+		rm.setLife(Updating.MyLife, hostp.getLife());
+		rm.setLife(Updating.TheyLife, theyp.getLife());
 		return rm;
 	}
-	
 }
 
 interface RChating
@@ -238,6 +242,18 @@ class ReplyMassageFactory extends ReplyMassage
 	{return 0;}
 	@Override
 	public void setTheyHand(Integer Hand)
+	{}
+	@Override
+	public int getMana(int own)
+	{return 0;}
+	@Override
+	public void setMana(int own, int value)
+	{}
+	@Override
+	public int getLife(int own)
+	{return 0;}
+	@Override
+	public void setLife(int own, int value)
 	{}
 	
 }
@@ -328,14 +344,13 @@ class Update extends ReplyMassageFactory
 	List<CardForm> TheyGrave = new ArrayList<>();
 	int myDeck;
 	int theyDeck;
+	int MyMana;
+	int TheyMana;
+	int MyLife;
+	int TheyLife;
 	
 	List<CardForm> MyHand = new ArrayList<>();
 	Integer theyHand;
-	
-	public Update()
-	{
-	}
-	
 	
 	
 	@Override
@@ -440,8 +455,41 @@ class Update extends ReplyMassageFactory
 		this.theyHand = hand;
 	}
 
+	@Override
+	public int getMana(int own)
+	{
+		if(own == Updating.MyMana)
+			return this.MyMana;
+		else
+			return this.TheyMana;
+	}
 
-	
+	@Override
+	public void setMana(int own, int value)
+	{
+		if(own == Updating.MyMana)
+			this.MyMana = value;
+		else
+			this.TheyMana = value;
+	}
+
+	@Override
+	public int getLife(int own)
+	{
+		if(own == Updating.MyLife)
+			return this.MyLife;
+		else
+			return this.TheyLife;
+	}
+
+	@Override
+	public void setLife(int own, int value)
+	{
+		if(own == Updating.MyLife)
+			this.MyLife = value;
+		else
+			this.TheyLife = value;
+	}
 	
 	
 }

@@ -1,11 +1,9 @@
 package player;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -13,6 +11,9 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+
+import card.CardForm;
+import dataload.LoadData;
 
 public class DrawTargetPanel extends JPanel
 {
@@ -25,6 +26,9 @@ public class DrawTargetPanel extends JPanel
 	private JLabel label;
 	private JLayeredPane jpl = new JLayeredPane();
 	private EffectPanel panel = new EffectPanel();
+	private boolean target;
+	private CardForm FocusCard;
+	private LoadData data = LoadData.getInstance();
 	
 	public DrawTargetPanel()
 	{
@@ -57,10 +61,18 @@ public class DrawTargetPanel extends JPanel
 			@Override
 			public void mousePressed(MouseEvent e)
 			{
-				e.translatePoint((int)(getMousePosition(true).getX()-e.getX()), (int)(getMousePosition(true).getY()-e.getY()));
-				panel.setStarPoint(e.getPoint());
-				panel.setVisible(true);
-				panel.dispatchEvent(e);
+				if(e.getClickCount() >= 3)
+				{
+					target = true;
+					System.out.println(target);
+				}
+				else
+				{
+					e.translatePoint((int)(getMousePosition(true).getX()-e.getX()), (int)(getMousePosition(true).getY()-e.getY()));
+					panel.setStarPoint(e.getPoint());
+					panel.setVisible(true);
+					panel.dispatchEvent(e);
+				}
 			}
 			
 			@Override
@@ -96,11 +108,6 @@ public class DrawTargetPanel extends JPanel
 	{
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		
-		me.getFieldlist().update();
-		me.getHandlist().update();
-		they.getFieldlist().update();
-		they.getHandlist().update();
 	}
 	
 	public void setStartLocation(Point startLocation)
@@ -127,7 +134,23 @@ public class DrawTargetPanel extends JPanel
 	{
 		this.me = me;
 	}
+
+	public CardForm getFocusCard()
+	{
+		return FocusCard;
+	}
 	
-	
-	
+	public void Update()
+	{
+		me.getFieldlist().update();
+		me.getHandlist().update();
+		they.getFieldlist().update();
+		they.getHandlist().update();
+		me.getHandlist().checkHand(me);
+		this.FocusCard = this.me.getHandlist().focusCheck();
+		if(this.FocusCard == null)
+			this.FocusCard = this.me.getFieldlist().focusCheck();
+		if(this.FocusCard == null)
+			this.FocusCard = this.they.getFieldlist().focusCheck();
+	}
 }

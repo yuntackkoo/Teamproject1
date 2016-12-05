@@ -99,6 +99,12 @@ public class ClientSocket extends Thread
 						{
 							game.getPlayer().getMe().getDecklist().setHaveCard(Rp.getDeck(ReplyMassage.MyDeck));
 						}
+						
+						game.getPlayer().getMe().setMana(Rp.getMana(Updating.MyMana));
+						game.getPlayer().getThey().setMana(Rp.getMana(Updating.TheyMana));
+						
+						game.getPlayer().getMe().setLife(Rp.getLife(Updating.MyLife));
+						game.getPlayer().getThey().setLife(Rp.getLife(Updating.TheyLife));
 						break;
 					}
 					case ReplyMassage.TurnStart:

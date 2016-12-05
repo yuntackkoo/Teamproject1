@@ -14,6 +14,8 @@ public class PlayerBase extends JPanel
 	private Hand handlist = new Hand();
 	private Grave gravelist = new Grave();
 	private Field fieldlist = new Field();
+	private int Mana;
+	private int Life;
 	
 	public Deck getDecklist() {
 		return decklist;
@@ -27,10 +29,25 @@ public class PlayerBase extends JPanel
 	public Field getFieldlist() {
 		return fieldlist;
 	}
-	
+	public int getMana()
+	{
+		return Mana;
+	}
+	public void setMana(int mana)
+	{
+		Mana = mana;
+	}
 	public PlayerBase()
 	{
 		this.setVisible(false);
+	}
+	public int getLife()
+	{
+		return Life;
+	}
+	public void setLife(int life)
+	{
+		Life = life;
 	}
 	public void showCardEffect(CardForm c)
 	{

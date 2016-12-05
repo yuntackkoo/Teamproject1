@@ -1,5 +1,6 @@
 package player;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +10,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
 import Socket.ClientSocket;
@@ -20,13 +22,19 @@ import main.CardImage;
 
 public class CardViewer extends JButton
 {
-	private CardForm card;
+	private CardForm card = null;
 	private boolean they;
 	private int handle;
 	private LoadData data = LoadData.getInstance();
 	private boolean drawable;
 	private int Location;
 	private boolean press = false;
+	private boolean update = true;
+	private boolean useable;
+	private boolean SpConditon;
+	BufferedImage img;
+	private static boolean OnTarget = false;
+	
 	
 	
 	public CardViewer(int loc)
@@ -73,24 +81,20 @@ public class CardViewer extends JButton
 			@Override
 			public void mousePressed(MouseEvent e)
 			{
-				if(e.getClickCount() == 1)
-				{
-					getParent().getParent().getParent().getParent().dispatchEvent(e);
-					if(loc == CardForm.Grave)
-						getParent().dispatchEvent(e);
-				}
+				getParent().getParent().getParent().getParent().dispatchEvent(e);
 				if(e.getClickCount() == 2)
 				{
-					if(!they)
+					if(card.CardUse(handle))
 					{
-						if(card.getLoc()==CardForm.Hand)
-						{
-							Massage m = Massage.getMassage(Massage.Summon);
-							m.setHandle(handle);
-							ClientSocket.sendMassage(m);
-						}
+						Massage tmp = Massage.getMassage(Massage.UseEffect);
+						tmp.setCardNumber(card.getPesnolnumber());
+						tmp.setSpCondition(SpConditon);
+						System.out.println("이펙트 발동!");
+						ClientSocket.sendMassage(tmp);
 					}
 				}
+				if(loc == CardForm.Grave)
+					getParent().dispatchEvent(e);
 			}
 			
 			@Override
@@ -113,7 +117,6 @@ public class CardViewer extends JButton
 			public void mouseMoved(MouseEvent e)
 			{
 				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
@@ -124,14 +127,32 @@ public class CardViewer extends JButton
 		});
 	}
 	
+	
+	
 	public CardForm getCard()
 	{
 		return card;
 	}
 	
-	public void setCard(CardForm card)
+	public void setCard(CardForm updatecard)
 	{
-		this.card = card;
+		if(this.card != null)
+		{
+			if(updatecard == null)
+			{
+				this.card = updatecard;
+			}
+			else if(this.card.compareTo(updatecard) != 0)
+			{
+				this.card = updatecard;
+				update = true;
+			}
+		}
+		else
+		{
+			this.card = updatecard;
+			update = true;
+		}
 	}
 	
 	@Override
@@ -147,9 +168,12 @@ public class CardViewer extends JButton
 			{
 				if(this.card != null)
 				{
-					BufferedImage img;
 					super.paintComponent(g);
-					img = CardImage.get((Pawn) card);
+					if(update)
+					{
+						img = CardImage.get((Pawn) card);
+						update = false;
+					}
 					g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
 					this.getHandle();
 				}
@@ -162,7 +186,12 @@ public class CardViewer extends JButton
 			case 3://묘지일때
 			{
 				super.paintComponent(g);
-				g.drawImage(data.getImage(card.getCardNumber()), 0, 0, this.getWidth(), this.getHeight(), null);
+				if(update)
+				{
+					img = data.getImage(card.getCardNumber());
+					update = false;
+				}
+				g.drawImage(this.img, 0, 0, this.getWidth(), this.getHeight(), null);
 				break;
 			}
 			case 4://핸드일때
@@ -171,9 +200,12 @@ public class CardViewer extends JButton
 				{
 					if(this.card != null)
 					{
-						BufferedImage img;
 						super.paintComponent(g);
-						img = CardImage.get((Pawn) card);
+						if(update)
+						{
+							img = CardImage.get((Pawn) card);
+							update = false;
+						}
 						g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
 						this.getHandle();
 					}
@@ -186,15 +218,18 @@ public class CardViewer extends JButton
 				{
 					if(this.drawable)
 					{
-						g.drawImage(data.getBackImage(), 0, 0, this.getWidth(), this.getHeight(), null);
+						if(update)
+						{
+							img = data.getBackImage();
+							update = false;
+						}
+						g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
 					}
 				}
 				break;
 			}
 		}
-		
-		
-	} 
+	}
 	
 	public void getHandle()
 	{
@@ -228,6 +263,31 @@ public class CardViewer extends JButton
 		this.they = they;
 	}
 
+	public boolean isUseable()
+	{
+		return useable;
+	}
+
+	public void setUseable(boolean useable)
+	{
+		this.useable = useable;
+		if(this.useable)
+		{
+			this.setBorder(BorderFactory.createBevelBorder(0, Color.GREEN, Color.BLACK));
+		}
+	}
+
+	public boolean isSpConditon()
+	{
+		return SpConditon;
+	}
+
+	public void setSpConditon(boolean spConditon)
+	{
+		this.SpConditon = spConditon;
+		if(this.SpConditon)
+			this.setBorder(BorderFactory.createBevelBorder(0,Color.yellow,Color.black));
+	}
 	
 	
 }

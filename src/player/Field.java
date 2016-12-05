@@ -51,6 +51,15 @@ public class Field extends JPanel implements CardTrans
 			this.add(Component[i] = new CardViewer(CardForm.Field));
 		}
 		
+		this.addMouseListener(new MouseAdapter()
+		{
+
+			@Override
+			public void mousePressed(MouseEvent e)
+			{
+			}
+			
+		});
 		
 	}
 	public void update()
@@ -97,5 +106,16 @@ public class Field extends JPanel implements CardTrans
 		}
 	}
 	
+	public CardForm focusCheck()
+	{
+		for(int i=0;i<Component.length;i++)
+		{
+			if(Component[i].isFocusOwner())
+			{
+				return Component[i].getCard();
+			}
+		}
+		return null;
+	}
 }
 
