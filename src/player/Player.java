@@ -87,7 +87,7 @@ public class Player extends JPanel
 		this.target.Update();
 		if(target.getFocusCard() != null)
 		{
-			if(target.getFocusCard().getClass().getSimpleName().compareTo("Pawn")==0)
+			if(target.getFocusCard() instanceof Pawn)
 			{
 				this.leftPanel.getCardPlainPanel().setCard((Pawn) target.getFocusCard());
 			}

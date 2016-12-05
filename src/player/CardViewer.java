@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import Socket.ClientSocket;
 import Socket.Massage;
 import card.CardForm;
+import card.Magic;
 import card.Pawn;
 import dataload.LoadData;
 import main.CardImage;
@@ -34,6 +35,7 @@ public class CardViewer extends JButton
 	private boolean SpConditon;
 	BufferedImage img;
 	private static boolean OnTarget = false;
+	private static Massage Effect;
 	
 	
 	
@@ -70,31 +72,55 @@ public class CardViewer extends JButton
 					if(card.getLoc() == CardForm.Field)
 					{
 						Massage m = Massage.getMassage(Massage.Attack);
+						m.setSpCondition(SpConditon);
 						m.setMyFieldCard(handle);
 						m.setAttackTarget(target);
 						ClientSocket.sendMassage(m);
 					}
 				}
 				getParent().getParent().getParent().getParent().dispatchEvent(e);
-				System.out.println(e.getPoint());
 			}
 			@Override
 			public void mousePressed(MouseEvent e)
 			{
 				getParent().getParent().getParent().getParent().dispatchEvent(e);
-				if(e.getClickCount() == 2)
+				if(loc == CardForm.Hand)
 				{
-					if(card.CardUse(handle))
+					if(e.getClickCount() == 2)
 					{
-						Massage tmp = Massage.getMassage(Massage.UseEffect);
-						tmp.setCardNumber(card.getPesnolnumber());
-						tmp.setSpCondition(SpConditon);
-						System.out.println("¿Ã∆Â∆Æ πﬂµø!");
-						ClientSocket.sendMassage(tmp);
+						if(card.CardUse(handle))
+						{
+							Massage tmp = Massage.getMassage(Massage.UseEffect);
+							tmp.setCardNumber(card.getPesnolnumber());
+							tmp.setSpCondition(SpConditon);
+							if(card.isTargeting())
+							{
+								Effect = tmp;
+								OnTarget = true;
+							}
+							else
+							{
+								ClientSocket.sendMassage(tmp);
+							}
+						}
 					}
 				}
 				if(loc == CardForm.Grave)
 					getParent().dispatchEvent(e);
+				if(loc == CardForm.Field && OnTarget)
+				{
+					if(they)
+					{
+						Effect.setTarget(handle+5);
+					}
+					else
+					{
+						Effect.setTarget(handle);
+					}
+					System.out.println(Effect.getTarget());
+					ClientSocket.sendMassage(Effect);
+					OnTarget = false;
+				}
 			}
 			
 			@Override
@@ -203,7 +229,15 @@ public class CardViewer extends JButton
 						super.paintComponent(g);
 						if(update)
 						{
-							img = CardImage.get((Pawn) card);
+							if(card instanceof Magic)
+							{
+								System.out.println(card.getCardNumber());
+								img = CardImage.get((Magic)card);
+							}
+							else
+							{
+								img = CardImage.get((Pawn)card);
+							}
 							update = false;
 						}
 						g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);

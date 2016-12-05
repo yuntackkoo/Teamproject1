@@ -116,6 +116,8 @@ public class GameServer extends Thread
 		theyp.setMana(5);
 		hostp.setLife(50);
 		theyp.setLife(50);
+		hostp.getHandlist().addCard(data.getCard(16));
+		theyp.getHandlist().addCard(data.getCard(16));
 		
 		for(;;)
 		{
@@ -162,14 +164,18 @@ public class GameServer extends Thread
 						}
 						case Massage.Summon:
 						{
-							theyp.getFieldlist().setChange(true);
-							theyp.getHandlist().setChange(true);
-							theyp.getFieldlist().addCard(theyp.getHandlist().disCard(theym.getHandle()));
-							ReplyMassage hostrm = ReplyMassage.getRMassage(true, hostp, theyp);
-							ReplyMassage theyrm = ReplyMassage.getRMassage(false, hostp, theyp);
-							this.changestate();
-							this.sendHost(hostrm);
-							this.sendThey(theyrm);
+							if(theyp.getFieldlist().getFiled().size() <5)
+							{
+								theyp.getFieldlist().setChange(true);
+								theyp.getHandlist().setChange(true);
+								theyp.setMana(theyp.getMana() - theyp.getHandlist().getHand().get(theym.getHandle()).getCurrentCost());
+								theyp.getFieldlist().addCard(theyp.getHandlist().disCard(theym.getHandle()));
+								ReplyMassage hostrm = ReplyMassage.getRMassage(true, hostp, theyp);
+								ReplyMassage theyrm = ReplyMassage.getRMassage(false, hostp, theyp);
+								this.changestate();
+								this.sendHost(hostrm);
+								this.sendThey(theyrm);
+							}
 							break;
 						}
 						case Massage.Attack:
@@ -247,19 +253,24 @@ public class GameServer extends Thread
 						case Massage.UseEffect:
 						{
 							int handle;
-							handle = this.serch(theym.getCardNumber());
-							System.out.println(handle);
-							if(handle < 5)
-							{
-								hostp.getFieldlist().getFiled().get(handle).effect(hostp, theyp,theym.getTarget(),theym.getSpCondition());
-							}
-							else
-							{
-								handle -=5;
-								theyp.getFieldlist().getFiled().get(handle).effect(hostp, theyp,theym.getTarget(),theym.getSpCondition());
-							}
-							ReplyMassage theyrm = ReplyMassage.getRMassage(true, hostp, theyp);
-							ReplyMassage hostrm = ReplyMassage.getRMassage(false, hostp,theyp);
+							handle = this.serch(theym.getCardNumber(),false);
+							
+							theyp.getFieldlist().getFiled().get(handle).effect(theyp, hostp,theym.getTarget(),theym.getSpCondition());
+							
+							ReplyMassage theyrm = ReplyMassage.getRMassage(false, hostp, theyp);
+							ReplyMassage hostrm = ReplyMassage.getRMassage(true, hostp,theyp);
+							this.changestate();
+							this.sendHost(hostrm);
+							this.sendThey(theyrm);
+							break;
+						}
+						case Massage.CardUse:
+						{
+							theyp.getGravelist().addCard(theyp.getHandlist().disCard(theym.getHandle()));
+							theyp.getGravelist().setChange(true);
+							theyp.getHandlist().setChange(true);
+							ReplyMassage theyrm = ReplyMassage.getRMassage(false, hostp, theyp);
+							ReplyMassage hostrm = ReplyMassage.getRMassage(true, hostp,theyp);
 							this.changestate();
 							this.sendHost(hostrm);
 							this.sendThey(theyrm);
@@ -302,14 +313,18 @@ public class GameServer extends Thread
 					}
 					case Massage.Summon:
 					{
-						hostp.getFieldlist().setChange(true);
-						hostp.getHandlist().setChange(true);
-						hostp.getFieldlist().addCard(hostp.getHandlist().disCard(hostm.getHandle()));
-						ReplyMassage hostrm = ReplyMassage.getRMassage(true, hostp, theyp);
-						ReplyMassage theyrm = ReplyMassage.getRMassage(false, hostp, theyp);
-						this.changestate();
-						this.sendHost(hostrm);
-						this.sendThey(theyrm);
+						if(hostp.getFieldlist().getFiled().size() < 5)
+						{
+							hostp.getFieldlist().setChange(true);
+							hostp.getHandlist().setChange(true);
+							hostp.setMana(hostp.getMana() - hostp.getHandlist().getHand().get(hostm.getHandle()).getCurrentCost());
+							hostp.getFieldlist().addCard(hostp.getHandlist().disCard(hostm.getHandle()));
+							ReplyMassage hostrm = ReplyMassage.getRMassage(true, hostp, theyp);
+							ReplyMassage theyrm = ReplyMassage.getRMassage(false, hostp, theyp);
+							this.changestate();
+							this.sendHost(hostrm);
+							this.sendThey(theyrm);
+						}
 						break;
 					}
 					case Massage.Attack:
@@ -387,19 +402,30 @@ public class GameServer extends Thread
 					case Massage.UseEffect:
 					{
 						int handle;
-						handle = this.serch(hostm.getCardNumber());
-						System.out.println(handle);
-						if(handle < 5)
+						handle = this.serch(hostm.getCardNumber(),true);
+						if(handle >=0)
 						{
 							hostp.getFieldlist().getFiled().get(handle).effect(hostp, theyp,hostm.getTarget(),hostm.getSpCondition());
 						}
 						else
 						{
-							handle -=5;
-							theyp.getFieldlist().getFiled().get(handle).effect(hostp, theyp,hostm.getTarget(),hostm.getSpCondition());
+							hostp.getGravelist().getGrave().get((hostp.getGravelist().getGrave().size()-1)).effect(hostp, theyp,hostm.getTarget(),hostm.getSpCondition());
 						}
-						ReplyMassage theyrm = ReplyMassage.getRMassage(true, hostp, theyp);
-						ReplyMassage hostrm = ReplyMassage.getRMassage(false, hostp,theyp);
+						
+						ReplyMassage theyrm = ReplyMassage.getRMassage(false, hostp, theyp);
+						ReplyMassage hostrm = ReplyMassage.getRMassage(true, hostp,theyp);
+						this.changestate();
+						this.sendHost(hostrm);
+						this.sendThey(theyrm);
+						break;
+					}
+					case Massage.CardUse:
+					{
+						hostp.getGravelist().addCard(hostp.getHandlist().disCard(hostm.getHandle()));
+						hostp.getGravelist().setChange(true);
+						hostp.getHandlist().setChange(true);
+						ReplyMassage theyrm = ReplyMassage.getRMassage(false, hostp, theyp);
+						ReplyMassage hostrm = ReplyMassage.getRMassage(true, hostp,theyp);
 						this.changestate();
 						this.sendHost(hostrm);
 						this.sendThey(theyrm);
@@ -486,20 +512,26 @@ public class GameServer extends Thread
 		}
 	}
 	
-	public int serch(int pesnolnumber)
+	public int serch(int pesnolnumber,boolean host)
 	{
-		for(int i =0;i<theyp.getFieldlist().getFiled().size();i++)
+		if(host)
 		{
-			if(theyp.getFieldlist().getFiled().get(i).getPesnolnumber() == pesnolnumber)
+			for(int i =0;i<hostp.getFieldlist().getFiled().size();i++)
 			{
-				return i+5;
+				if(hostp.getFieldlist().getFiled().get(i).getPesnolnumber() == pesnolnumber)
+				{
+					return i;
+				}
 			}
 		}
-		for(int i =0;i<hostp.getFieldlist().getFiled().size();i++)
+		else
 		{
-			if(hostp.getFieldlist().getFiled().get(i).getPesnolnumber() == pesnolnumber)
+			for(int i =0;i<theyp.getFieldlist().getFiled().size();i++)
 			{
-				return i;
+				if(theyp.getFieldlist().getFiled().get(i).getPesnolnumber() == pesnolnumber)
+				{
+					return i;
+				}
 			}
 		}
 		return -1;

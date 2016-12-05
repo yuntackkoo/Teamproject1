@@ -46,7 +46,7 @@ public class LoadData
 				}
 				else
 				{
-					Card.add(new Magic(reader.nextInt()));
+					Card.add(new Magic(reader.nextInt(),i));
 				}
 				if(reader.hasNext())
 				{
@@ -89,7 +89,7 @@ public class LoadData
 	
 	public CardForm getCard(int i)
 	{
-		return Card.get(i);
+		return (CardForm)Card.get(i);
 	}
 	
 	private static class DataLoad

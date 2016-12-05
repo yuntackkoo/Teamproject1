@@ -35,7 +35,7 @@ public class Pawn extends CardForm implements Comparable
 		tmp.setHandle(handle);
 		tmp.setCost(super.getCurrentCost());
 		ClientSocket.sendMassage(tmp);
-		return true;
+		return false;
 	}
 	
 	public CardForm copy()
@@ -70,7 +70,6 @@ public class Pawn extends CardForm implements Comparable
 	@Override
 	public void effect(ServerPlayer hostp,ServerPlayer theyp,int target,boolean spcon)
 	{
-		System.out.println("왜 니가 실행되?");
 	}
 	public Pawn()
 	{}
@@ -172,4 +171,16 @@ public class Pawn extends CardForm implements Comparable
 			return null;
 		}
 	}
+
+	public String getRace()
+	{
+		return Race;
+	}
+
+	public void setRace(String race)
+	{
+		Race = race;
+	}
+	
+	
 }

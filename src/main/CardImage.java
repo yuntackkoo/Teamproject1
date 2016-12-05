@@ -14,6 +14,7 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import card.Magic;
 import card.Pawn;
 import dataload.LoadData;
 
@@ -142,6 +143,32 @@ public class CardImage extends JPanel
 			g2.setColor(Color.white);
 		}
 		g2.drawString(Integer.toString(cardtmp.getCurrentlife()), 270, 280);
+		g2.dispose();
+		return img;
+	}
+	
+	public static <T extends Magic> BufferedImage get (T card)
+	{
+		LoadData data = LoadData.getInstance();
+		Magic cardtmp = (Magic) card;
+		BufferedImage img = new BufferedImage(300,300,data.getImage(card.getCardNumber()).getType()); 
+		Graphics2D g2 = img.createGraphics();
+		g2.drawImage(data.getImage(card.getCardNumber()), 0, 0, 300, 300, null);
+		g2.drawArc(0, 0, 50, 50, 0, 360);
+		g2.drawArc(0, 250, 50, 50, 0, 360);
+		g2.drawArc(250, 250, 50, 50, 0, 360);
+		g2.setFont(new Font("πŸ≈¡",Font.PLAIN,30));
+		if(card.getCost() < card.getCurrentCost())
+		{
+			g2.setColor(Color.red);
+		}
+		else
+		{
+			g2.setColor(Color.white);
+		}
+		g2.drawString(Integer.toString(card.getCost()), 20, 30);
+		
+		
 		g2.dispose();
 		return img;
 	}

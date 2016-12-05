@@ -14,6 +14,7 @@ public abstract class CardForm implements Serializable,Comparable
 	private CardForm me = this;
 	private boolean spcon;
 	private int pesnolnumber;
+	private boolean targeting=false;
 	
 	static public int Deck = 1;
 	static public int Field = 2;
@@ -108,4 +109,14 @@ public abstract class CardForm implements Serializable,Comparable
 	{
 		this.pesnolnumber = pesnolnumber;
 	}
+	public boolean isTargeting()
+	{
+		return targeting;
+	}
+	public void setTargeting(boolean targeting)
+	{
+		this.targeting = targeting;
+	}
+	
+	
 }

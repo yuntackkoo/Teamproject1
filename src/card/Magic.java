@@ -11,10 +11,17 @@ import player.ServerPlayer;
 public class Magic extends CardForm implements Comparable
 {
 	transient LoadData data = LoadData.getInstance();
-	public Magic(int cost)
+	
+	public Magic()
+	{
+		super.setTargeting(true);
+	}
+	
+	public Magic(int cost,int cardnumber)
 	{
 		super.setCost(cost);
 		super.setCurrentCost(cost);
+		super.setCardNumber(cardnumber);
 	}
 
 	@Override
@@ -37,10 +44,23 @@ public class Magic extends CardForm implements Comparable
 		
 	}
 	
+	
+	
+	@Override
+	public CardForm copy()
+	{
+		Magic tmp = new Magic();
+		tmp.setCost(this.getCost());
+		tmp.setCardNumber(this.getCardNumber());
+		tmp.setCurrentCost(this.getCurrentCost());
+		return tmp;
+	}
+
 	public void copy(CardForm card)
 	{
 		this.setCost(card.getCost());
 		this.setCurrentCost(this.getCost());
+		this.setCardNumber(card.getCardNumber());
 	}
 	
 	public CardForm checkSpecialCard(CardForm card,String CardName)
