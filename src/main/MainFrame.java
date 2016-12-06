@@ -4,6 +4,9 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -11,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import dataload.LoadData;
+import main.DeckEditPage.GoMain;
 
 
 public class MainFrame extends JFrame
@@ -30,11 +34,26 @@ public class MainFrame extends JFrame
 		edit.setVisible(false);
 		this.add(main,BorderLayout.CENTER);
 		main.setVisible(true);
+		this.getContentPane().addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				if(e.getSource() instanceof GoMain)
+				{
+					System.out.println("메인메뉴 이벤트");
+					edit.setVisible(false);
+					main.setVisible(true);
+				}
+			}
+			
+		});
 		this.pack();
 		FrameUpdate update = new FrameUpdate(this);
 		update.fps = 60;
 		update.start();
 		this.createImage(game.getWidth(), game.getHeight());
+		
 	}
 }
 
@@ -103,7 +122,6 @@ class MainMenu extends JPanel
 		deckedit.setBounds(xlocation + 50, 600, width, height);
 		deckedit.addActionListener(new dEdit());
 		
-		
 	}
 	
 	
@@ -129,6 +147,7 @@ class MainMenu extends JPanel
 			System.out.println(edit.isValid());
 		}
 	}
+	
 
 	public boolean isGame()
 	{

@@ -111,6 +111,7 @@ public class ClientSocket extends Thread
 						game.getPlayer().getRightPanel().getWpanel().setWhether(Rp.getCurrentW());
 						game.getPlayer().getRightPanel().getWpanel().setNextturn(Rp.getNextW());
 						game.getPlayer().getRightPanel().repaint();
+						System.out.println(Rp.getCurrentW());
 						break;
 					}
 					case ReplyMassage.TurnStart:
@@ -129,18 +130,6 @@ public class ClientSocket extends Thread
 						game.getPlayer().getMe().getHandlist().setturn(false);
 						game.getPlayer().getMe().getFieldlist().setturn(false);
 						Rq.add(Rp.getUpdate());
-						break;
-					}
-					case ReplyMassage.Defeat:
-					{
-						JOptionPane.showMessageDialog(null, "패배 하였습니다.");
-						System.exit(-1);
-						break;
-					}
-					case ReplyMassage.Victory:
-					{
-						JOptionPane.showMessageDialog(null, "승리 하였습니다.");
-						System.exit(-1);
 						break;
 					}
 				}

@@ -9,7 +9,6 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.border.Border;
 
 import Socket.ClientSocket;
 import Socket.Massage;
@@ -37,10 +36,7 @@ public class CardViewer extends JButton
 	private boolean boderchange = true;
 	private int attckcount;
 	private boolean turn;
-	private Border yellow = BorderFactory.createBevelBorder(0,Color.yellow,Color.yellow);
-	private Border black = BorderFactory.createBevelBorder(0);
-	private Border Green = BorderFactory.createBevelBorder(0,Color.GREEN,Color.GREEN);
-	private Border Red = BorderFactory.createBevelBorder(0,Color.RED,Color.RED);
+	
 	
 	public CardViewer(int loc)
 	{
@@ -89,6 +85,7 @@ public class CardViewer extends JButton
 						attckcount--;
 					}
 				}
+				System.out.println(target);
 				getParent().getParent().getParent().getParent().dispatchEvent(e);
 			}
 			@Override
@@ -131,6 +128,7 @@ public class CardViewer extends JButton
 						{
 							Effect.setTarget(handle);
 						}
+						System.out.println(Effect.getTarget());
 						ClientSocket.sendMassage(Effect);
 						OnTarget = false;
 						boderchange = true;
@@ -353,9 +351,9 @@ public class CardViewer extends JButton
 			if(this.useable)
 			{
 				if(this.SpConditon)
-					this.setBorder(this.yellow);
+					this.setBorder(BorderFactory.createBevelBorder(0,Color.yellow,Color.black));
 				else
-					this.setBorder(this.Green);
+					this.setBorder(BorderFactory.createBevelBorder(0, Color.GREEN, Color.BLACK));
 			}
 			else
 			{
@@ -366,20 +364,20 @@ public class CardViewer extends JButton
 		{
 			if(this.OnTarget)
 			{
-				this.setBorder(this.Green);
+				this.setBorder(BorderFactory.createBevelBorder(0,Color.GREEN,Color.GREEN));
 			}
 			else if(this.attckcount > 0)
 			{
-				this.setBorder(this.Red);
+				this.setBorder(BorderFactory.createBevelBorder(0,Color.RED,Color.RED));
 			}
 			else
 			{
-				this.setBorder(this.black);
+				this.setBorder(BorderFactory.createBevelBorder(0));
 			}
 		}
 		else
 		{
-			this.setBorder(this.black);
+			this.setBorder(BorderFactory.createBevelBorder(0));
 		}
 		this.boderchange = false;
 	}

@@ -157,13 +157,7 @@ public class GameServer extends Thread
 						}
 						case Massage.Chat:
 						{
-							ReplyMassage hostrm = ReplyMassage.getRMassage(ReplyMassage.Chat, theyp);
-							ReplyMassage theyrm = ReplyMassage.getRMassage(ReplyMassage.Chat,hostp);
-							hostrm.setChat("They : " + theym.getChat());
-							theyrm.setChat("Me : " + theym.getChat());
-							this.sendHost(hostrm);
-							this.sendThey(theyrm);
-							
+							this.sendToAll(theyp.mProcess(theym));
 							break;
 						}
 						case Massage.Summon:
@@ -280,7 +274,6 @@ public class GameServer extends Thread
 							{
 								theyp.getGravelist().getGrave().get((theyp.getGravelist().getGrave().size()-1)).effect(theyp, hostp,theym.getTarget(),theym.getSpCondition());
 							}
-							this.checkLife();
 							
 							ReplyMassage theyrm = ReplyMassage.getRMassage(false, hostp, theyp);
 							ReplyMassage hostrm = ReplyMassage.getRMassage(true, hostp,theyp);
@@ -334,12 +327,7 @@ public class GameServer extends Thread
 					}
 					case ReplyMassage.Chat:
 					{
-						ReplyMassage hostrm = ReplyMassage.getRMassage(ReplyMassage.Chat, theyp);
-						ReplyMassage theyrm = ReplyMassage.getRMassage(ReplyMassage.Chat,hostp);
-						hostrm.setChat("Me : " + hostm.getChat());
-						theyrm.setChat("They : " + hostm.getChat());
-						this.sendHost(hostrm);
-						this.sendThey(theyrm);
+						this.sendToAll(hostp.mProcess(hostm));
 						break;
 					}
 					case Massage.Summon:
@@ -411,7 +399,7 @@ public class GameServer extends Thread
 					case Massage.TurnEnd:
 					{
 						NextWheatherTurn--;
-						this.wChangeEffect(wheatherChange());
+						wheatherChange();
 						ReplyMassage hostrm = ReplyMassage.getRMassage(ReplyMassage.TurnEnd);
 						ReplyMassage theyrm = ReplyMassage.getRMassage(ReplyMassage.TurnStart);
 						CardForm drawcard = theyp.getDecklist().disCard(0);
@@ -443,6 +431,7 @@ public class GameServer extends Thread
 					{
 						int handle;
 						handle = this.serch(hostm.getCardNumber(),true);
+						System.out.println(hostm.getCardNumber()+"카드 ps번호");
 						if(handle >=0)
 						{
 							hostp.getFieldlist().getFiled().get(handle).effect(hostp, theyp,hostm.getTarget(),hostm.getSpCondition());
@@ -452,7 +441,7 @@ public class GameServer extends Thread
 						{
 							hostp.getGravelist().getGrave().get((hostp.getGravelist().getGrave().size()-1)).effect(hostp, theyp,hostm.getTarget(),hostm.getSpCondition());
 						}
-						this.checkLife();
+						
 						ReplyMassage theyrm = ReplyMassage.getRMassage(false, hostp, theyp);
 						ReplyMassage hostrm = ReplyMassage.getRMassage(true, hostp,theyp);
 						this.changestate();
@@ -473,20 +462,6 @@ public class GameServer extends Thread
 						this.sendThey(theyrm);
 						break;
 					}
-				}
-			}
-			int tmp = this.checkPLife();
-			if(tmp >= 0)
-			{
-				if(tmp == 0)
-				{
-					this.sendHost(ReplyMassage.getRMassage(ReplyMassage.Defeat));
-					this.sendThey(ReplyMassage.getRMassage(ReplyMassage.Victory));
-				}
-				else
-				{
-					this.sendHost(ReplyMassage.getRMassage(ReplyMassage.Victory));
-					this.sendThey(ReplyMassage.getRMassage(ReplyMassage.Defeat));
 				}
 			}
 			}
@@ -594,15 +569,13 @@ public class GameServer extends Thread
 		return -1;
 	}
 	
-	public static boolean wheatherChange()
+	public static void wheatherChange()
 	{
 		if(NextWheatherTurn < 0)
 		{
 			currentWheather = (int)(Math.random() * 3);
 			NextWheatherTurn = 5;
-			return true;
 		}
-		else return false;
 	}
 
 	public static int getCurrentWheather()
@@ -615,78 +588,5 @@ public class GameServer extends Thread
 		return NextWheatherTurn;
 	}
 	
-	public void wChangeEffect(boolean change)
-	{
-		if(change)
-		{
-			switch(currentWheather)
-			{
-				case 0:
-				{
-					for(int i=0;i<theyp.getFieldlist().getFiled().size();i++)
-					{
-						theyp.getFieldlist().getFiled().get(i).setCurrentatt(theyp.getFieldlist().getFiled().get(i).getCurrentatt() + 1);
-						theyp.getFieldlist().getFiled().get(i).setCurrentlife(theyp.getFieldlist().getFiled().get(i).getCurrentlife() + 1);
-					}
-					for(int i=0;i<hostp.getFieldlist().getFiled().size();i++)
-					{
-						hostp.getFieldlist().getFiled().get(i).setCurrentatt(hostp.getFieldlist().getFiled().get(i).getCurrentatt() + 1);
-						hostp.getFieldlist().getFiled().get(i).setCurrentlife(hostp.getFieldlist().getFiled().get(i).getCurrentlife() + 1);
-					}
-				}
-				case 1:
-				{
-					for(int i=0;i<theyp.getHandlist().getHand().size();i++)
-					{
-						theyp.getHandlist().getHand().get(i).setCurrentCost(theyp.getHandlist().getHand().get(i).getCurrentCost() * 2);
-					}
-					for(int i=0;i<hostp.getHandlist().getHand().size();i++)
-					{
-						hostp.getHandlist().getHand().get(i).setCurrentCost(hostp.getHandlist().getHand().get(i).getCurrentCost() * 2);
-					}
-				}
-				case 2:
-				{
-					if(!theyp.getFieldlist().getFiled().isEmpty())
-					{
-						if(hostp.getFieldlist().getFiled().isEmpty())
-						{
-							theyp.getGravelist().addCard(theyp.getFieldlist().disCard((int)(Math.random()*theyp.getFieldlist().getFiled().size())));
-						}
-						else
-						{
-							if((Math.random()*2) == 0)
-							{
-								theyp.getGravelist().addCard(theyp.getFieldlist().disCard((int)(Math.random()*theyp.getFieldlist().getFiled().size())));
-							}
-							else
-							{
-								hostp.getGravelist().addCard(hostp.getFieldlist().disCard((int)(Math.random()*hostp.getFieldlist().getFiled().size())));
-							}
-						}
-					}
-					else
-					{
-						if(!hostp.getFieldlist().getFiled().isEmpty())
-						{
-							hostp.getGravelist().addCard(hostp.getFieldlist().disCard((int)(Math.random()*hostp.getFieldlist().getFiled().size())));
-						}
-					}
-				}
-			}
-		}
-	}
 	
-	public int checkPLife()
-	{
-		if(hostp.getLife() <= 0)
-		{
-			return 0;
-		}
-		if(theyp.getLife() <= 0)
-		{
-			return 1;
-		}
-		return -1;
-	}
 }

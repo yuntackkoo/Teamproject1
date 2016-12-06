@@ -19,9 +19,9 @@ public class whetherPanel extends JPanel
 	
 	public whetherPanel()
 	{
-		this.whetherplain.add("이런날씨");
-		this.whetherplain.add("저런날씨");
-		this.whetherplain.add("그런날씨");
+		this.whetherplain.add("맑음 : 필드 내의 모든 하수인들의 공격력 +1, 체력 +1");
+		this.whetherplain.add("폭우 : 현재 핸드 내의 하수인과 마법카드의 소환/사용 코스트 2배 상승");
+		this.whetherplain.add("폭풍 : 필드 내의 모든  하수인중 1마리를 묘지로 이동");
 	}
 	
 	@Override

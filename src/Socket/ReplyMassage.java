@@ -16,8 +16,6 @@ public abstract class ReplyMassage implements Serializable,RChating,Updating,Tur
 	static public final int Summon = 4;
 	static public final int Attack = 5;
 	static public final int Update = 6;
-	static public final int Defeat = 7;
-	static public final int Victory = 8;
 	static public final int JOIN = 98;
 	static public final int TurnEnd = 99;
 	static public final int TurnStart = 100;
@@ -63,14 +61,6 @@ public abstract class ReplyMassage implements Serializable,RChating,Updating,Tur
 			case ReplyMassage.TurnStart:
 			{
 				return new RTurnStart();
-			}
-			case ReplyMassage.Defeat:
-			{
-				return new Defeat();
-			}
-			case ReplyMassage.Victory:
-			{
-				return new Victory();
 			}
 		}
 		return null;
@@ -537,29 +527,6 @@ class Update extends ReplyMassageFactory
 	public int getCurrentW()
 	{
 		return this.CurrentW;
-	}
-}
-
-
-class Defeat extends ReplyMassageFactory
-{
-	private int Action = super.Defeat;
-
-	@Override
-	public int getAction()
-	{
-		return this.Action;
-	}
-}
-
-class Victory extends ReplyMassageFactory
-{
-	private int Action = super.Victory;
-
-	@Override
-	public int getAction()
-	{
-		return this.Action;
 	}
 	
 	

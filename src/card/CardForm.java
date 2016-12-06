@@ -32,7 +32,7 @@ public abstract class CardForm implements Serializable,Comparable
 	public abstract void attack(CardForm other);//АјАн
 	public boolean condition(ClientPlayer p)
 	{
-		if(p.getMana() >= this.CurrentCost)
+		if(p.getMana() >= this.cost)
 		{
 			return true;
 		}
