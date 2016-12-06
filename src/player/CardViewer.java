@@ -34,6 +34,7 @@ public class CardViewer extends JButton
 	private static boolean OnTarget = false;
 	private static Massage Effect;
 	private boolean boderchange;
+	private int attckcount;
 	
 	
 	public CardViewer(int loc)
@@ -66,7 +67,7 @@ public class CardViewer extends JButton
 				}
 				if(!they && target > -1)
 				{
-					if(card.getLoc() == CardForm.Field)
+					if(card.getLoc() == CardForm.Field && attckcount > 0)
 					{
 						Massage m = Massage.getMassage(Massage.Attack);
 						m.setSpCondition(SpConditon);
@@ -94,6 +95,7 @@ public class CardViewer extends JButton
 							{
 								Effect = tmp;
 								OnTarget = true;
+								boderchange = true;
 							}
 							else
 							{
@@ -117,6 +119,7 @@ public class CardViewer extends JButton
 					System.out.println(Effect.getTarget());
 					ClientSocket.sendMassage(Effect);
 					OnTarget = false;
+					boderchange = true;
 				}
 			}
 			
@@ -175,6 +178,7 @@ public class CardViewer extends JButton
 		{
 			this.card = updatecard;
 			update = true;
+			this.attckcount = 0;
 		}
 	}
 	
@@ -335,6 +339,14 @@ public class CardViewer extends JButton
 				this.setBorder(BorderFactory.createBevelBorder(0,Color.yellow,Color.black));
 			else
 				this.setBorder(BorderFactory.createBevelBorder(0, Color.GREEN, Color.BLACK));
+		}
+		else
+		{
+			this.setBorder(BorderFactory.createBevelBorder(0));
+		}
+		if(this.Location == CardForm.Field && this.OnTarget)
+		{
+			this.setBorder(BorderFactory.createBevelBorder(0,Color.GREEN,Color.GREEN));
 		}
 		else
 		{

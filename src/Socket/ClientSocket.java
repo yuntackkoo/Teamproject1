@@ -7,6 +7,8 @@ import java.net.Socket;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+import javax.swing.JOptionPane;
+
 import main.GameStart;
 
 public class ClientSocket extends Thread
@@ -110,6 +112,7 @@ public class ClientSocket extends Thread
 					case ReplyMassage.TurnStart:
 					{
 						game.getPlayer().setTurn(true);
+						JOptionPane.showMessageDialog(null, "턴이 시작 됐습니다.");
 						Rq.add(Rp.getUpdate());
 						break;
 					}

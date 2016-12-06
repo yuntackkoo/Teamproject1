@@ -46,6 +46,7 @@ public class Deck extends JPanel implements CardTrans
 			}
 			
 		});
+		
 	}
 	@Override
 	protected void paintComponent(Graphics g)

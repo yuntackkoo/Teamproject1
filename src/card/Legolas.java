@@ -62,6 +62,7 @@ public class Legolas extends Pawn
 		tmp.setCardNumber(this.getCardNumber());
 		tmp.setCost(this.getCost());
 		tmp.setLoc(this.getLoc());
+		tmp.setCurrentCost(this.getCurrentCost());
 		tmp.setPesnolnumber(this.getPesnolnumber());
 		Pawn tmp2 = (Pawn)tmp;
 		tmp2.setCurrentatt(this.getCurrentatt());

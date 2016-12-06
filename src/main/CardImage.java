@@ -76,7 +76,7 @@ public class CardImage extends JPanel
 					{
 						JOptionPane.showMessageDialog(null, Integer.toString(MaxDeck) + "장이하만 가능합니다");
 					}
-				} 
+				}
 				else
 				{
 					JOptionPane.showMessageDialog(null, "카드가 없습니다.");
