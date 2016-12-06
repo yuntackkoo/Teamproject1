@@ -31,6 +31,7 @@ public class LoadData
 	private List<BufferedImage> whetheimage = new ArrayList<>();
 	private BufferedImage BackTitle;
 	private BufferedImage BackIngame;
+	private BufferedImage BackStart;
 
 	private LoadData()//생성자가 private 이 객체는 외부에서 생성할 수 없음
 	{
@@ -66,6 +67,8 @@ public class LoadData
 			TemMasicImage = ImageIO.read(new File("TemMasic.png"));
 			BackTitle = ImageIO.read(new File("Background1.png"));
 			BackIngame = ImageIO.read(new File("Background0.png"));
+			
+			BackStart = ImageIO.read(new File("BackStart.png"));
 			
 			for(int i=0;i<wheth.listFiles().length;i++)
 			{
@@ -165,6 +168,13 @@ public class LoadData
 	{
 		return BackIngame;
 	}
+
+	public BufferedImage getBackStart()
+	{
+		return BackStart;
+	}
+	
+	
 	
 }
 

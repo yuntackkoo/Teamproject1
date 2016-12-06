@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -288,6 +289,13 @@ public class DeckEditPage extends JPanel
 			}
 		});
 		
+		GoMain gomain = new GoMain("¸ÞÀÎ");
+		add(gomain, "cell 9 9 2 1,grow");
+			
+		
+		
+
+		
 	}
 
 	public void UpdateCardList()
@@ -304,5 +312,25 @@ public class DeckEditPage extends JPanel
 	public void setCardValueSum()
 	{
 		CardValueSum++;
+	}
+	
+	class GoMain extends JButton
+	{
+		public GoMain(String s)
+		{
+			super(s);
+			this.addMouseListener(new MouseAdapter()
+			{
+
+				@Override
+				public void mouseClicked(MouseEvent e)
+				{
+					getParent().getParent().dispatchEvent(e);
+					System.out.println("µ¦¿¡µ÷ ÀÌº¥Æ®");
+					System.out.println(getParent());
+				}
+				
+			});
+		}
 	}
 }
