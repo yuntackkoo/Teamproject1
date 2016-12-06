@@ -61,6 +61,7 @@ public class DrawTargetPanel extends JPanel
 			@Override
 			public void mousePressed(MouseEvent e)
 			{
+				System.out.println(e.getSource());
 				if(e.getClickCount() >= 3)
 				{
 					target = true;

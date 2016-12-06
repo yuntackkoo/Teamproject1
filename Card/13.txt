@@ -1,1 +1,1 @@
-test2#Pawn#Demon#10#20#5
+Meriadoc#Pawn#Hobbit#2#3#2#"I just want to help my friends."

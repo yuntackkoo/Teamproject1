@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.util.Map;
 
@@ -38,11 +39,14 @@ public class CardImage extends JPanel
 	{
 		this.CardNumber = CardNumber;
 		this.CurPage = this.CardNumber;
-		this.addMouseListener(new MouseAdapter()
+		this.addMouseListener(new MouseListener()
 		{
-
+			
 			@Override
-			public void mouseClicked(MouseEvent e)
+			public void mouseReleased(MouseEvent e)
+			{}
+			@Override
+			public void mousePressed(MouseEvent e)
 			{
 				if (isExit)
 				{
@@ -79,6 +83,18 @@ public class CardImage extends JPanel
 				}
 				me.UpdateCardList();
 			}
+			
+			@Override
+			public void mouseExited(MouseEvent e)
+			{}
+			
+			@Override
+			public void mouseEntered(MouseEvent e)
+			{}
+			
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{}
 		});
 		
 	}
@@ -110,9 +126,10 @@ public class CardImage extends JPanel
 		BufferedImage img = new BufferedImage(300,300,data.getImage(card.getCardNumber()).getType()); 
 		Graphics2D g2 = img.createGraphics();
 		g2.drawImage(data.getImage(card.getCardNumber()), 0, 0, 300, 300, null);
-		g2.drawArc(0, 0, 50, 50, 0, 360);
-		g2.drawArc(0, 250, 50, 50, 0, 360);
-		g2.drawArc(250, 250, 50, 50, 0, 360);
+		g2.drawImage(data.getTemPawnImage(), 0, 0,300,300,null);
+//		g2.drawArc(0, 0, 50, 50, 0, 360);
+//		g2.drawArc(0, 250, 50, 50, 0, 360);
+//		g2.drawArc(250, 250, 50, 50, 0, 360);
 		g2.setFont(new Font("πŸ≈¡",Font.PLAIN,30));
 		if(card.getCost() < card.getCurrentCost())
 		{
@@ -122,7 +139,7 @@ public class CardImage extends JPanel
 		{
 			g2.setColor(Color.white);
 		}
-		g2.drawString(Integer.toString(card.getCost()), 20, 30);
+		g2.drawString(Integer.toString(card.getCost()), 24, 30);
 		
 		if(card.getNativeatt() > card.getCurrentatt())
 		{
@@ -132,7 +149,7 @@ public class CardImage extends JPanel
 		{
 			g2.setColor(Color.white);
 		}
-		g2.drawString(Integer.toString(cardtmp.getCurrentatt()), 17, 280);
+		g2.drawString(Integer.toString(cardtmp.getCurrentatt()), 10, 275);
 		
 		if(card.getNativelife() > card.getCurrentlife())
 		{
@@ -142,7 +159,7 @@ public class CardImage extends JPanel
 		{
 			g2.setColor(Color.white);
 		}
-		g2.drawString(Integer.toString(cardtmp.getCurrentlife()), 270, 280);
+		g2.drawString(Integer.toString(cardtmp.getCurrentlife()), 250, 275);
 		g2.dispose();
 		return img;
 	}
@@ -154,9 +171,10 @@ public class CardImage extends JPanel
 		BufferedImage img = new BufferedImage(300,300,data.getImage(card.getCardNumber()).getType()); 
 		Graphics2D g2 = img.createGraphics();
 		g2.drawImage(data.getImage(card.getCardNumber()), 0, 0, 300, 300, null);
-		g2.drawArc(0, 0, 50, 50, 0, 360);
-		g2.drawArc(0, 250, 50, 50, 0, 360);
-		g2.drawArc(250, 250, 50, 50, 0, 360);
+		g2.drawImage(data.getTemMasicImage(), 0, 0,300,300,null);
+//		g2.drawArc(0, 0, 50, 50, 0, 360);
+//		g2.drawArc(0, 250, 50, 50, 0, 360);
+//		g2.drawArc(250, 250, 50, 50, 0, 360);
 		g2.setFont(new Font("πŸ≈¡",Font.PLAIN,30));
 		if(card.getCost() < card.getCurrentCost())
 		{

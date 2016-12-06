@@ -1,1 +1,1 @@
-test1#Pawn#Demon#10#20#5#블라블라블라블라
+Frodo#Pawn#Hobbit#2#3#2#"I'll take the ring to Mordor."

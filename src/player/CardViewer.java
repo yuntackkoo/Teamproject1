@@ -33,7 +33,7 @@ public class CardViewer extends JButton
 	BufferedImage img;
 	private static boolean OnTarget = false;
 	private static Massage Effect;
-	
+	private boolean boderchange;
 	
 	
 	public CardViewer(int loc)
@@ -83,7 +83,7 @@ public class CardViewer extends JButton
 				getParent().getParent().getParent().getParent().dispatchEvent(e);
 				if(loc == CardForm.Hand)
 				{
-					if(e.getClickCount() == 2)
+					if(e.getClickCount() == 2 && useable)
 					{
 						if(card.CardUse(handle))
 						{
@@ -260,6 +260,7 @@ public class CardViewer extends JButton
 				break;
 			}
 		}
+		this.boderChage(this.boderchange);
 	}
 	
 	public void getHandle()
@@ -301,10 +302,12 @@ public class CardViewer extends JButton
 
 	public void setUseable(boolean useable)
 	{
-		this.useable = useable;
-		if(this.useable)
+		if(this.useable == useable)
+		{}
+		else
 		{
-			this.setBorder(BorderFactory.createBevelBorder(0, Color.GREEN, Color.BLACK));
+			this.useable = useable;
+			this.boderchange = true;
 		}
 	}
 
@@ -315,10 +318,28 @@ public class CardViewer extends JButton
 
 	public void setSpConditon(boolean spConditon)
 	{
-		this.SpConditon = spConditon;
-		if(this.SpConditon)
-			this.setBorder(BorderFactory.createBevelBorder(0,Color.yellow,Color.black));
+		if(this.SpConditon == spConditon)
+		{}
+		else
+		{
+			this.SpConditon = spConditon;
+			this.boderchange = true;
+		}
 	}
 	
-	
+	public void boderChage(boolean boderchage)
+	{
+		if(this.useable)
+		{
+			if(this.SpConditon)
+				this.setBorder(BorderFactory.createBevelBorder(0,Color.yellow,Color.black));
+			else
+				this.setBorder(BorderFactory.createBevelBorder(0, Color.GREEN, Color.BLACK));
+		}
+		else
+		{
+			this.setBorder(BorderFactory.createBevelBorder(0));
+		}
+		this.boderchange = false;
+	}
 }

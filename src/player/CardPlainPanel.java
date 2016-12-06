@@ -1,11 +1,12 @@
 package player;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 
-import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 import card.Magic;
 import card.Pawn;
@@ -18,9 +19,7 @@ public class CardPlainPanel extends JPanel
 	private JLabel Attack;
 	private JLabel Number;
 	private JLabel Life;
-	private JLabel Plain;
-	private Icon imgDraw;
-	private JLabel imgLabel;
+	private JTextArea Plain;
 	private LoadData data = LoadData.getInstance();
 	private Panel panel;
 
@@ -46,8 +45,12 @@ public class CardPlainPanel extends JPanel
 		Life = new JLabel("New label");
 		add(Life, "cell 0 6 3 1");
 		
-		Plain = new JLabel("New label");
+		Plain = new JTextArea("New label");
 		add(Plain, "cell 0 7 3 1");
+		Plain.setBackground(new Color(255,0,0,0));
+		Plain.setFocusable(false);
+		Plain.setLineWrap(true);
+		
 	}
 	
 	public void setCard(Magic Card)

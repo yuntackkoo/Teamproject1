@@ -27,7 +27,7 @@ public class Pawn extends CardForm implements Comparable
 	{
 		Massage tmp = Massage.getMassage(Massage.Summon);
 		tmp.setHandle(handle);
-		tmp.setCost(super.getCurrentCost());
+		tmp.setCost(this.getCurrentCost());
 		ClientSocket.sendMassage(tmp);
 		return false;
 	}
@@ -35,9 +35,10 @@ public class Pawn extends CardForm implements Comparable
 	public CardForm copy()
 	{
 		CardForm tmp = new Pawn();
-		tmp.setCardNumber(super.getCardNumber());
-		tmp.setCost(super.getCost());
-		tmp.setLoc(super.getLoc());
+		tmp.setCardNumber(this.getCardNumber());
+		tmp.setCost(this.getCost());
+		tmp.setCurrentCost(this.getCurrentCost());
+		tmp.setLoc(this.getLoc());
 		Pawn tmp2 = (Pawn)tmp;
 		tmp2.currentatt = this.currentatt;
 		tmp2.currentlife = this.currentlife;
@@ -53,6 +54,7 @@ public class Pawn extends CardForm implements Comparable
 		Pawn card = (Pawn) scard;
 		this.setCardNumber(card.getCardNumber());
 		this.setCost(card.getCost());
+		this.setCurrentCost(card.getCurrentCost());
 		this.setLoc(card.getLoc());
 		this.currentatt = card.currentatt;
 		this.currentlife = card.currentlife;
@@ -71,8 +73,8 @@ public class Pawn extends CardForm implements Comparable
 	public Pawn(String race, int att,int life,int cost,int cardnumber)
 	{
 		this.Race = race;this.nativeatt = att;this.nativelife = life;
-		this.currentatt=att;this.currentlife=life;super.setCost(cost);super.setCurrentCost(cost);
-		super.setCardNumber(cardnumber);
+		this.currentatt=att;this.currentlife=life;this.setCost(cost);this.setCurrentCost(cost);
+		this.setCardNumber(cardnumber);
 	}
 	
 
@@ -80,7 +82,7 @@ public class Pawn extends CardForm implements Comparable
 	public int compareTo(Object o)
 	{
 		Pawn comp = (Pawn) o;
-		if(super.getCurrentCost() == comp.getCurrentCost() && this.getCurrentatt() == comp.getCurrentatt() && this.getCurrentlife() == comp.getCurrentlife())
+		if(this.getCurrentCost() == comp.getCurrentCost() && this.getCurrentatt() == comp.getCurrentatt() && this.getCurrentlife() == comp.getCurrentlife())
 			return 0;
 		else
 			return -1;
@@ -137,7 +139,7 @@ public class Pawn extends CardForm implements Comparable
 	@Override
 	public String toString()
 	{
-		return Integer.toString(super.getCardNumber());
+		return Integer.toString(this.getCardNumber());
 	}
 	
 	public CardForm checkSpecialCard(CardForm card,String CardName)

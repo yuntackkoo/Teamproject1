@@ -1,1 +1,1 @@
-test1#Pawn#Demon#10#20#5
+Gollum#Pawn#Hobbit#1#2#1#"My Precious!"

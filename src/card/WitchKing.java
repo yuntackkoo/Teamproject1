@@ -60,6 +60,7 @@ public class WitchKing extends Pawn
 		CardForm tmp = new WitchKing();
 		tmp.setCardNumber(this.getCardNumber());
 		tmp.setCost(this.getCost());
+		tmp.setCurrentCost(this.getCurrentCost());
 		tmp.setLoc(this.getLoc());
 		tmp.setPesnolnumber(this.getPesnolnumber());
 		Pawn tmp2 = (Pawn)tmp;

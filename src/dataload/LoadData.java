@@ -25,6 +25,9 @@ public class LoadData
 	private File getMax = new File("Card");//카드 폴더를 파일 형태로 불러옴
 	private BufferedImage BackImage;
 	private BufferedImage DeckImage;
+	private BufferedImage TemPawnImage;
+	private BufferedImage TemMasicImage;
+
 	private LoadData()//생성자가 private 이 객체는 외부에서 생성할 수 없음
 	{
 		try
@@ -52,9 +55,12 @@ public class LoadData
 				{
 					CardToolTip[i] = reader.next();
 				}
+				
 			}
 			BackImage = ImageIO.read(new File("TheyHand.png"));
 			DeckImage = ImageIO.read(new File("DeckImage.jpg"));
+			TemPawnImage = ImageIO.read(new File("TemPawn.png"));
+			TemMasicImage = ImageIO.read(new File("TemMasic.png"));
 		} catch (Exception e)
 		{
 			e.printStackTrace();
@@ -124,7 +130,15 @@ public class LoadData
 	{
 		return DeckImage;
 	}
+
+	public BufferedImage getTemPawnImage()
+	{
+		return TemPawnImage;
+	}
 	
-	
+	public BufferedImage getTemMasicImage()
+	{
+		return TemMasicImage;
+	}
 }
 

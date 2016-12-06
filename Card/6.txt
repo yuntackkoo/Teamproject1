@@ -1,1 +1,1 @@
-test6#Pawn#Demon#10#20#5#블라블라블라블라
+Aragorn#Pawn#Human#3#4#4#"맹세를 성실히 이행했습니다. 부디 평온하길"

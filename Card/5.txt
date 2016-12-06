@@ -1,1 +1,1 @@
-test5#Pawn#Demon#10#20#5#블라블라블라블라
+Legolas#Pawn#Elf#4#3#4#"They're taking the Hobbits to Isengard"

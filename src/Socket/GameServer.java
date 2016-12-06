@@ -202,10 +202,15 @@ public class GameServer extends Thread
 							Collections.shuffle(theyp.getDecklist().getDeck());
 							theyp.getHandlist().setChange(true);
 							theyp.getDecklist().setChange(true);
+							for(int i=0;i<40;i++)
+							{
+								System.out.print(theyp.getDecklist().getDeck().get(i).getCurrentCost() + " ");
+							}
 							for(int i=0;i<5;i++)
 							{
 								theyp.getHandlist().addCard(theyp.getDecklist().disCard(0));
 							}
+							
 							if(hostp.getHandlist().getHand() != null)
 							{
 								hostrm = ReplyMassage.getRMassage(true, hostp, theyp);
@@ -270,6 +275,7 @@ public class GameServer extends Thread
 						}
 						case Massage.CardUse:
 						{
+							theyp.setMana(theyp.getMana() - theyp.getHandlist().getHand().get(theym.getHandle()).getCurrentCost());
 							theyp.getGravelist().addCard(theyp.getHandlist().disCard(theym.getHandle()));
 							theyp.getGravelist().setChange(true);
 							theyp.getHandlist().setChange(true);
@@ -427,6 +433,7 @@ public class GameServer extends Thread
 					}
 					case Massage.CardUse:
 					{
+						hostp.setMana(hostp.getMana() - hostp.getHandlist().getHand().get(hostm.getHandle()).getCurrentCost());
 						hostp.getGravelist().addCard(hostp.getHandlist().disCard(hostm.getHandle()));
 						hostp.getGravelist().setChange(true);
 						hostp.getHandlist().setChange(true);

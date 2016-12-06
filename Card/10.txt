@@ -1,1 +1,1 @@
-test2#Pawn#Demon#10#20#5
+Boromir#Pawn#Human#3#3#3#"My Brother, My Captain, My King"
