@@ -2,9 +2,7 @@ package Socket;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import card.CardForm;
 import card.Pawn;

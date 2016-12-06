@@ -1,15 +1,9 @@
 package card;
 
-import java.awt.Graphics;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
 import Socket.ClientSocket;
 import Socket.Massage;
 import dataload.LoadData;
 import player.ClientPlayer;
-import player.Field;
-import player.Hand;
 import player.ServerPlayer;
 
 public class Pawn extends CardForm implements Comparable

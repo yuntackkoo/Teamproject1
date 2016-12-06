@@ -21,9 +21,7 @@ import javax.swing.JTextField;
 import Socket.ClientSocket;
 import Socket.GameServer;
 import Socket.Massage;
-import player.DrawTargetPanel;
 import player.Player;
-import player.They;
 
 public class GameStart extends JPanel
 {

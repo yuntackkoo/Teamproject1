@@ -1,8 +1,5 @@
 package player;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import Socket.Massage;
 import Socket.ReplyMassage;
 import card.CardForm;

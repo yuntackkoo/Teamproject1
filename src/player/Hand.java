@@ -6,7 +6,6 @@ import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import card.CardForm;

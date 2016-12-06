@@ -64,7 +64,6 @@ public class DrawTargetPanel extends JPanel
 				if(e.getClickCount() >= 3)
 				{
 					target = true;
-					System.out.println(target);
 				}
 				else
 				{

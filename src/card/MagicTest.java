@@ -10,17 +10,19 @@ public class MagicTest extends Magic
 	{
 		if(target >= 5)
 		{
-			target -=5;
+			target = target - 5;
 			theyp.getFieldlist().getFiled().get(target).setCurrentlife(theyp.getFieldlist().getFiled().get(target).getCurrentlife()-4);
+			System.out.println(target);
 			System.out.println("??");
-			theyp.getFieldlist().setChange(true);
 		}
 		else
 		{
 			hostp.getFieldlist().getFiled().get(target).setCurrentlife(hostp.getFieldlist().getFiled().get(target).getCurrentlife()-4);
+			System.out.println(target);
 			System.out.println("?");
-			hostp.getFieldlist().setChange(true);
 		}
+		theyp.getFieldlist().setChange(true);
+		hostp.getFieldlist().setChange(true);
 	}
 
 	@Override
@@ -30,6 +32,7 @@ public class MagicTest extends Magic
 		tmp.setCost(this.getCost());
 		tmp.setCardNumber(this.getCardNumber());
 		tmp.setCurrentCost(this.getCurrentCost());
+		tmp.setPesnolnumber(this.getPesnolnumber());
 		return tmp;
 	}
 }

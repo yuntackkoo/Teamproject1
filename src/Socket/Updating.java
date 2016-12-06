@@ -1,7 +1,6 @@
 package Socket;
 
 import java.util.List;
-import java.util.Map;
 
 import card.CardForm;
 import card.Pawn;

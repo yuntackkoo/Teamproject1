@@ -1,10 +1,8 @@
 package Socket;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-import card.CardForm;
 import player.Player;
 
 public abstract class Massage implements Serializable,Chating,Joining,Selecting,Attacking,UseEffecting

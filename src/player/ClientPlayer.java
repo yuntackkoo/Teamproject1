@@ -1,13 +1,9 @@
 package player;
 
-import java.lang.reflect.Field;
+import java.awt.Color;
 
 import card.CardForm;
 import net.miginfocom.swing.MigLayout;
-import java.awt.Color;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class ClientPlayer extends PlayerBase
 {

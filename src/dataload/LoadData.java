@@ -52,7 +52,6 @@ public class LoadData
 				{
 					CardToolTip[i] = reader.next();
 				}
-				
 			}
 			BackImage = ImageIO.read(new File("TheyHand.png"));
 			DeckImage = ImageIO.read(new File("DeckImage.jpg"));

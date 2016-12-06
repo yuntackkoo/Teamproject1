@@ -6,8 +6,6 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -116,8 +114,6 @@ public class GameServer extends Thread
 		theyp.setMana(5);
 		hostp.setLife(50);
 		theyp.setLife(50);
-		hostp.getHandlist().addCard(data.getCard(16));
-		theyp.getHandlist().addCard(data.getCard(16));
 		
 		for(;;)
 		{
@@ -255,7 +251,15 @@ public class GameServer extends Thread
 							int handle;
 							handle = this.serch(theym.getCardNumber(),false);
 							
-							theyp.getFieldlist().getFiled().get(handle).effect(theyp, hostp,theym.getTarget(),theym.getSpCondition());
+							if(handle >=0)
+							{
+								theyp.getFieldlist().getFiled().get(handle).effect(theyp, hostp,theym.getTarget(),theym.getSpCondition());
+								System.out.println("카드 효과 발동");
+							}
+							else
+							{
+								theyp.getGravelist().getGrave().get((theyp.getGravelist().getGrave().size()-1)).effect(theyp, hostp,theym.getTarget(),theym.getSpCondition());
+							}
 							
 							ReplyMassage theyrm = ReplyMassage.getRMassage(false, hostp, theyp);
 							ReplyMassage hostrm = ReplyMassage.getRMassage(true, hostp,theyp);
@@ -403,9 +407,11 @@ public class GameServer extends Thread
 					{
 						int handle;
 						handle = this.serch(hostm.getCardNumber(),true);
+						System.out.println(hostm.getCardNumber()+"카드 ps번호");
 						if(handle >=0)
 						{
 							hostp.getFieldlist().getFiled().get(handle).effect(hostp, theyp,hostm.getTarget(),hostm.getSpCondition());
+							System.out.println("카드 효과 발동");
 						}
 						else
 						{
@@ -530,6 +536,7 @@ public class GameServer extends Thread
 			{
 				if(theyp.getFieldlist().getFiled().get(i).getPesnolnumber() == pesnolnumber)
 				{
+					System.out.println(i);
 					return i;
 				}
 			}

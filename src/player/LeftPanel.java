@@ -1,8 +1,9 @@
 package player;
 
-import javax.swing.JPanel;
-import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import net.miginfocom.swing.MigLayout;
 
 public class LeftPanel extends JPanel
 {

@@ -3,10 +3,15 @@ package player;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.net.URL;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class EffectPanel extends JPanel
@@ -14,9 +19,21 @@ public class EffectPanel extends JPanel
 	int x;
 	int y;
 	private Point StarPoint;
+
+    ImageIcon icon ;
+    JLabel label ;
+    Toolkit t = Toolkit.getDefaultToolkit();
+    
 	public EffectPanel()
 	{
 		this.setSize(880,720);
+	    icon = new ImageIcon(t.getImage("gif.gif"));
+	    label = new JLabel(icon);
+		this.add(label);
+		label.setIcon(null);
+		icon.getImage().flush();
+		label.setIcon(icon);
+		
 		this.addMouseMotionListener(new MouseMotionListener()
 		{
 			
@@ -30,6 +47,7 @@ public class EffectPanel extends JPanel
 			{
 				x = e.getX();
 				y = e.getY();
+				label.setBounds(e.getX(), e.getY(), 150, 150);
 			}
 		});
 		this.addMouseListener(new MouseListener()

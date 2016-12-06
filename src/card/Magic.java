@@ -4,8 +4,6 @@ import Socket.ClientSocket;
 import Socket.Massage;
 import dataload.LoadData;
 import player.ClientPlayer;
-import player.Field;
-import player.Hand;
 import player.ServerPlayer;
 
 public class Magic extends CardForm implements Comparable

@@ -18,7 +18,6 @@ public class WitchKing extends Pawn
 		tmp.setHandle(handle);
 		tmp.setCost(this.getCurrentCost());
 		ClientSocket.sendMassage(tmp);
-		System.out.println("À§Ä¡Å·");
 		return true;
 	}
 
@@ -62,6 +61,7 @@ public class WitchKing extends Pawn
 		tmp.setCardNumber(this.getCardNumber());
 		tmp.setCost(this.getCost());
 		tmp.setLoc(this.getLoc());
+		tmp.setPesnolnumber(this.getPesnolnumber());
 		Pawn tmp2 = (Pawn)tmp;
 		tmp2.setCurrentatt(this.getCurrentatt());
 		tmp2.setCurrentlife(this.getCurrentlife());

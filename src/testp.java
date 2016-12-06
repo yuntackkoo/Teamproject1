@@ -1,9 +1,10 @@
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
+
 import net.miginfocom.swing.MigLayout;
-import player.They;
 import player.ClientPlayer;
+import player.They;
 
 public class testp extends JPanel
 {

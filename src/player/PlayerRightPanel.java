@@ -1,19 +1,18 @@
 package player;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import net.miginfocom.swing.MigLayout;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import Socket.ClientSocket;
 import Socket.Massage;
-
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JButton;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
+import net.miginfocom.swing.MigLayout;
 
 public class PlayerRightPanel extends JPanel
 {
