@@ -113,12 +113,17 @@ public class ClientSocket extends Thread
 					{
 						game.getPlayer().setTurn(true);
 						JOptionPane.showMessageDialog(null, "턴이 시작 됐습니다.");
+						game.getPlayer().getMe().getHandlist().setturn(true);
+						game.getPlayer().getMe().getFieldlist().setturn(true);
 						Rq.add(Rp.getUpdate());
 						break;
 					}
 					case ReplyMassage.TurnEnd:
 					{
 						game.getPlayer().setTurn(false);
+						game.getPlayer().getMe().getFieldlist().setatt();
+						game.getPlayer().getMe().getHandlist().setturn(false);
+						game.getPlayer().getMe().getFieldlist().setturn(false);
 						Rq.add(Rp.getUpdate());
 						break;
 					}

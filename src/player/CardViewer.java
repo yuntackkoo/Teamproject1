@@ -35,6 +35,7 @@ public class CardViewer extends JButton
 	private static Massage Effect;
 	private boolean boderchange;
 	private int attckcount;
+	private boolean turn;
 	
 	
 	public CardViewer(int loc)
@@ -74,6 +75,7 @@ public class CardViewer extends JButton
 						m.setMyFieldCard(handle);
 						m.setAttackTarget(target);
 						ClientSocket.sendMassage(m);
+						attckcount--;
 					}
 				}
 				getParent().getParent().getParent().getParent().dispatchEvent(e);
@@ -81,45 +83,48 @@ public class CardViewer extends JButton
 			@Override
 			public void mousePressed(MouseEvent e)
 			{
-				getParent().getParent().getParent().getParent().dispatchEvent(e);
-				if(loc == CardForm.Hand)
+				if(turn)
 				{
-					if(e.getClickCount() == 2 && useable)
+					getParent().getParent().getParent().getParent().dispatchEvent(e);
+					if(loc == CardForm.Hand)
 					{
-						if(card.CardUse(handle))
+						if(e.getClickCount() == 2 && useable)
 						{
-							Massage tmp = Massage.getMassage(Massage.UseEffect);
-							tmp.setCardNumber(card.getPesnolnumber());
-							tmp.setSpCondition(SpConditon);
-							if(card.isTargeting())
+							if(card.CardUse(handle))
 							{
-								Effect = tmp;
-								OnTarget = true;
-								boderchange = true;
-							}
-							else
-							{
-								ClientSocket.sendMassage(tmp);
+								Massage tmp = Massage.getMassage(Massage.UseEffect);
+								tmp.setCardNumber(card.getPesnolnumber());
+								tmp.setSpCondition(SpConditon);
+								if(card.isTargeting())
+								{
+									Effect = tmp;
+									OnTarget = true;
+									boderchange = true;
+								}
+								else
+								{
+									ClientSocket.sendMassage(tmp);
+								}
 							}
 						}
 					}
-				}
-				if(loc == CardForm.Grave)
-					getParent().dispatchEvent(e);
-				if(loc == CardForm.Field && OnTarget)
-				{
-					if(they)
+					if(loc == CardForm.Grave)
+						getParent().dispatchEvent(e);
+					if(loc == CardForm.Field && OnTarget)
 					{
-						Effect.setTarget(handle+5);
+						if(they)
+						{
+							Effect.setTarget(handle+5);
+						}
+						else
+						{
+							Effect.setTarget(handle);
+						}
+						System.out.println(Effect.getTarget());
+						ClientSocket.sendMassage(Effect);
+						OnTarget = false;
+						boderchange = true;
 					}
-					else
-					{
-						Effect.setTarget(handle);
-					}
-					System.out.println(Effect.getTarget());
-					ClientSocket.sendMassage(Effect);
-					OnTarget = false;
-					boderchange = true;
 				}
 			}
 			
@@ -344,14 +349,34 @@ public class CardViewer extends JButton
 		{
 			this.setBorder(BorderFactory.createBevelBorder(0));
 		}
-		if(this.Location == CardForm.Field && this.OnTarget)
+		if(this.Location == CardForm.Field)
 		{
-			this.setBorder(BorderFactory.createBevelBorder(0,Color.GREEN,Color.GREEN));
+			if(this.OnTarget)
+			{
+				this.setBorder(BorderFactory.createBevelBorder(0,Color.GREEN,Color.GREEN));
+			}
+			else if(this.attckcount > 0)
+			{
+				this.setBorder(BorderFactory.createBevelBorder(0,Color.RED,Color.RED));
+			}
 		}
 		else
 		{
 			this.setBorder(BorderFactory.createBevelBorder(0));
 		}
 		this.boderchange = false;
+	}
+
+
+
+	public void setAttckcount(int attckcount)
+	{
+		this.attckcount = attckcount;
+		this.boderchange = true;
+	}
+
+	public void setTurn(boolean turn)
+	{
+		this.turn = turn;
 	}
 }

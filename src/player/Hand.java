@@ -149,4 +149,12 @@ public class Hand extends JPanel implements CardTrans
 		}
 		return null;
 	}
+	
+	public void setturn(boolean turn)
+	{
+		for(int i=0;i<Component.length;i++)
+		{
+			this.Component[i].setTurn(turn);
+		}
+	}
 }

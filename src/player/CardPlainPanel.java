@@ -28,7 +28,7 @@ public class CardPlainPanel extends JPanel
 	 */
 	public CardPlainPanel()
 	{
-		setLayout(new MigLayout("", "[grow][grow][grow]", "[grow][grow][grow][40][40][40][40][grow]"));
+		setLayout(new MigLayout("", "[grow][grow][grow]", "[200][40][40][40][40][grow]"));
 		
 		panel = new Panel();
 		add(panel,"cell 0 0 3 3,grow");

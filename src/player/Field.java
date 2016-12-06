@@ -113,5 +113,21 @@ public class Field extends JPanel implements CardTrans
 		}
 		return null;
 	}
+	
+	public void setatt()
+	{
+		for(int i=0;i<this.Component.length;i++)
+		{
+			this.Component[i].setAttckcount(1);
+		}
+	}
+	
+	public void setturn(boolean turn)
+	{
+		for(int i=0;i<Component.length;i++)
+		{
+			this.Component[i].setTurn(turn);
+		}
+	}
 }
 
