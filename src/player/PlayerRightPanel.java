@@ -19,6 +19,7 @@ public class PlayerRightPanel extends JPanel
 	private JTextField input;
 	private JTextArea output;
 	private boolean turn = true;
+	private whetherPanel wpanel;
 
 	/**
 	 * Create the panel.
@@ -26,7 +27,12 @@ public class PlayerRightPanel extends JPanel
 	public PlayerRightPanel()
 	{
 		this.setSize(200, 720);
-		setLayout(new MigLayout("", "[grow][grow][grow][grow]", "[grow][grow][grow][20][]"));
+		setLayout(new MigLayout("", "[grow][grow][grow][grow]", "[grow][grow][grow][20]"));
+		
+		wpanel = new whetherPanel();
+		add(wpanel,"cell 0 0 4 1,grow");
+		wpanel.setWhether(0);
+		wpanel.setVisible(true);
 		
 		JButton btnNewButton = new JButton("\uD134 \uC885\uB8CC");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -74,5 +80,9 @@ public class PlayerRightPanel extends JPanel
 	{
 		this.turn = turn;
 	}
-	
+
+	public whetherPanel getWpanel()
+	{
+		return wpanel;
+	}
 }

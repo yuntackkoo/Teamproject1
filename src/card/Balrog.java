@@ -28,21 +28,35 @@ public class Balrog extends Pawn
 	{
 		if(spcon)
 		{
-			this.setCurrentatt(this.getCurrentatt() + 3);
-			this.setCurrentlife(this.getCurrentlife() + 4);
+			for(int i=0;i<hostp.getFieldlist().getFiled().size();i++)
+			{
+				hostp.getFieldlist().getFiled().get(i).setCurrentlife(hostp.getFieldlist().getFiled().get(i).getCurrentlife() - 2);
+			}
+			for(int i=0;i<theyp.getFieldlist().getFiled().size();i++)
+			{
+				theyp.getFieldlist().getFiled().get(i).setCurrentlife(theyp.getFieldlist().getFiled().get(i).getCurrentlife() - 2);
+			}
 		}
 		else
 		{
-			this.setCurrentlife(this.getCurrentlife() + 4);
+			for(int i=0;i<hostp.getFieldlist().getFiled().size();i++)
+			{
+				hostp.getFieldlist().getFiled().get(i).setCurrentlife(hostp.getFieldlist().getFiled().get(i).getCurrentlife() - 1);
+			}
+			for(int i=0;i<theyp.getFieldlist().getFiled().size();i++)
+			{
+				theyp.getFieldlist().getFiled().get(i).setCurrentlife(theyp.getFieldlist().getFiled().get(i).getCurrentlife() - 1);
+			}
 		}
 		hostp.getFieldlist().setChange(true);
+		theyp.getFieldlist().setChange(true);
 	}
 
 
 	@Override
 	public boolean spcondition(ClientPlayer p)
 	{
-		if(p.getFieldlist().getFiled().size()>=3) // 자기 핸드, 필드 , 상대 필드 까지 참고가능
+		if(p.getGravelist().getGrave().size()>=4) // 자기 핸드, 필드 , 상대 필드 까지 참고가능
 		{
 			super.setSpcon(true);
 			return true;

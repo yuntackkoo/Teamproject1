@@ -37,16 +37,6 @@ public class Deck extends JPanel implements CardTrans
 	{
 		this.setIgnoreRepaint(true);
 		
-		this.addMouseListener(new MouseAdapter()
-		{
-
-			@Override
-			public void mousePressed(MouseEvent e)
-			{
-			}
-			
-		});
-		
 	}
 	@Override
 	protected void paintComponent(Graphics g)

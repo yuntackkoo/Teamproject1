@@ -41,4 +41,10 @@ public interface Updating
 	public static int TheyLife = 1;
 	abstract public int getLife(int own);
 	abstract public void setLife(int own,int value);
+	
+	abstract public void setNextW(int turn);
+	abstract public int getNextW();
+	
+	abstract public void setCurrentW(int Whether);
+	abstract public int getCurrentW();
 }

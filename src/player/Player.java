@@ -34,6 +34,8 @@ public class Player extends JPanel
 		this.setVisible(true);
 		
 		add(leftPanel,"cell 0 0 1 2,grow");
+		leftPanel.setVisible(true);
+		RightPanel.setVisible(true);
 	}
 	
 	public ClientPlayer getMe()
@@ -60,6 +62,8 @@ public class Player extends JPanel
 	{
 		this.turn = turn;
 		this.RightPanel.setTurn(this.turn);
+		target.getMe().getHandlist().setturn(this.turn);
+		target.getMe().getFieldlist().setturn(this.turn);
 	}
 
 	public void surrender()

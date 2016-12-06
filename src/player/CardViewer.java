@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.border.Border;
 
 import Socket.ClientSocket;
 import Socket.Massage;
@@ -33,10 +34,13 @@ public class CardViewer extends JButton
 	BufferedImage img;
 	private static boolean OnTarget = false;
 	private static Massage Effect;
-	private boolean boderchange;
+	private boolean boderchange = true;
 	private int attckcount;
 	private boolean turn;
-	
+	private Border yellow = BorderFactory.createBevelBorder(0,Color.yellow,Color.yellow);
+	private Border black = BorderFactory.createBevelBorder(0);
+	private Border Green = BorderFactory.createBevelBorder(0,Color.GREEN,Color.GREEN);
+	private Border Red = BorderFactory.createBevelBorder(0,Color.RED,Color.RED);
 	
 	public CardViewer(int loc)
 	{
@@ -64,7 +68,14 @@ public class CardViewer extends JButton
 				}
 				else
 				{
-					target = -1;
+					if(e.getY()<= 110 && (e.getX()+getX())> 680)
+					{
+						target = 6;
+					}
+					else
+					{
+						target = -1;
+					}
 				}
 				if(!they && target > -1)
 				{
@@ -120,7 +131,6 @@ public class CardViewer extends JButton
 						{
 							Effect.setTarget(handle);
 						}
-						System.out.println(Effect.getTarget());
 						ClientSocket.sendMassage(Effect);
 						OnTarget = false;
 						boderchange = true;
@@ -338,31 +348,38 @@ public class CardViewer extends JButton
 	
 	public void boderChage(boolean boderchage)
 	{
-		if(this.useable)
+		if(this.Location == CardForm.Hand)
 		{
-			if(this.SpConditon)
-				this.setBorder(BorderFactory.createBevelBorder(0,Color.yellow,Color.black));
+			if(this.useable)
+			{
+				if(this.SpConditon)
+					this.setBorder(this.yellow);
+				else
+					this.setBorder(this.Green);
+			}
 			else
-				this.setBorder(BorderFactory.createBevelBorder(0, Color.GREEN, Color.BLACK));
+			{
+				this.setBorder(BorderFactory.createBevelBorder(0));
+			}
 		}
-		else
-		{
-			this.setBorder(BorderFactory.createBevelBorder(0));
-		}
-		if(this.Location == CardForm.Field)
+		else if(this.Location == CardForm.Field)
 		{
 			if(this.OnTarget)
 			{
-				this.setBorder(BorderFactory.createBevelBorder(0,Color.GREEN,Color.GREEN));
+				this.setBorder(this.Green);
 			}
 			else if(this.attckcount > 0)
 			{
-				this.setBorder(BorderFactory.createBevelBorder(0,Color.RED,Color.RED));
+				this.setBorder(this.Red);
+			}
+			else
+			{
+				this.setBorder(this.black);
 			}
 		}
 		else
 		{
-			this.setBorder(BorderFactory.createBevelBorder(0));
+			this.setBorder(this.black);
 		}
 		this.boderchange = false;
 	}

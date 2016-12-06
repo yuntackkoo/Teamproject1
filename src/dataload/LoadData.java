@@ -27,6 +27,10 @@ public class LoadData
 	private BufferedImage DeckImage;
 	private BufferedImage TemPawnImage;
 	private BufferedImage TemMasicImage;
+	private File wheth = new File("whether");
+	private List<BufferedImage> whetheimage = new ArrayList<>();
+	private BufferedImage BackTitle;
+	private BufferedImage BackIngame;
 
 	private LoadData()//생성자가 private 이 객체는 외부에서 생성할 수 없음
 	{
@@ -55,12 +59,18 @@ public class LoadData
 				{
 					CardToolTip[i] = reader.next();
 				}
-				
 			}
 			BackImage = ImageIO.read(new File("TheyHand.png"));
 			DeckImage = ImageIO.read(new File("DeckImage.jpg"));
 			TemPawnImage = ImageIO.read(new File("TemPawn.png"));
 			TemMasicImage = ImageIO.read(new File("TemMasic.png"));
+			BackTitle = ImageIO.read(new File("Background1.png"));
+			BackIngame = ImageIO.read(new File("Background0.png"));
+			
+			for(int i=0;i<wheth.listFiles().length;i++)
+			{
+				this.whetheimage.add(ImageIO.read(wheth.listFiles()[i]));
+			}
 		} catch (Exception e)
 		{
 			e.printStackTrace();
@@ -140,5 +150,21 @@ public class LoadData
 	{
 		return TemMasicImage;
 	}
+
+	public BufferedImage getWhetheimage(int i)
+	{
+		return this.whetheimage.get(i);
+	}
+
+	public BufferedImage getBackTitle()
+	{
+		return BackTitle;
+	}
+
+	public BufferedImage getBackIngame()
+	{
+		return BackIngame;
+	}
+	
 }
 

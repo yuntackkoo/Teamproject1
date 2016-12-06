@@ -120,6 +120,8 @@ public class GameStart extends JPanel
 					sc.close();
 			}
 			
+			player.setTurn(true);
+			
 			GameServer soc = new GameServer(Integer.parseInt(port.getText()));
 			soc.start();
 			ClientSocket csoc = new ClientSocket("127.0.0.1", Integer.parseInt(port.getText()), game);

@@ -16,6 +16,8 @@ public abstract class ReplyMassage implements Serializable,RChating,Updating,Tur
 	static public final int Summon = 4;
 	static public final int Attack = 5;
 	static public final int Update = 6;
+	static public final int Defeat = 7;
+	static public final int Victory = 8;
 	static public final int JOIN = 98;
 	static public final int TurnEnd = 99;
 	static public final int TurnStart = 100;
@@ -61,6 +63,14 @@ public abstract class ReplyMassage implements Serializable,RChating,Updating,Tur
 			case ReplyMassage.TurnStart:
 			{
 				return new RTurnStart();
+			}
+			case ReplyMassage.Defeat:
+			{
+				return new Defeat();
+			}
+			case ReplyMassage.Victory:
+			{
+				return new Victory();
 			}
 		}
 		return null;
@@ -181,6 +191,9 @@ public abstract class ReplyMassage implements Serializable,RChating,Updating,Tur
 		rm.setMana(Updating.TheyMana, theyp.getMana());
 		rm.setLife(Updating.MyLife, hostp.getLife());
 		rm.setLife(Updating.TheyLife, theyp.getLife());
+		rm.setCurrentW(GameServer.getCurrentWheather());
+		rm.setNextW(GameServer.getNextWheatherTurn());
+		
 		return rm;
 	}
 }
@@ -198,7 +211,6 @@ class ReplyMassageFactory extends ReplyMassage
 	@Override
 	public void setUpdate(ReplyMassage rm)
 	{}
-
 	@Override
 	public ReplyMassage getUpdate()
 	{return null;}
@@ -253,6 +265,18 @@ class ReplyMassageFactory extends ReplyMassage
 	@Override
 	public void setLife(int own, int value)
 	{}
+	@Override
+	public void setNextW(int turn)
+	{}
+	@Override
+	public int getNextW()
+	{return 0;}
+	@Override
+	public void setCurrentW(int Whether)
+	{}
+	@Override
+	public int getCurrentW()
+	{return 0;}
 	
 }
 
@@ -346,6 +370,8 @@ class Update extends ReplyMassageFactory
 	int TheyMana;
 	int MyLife;
 	int TheyLife;
+	int NextW;
+	int CurrentW;
 	
 	List<CardForm> MyHand = new ArrayList<>();
 	Integer theyHand;
@@ -487,6 +513,53 @@ class Update extends ReplyMassageFactory
 			this.MyLife = value;
 		else
 			this.TheyLife = value;
+	}
+
+	@Override
+	public void setNextW(int turn)
+	{
+		this.NextW = turn;
+	}
+
+	@Override
+	public int getNextW()
+	{
+		return this.NextW;
+	}
+
+	@Override
+	public void setCurrentW(int Whether)
+	{
+		this.CurrentW = Whether;
+	}
+
+	@Override
+	public int getCurrentW()
+	{
+		return this.CurrentW;
+	}
+}
+
+
+class Defeat extends ReplyMassageFactory
+{
+	private int Action = super.Defeat;
+
+	@Override
+	public int getAction()
+	{
+		return this.Action;
+	}
+}
+
+class Victory extends ReplyMassageFactory
+{
+	private int Action = super.Victory;
+
+	@Override
+	public int getAction()
+	{
+		return this.Action;
 	}
 	
 	

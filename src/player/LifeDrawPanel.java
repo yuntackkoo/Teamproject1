@@ -17,7 +17,7 @@ public class LifeDrawPanel extends JPanel
 		super.paintComponent(g);
 		try
 		{
-			plife = (double)(this.Life/MaxLife);
+			plife = ((double)this.Life/MaxLife);
 		}
 		catch(ArithmeticException e)
 		{
@@ -35,6 +35,7 @@ public class LifeDrawPanel extends JPanel
 	public void setLife(int life)
 	{
 		Life = life;
+		this.repaint();
 	}
 
 	public int getMaxLife()

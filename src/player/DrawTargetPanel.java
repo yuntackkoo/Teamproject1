@@ -49,6 +49,7 @@ public class DrawTargetPanel extends JPanel
 		jpl.moveToFront(panel);
 		panel.setVisible(false);
 		
+		
 		this.addMouseListener(new MouseListener()
 		{
 			
@@ -61,7 +62,6 @@ public class DrawTargetPanel extends JPanel
 			@Override
 			public void mousePressed(MouseEvent e)
 			{
-				System.out.println(e.getSource());
 				if(e.getClickCount() >= 3)
 				{
 					target = true;

@@ -1,12 +1,16 @@
 package main;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import dataload.LoadData;
 
 
 public class MainFrame extends JFrame
@@ -74,7 +78,17 @@ class MainMenu extends JPanel
 	private boolean Game = false;
 	int width = 400;
 	int height = 50;
-	int xlocation = (1280-width)/2;
+	int xlocation = 1280/2;
+	//ImageIcon title = new ImageIcon("Background1.png");
+	private LoadData data = LoadData.getInstance();
+	//ImageIcon StartPng = new ImageIcon("Button_0.png");
+	
+	@Override
+	protected void paintComponent(Graphics g)
+	{
+		super.paintComponent(g);
+		g.drawImage(data.getBackTitle(), 0, 0, this);
+	}
 	
 	public MainMenu(GameStart s,DeckEditPage edit)
 	{
@@ -83,11 +97,13 @@ class MainMenu extends JPanel
 		this.setPreferredSize(new Dimension(1280, 720));
 		this.setLayout(null);
 		this.add(start);
-		start.setBounds(xlocation, 100, width, height);
+		start.setBounds(xlocation - width - 50, 600, width, height);
 		start.addActionListener(new gStart());
 		this.add(deckedit);
-		deckedit.setBounds(xlocation, 200, width, height);
+		deckedit.setBounds(xlocation + 50, 600, width, height);
 		deckedit.addActionListener(new dEdit());
+		
+		
 	}
 	
 	
