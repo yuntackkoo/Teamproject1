@@ -186,6 +186,7 @@ public class GameServer extends Thread
 						{
 							theyp.getFieldlist().setChange(true);
 							hostp.getFieldlist().setChange(true);
+							theyp.getFieldlist().getFiled().get(theym.getMyFieldCard()).setAttcount(0);
 							if(theym.getAttackTarget() < 5)
 							{
 								theyp.getFieldlist().getFiled().get(theym.getMyFieldCard())
@@ -194,7 +195,7 @@ public class GameServer extends Thread
 							}
 							else
 							{
-								theyp.setLife(theyp.getLife() - theyp.getFieldlist().getFiled().get(theym.getMyFieldCard()).getCurrentatt());
+								hostp.setLife(hostp.getLife() - theyp.getFieldlist().getFiled().get(theym.getMyFieldCard()).getCurrentatt());
 							}
 							ReplyMassage hostrm = ReplyMassage.getRMassage(true, hostp, theyp);
 							ReplyMassage theyrm = ReplyMassage.getRMassage(false, hostp, theyp);
@@ -248,6 +249,7 @@ public class GameServer extends Thread
 							//Ä«µå µå·Î¿ì
 							CardForm drawcard = hostp.getDecklist().disCard(0);
 							hostp.getDecklist().setChange(true);
+							hostp.getFieldlist().setChange(true);
 							if(hostp.getHandlist().getHand().size() < 10)
 							{
 								hostp.getHandlist().addCard(drawcard);
@@ -262,6 +264,12 @@ public class GameServer extends Thread
 							//¸¶³ª È¹µæ
 							hostturn++;
 							hostp.setMana(hostp.getMana() + hostturn);
+							
+							for(int i=0;i<hostp.getFieldlist().getFiled().size();i++)
+							{
+								hostp.getFieldlist().getFiled().get(i).setAttcount(1);
+							}
+							
 							
 							theyrm.setUpdate(ReplyMassage.getRMassage(false, hostp, theyp));
 							hostrm.setUpdate(ReplyMassage.getRMassage(true, hostp, theyp));
@@ -366,6 +374,7 @@ public class GameServer extends Thread
 					{
 						theyp.getFieldlist().setChange(true);
 						hostp.getFieldlist().setChange(true);
+						hostp.getFieldlist().getFiled().get(hostm.getMyFieldCard()).setAttcount(0);
 						if(hostm.getAttackTarget() < 5)
 						{
 							hostp.getFieldlist().getFiled().get(hostm.getMyFieldCard())
@@ -373,7 +382,7 @@ public class GameServer extends Thread
 						}
 						else
 						{
-							hostp.setLife(hostp.getLife() - hostp.getFieldlist().getFiled().get(hostm.getMyFieldCard()).getCurrentatt());
+							theyp.setLife(theyp.getLife() - hostp.getFieldlist().getFiled().get(hostm.getMyFieldCard()).getCurrentatt());
 						}
 						this.checkLife();
 						ReplyMassage hostrm = ReplyMassage.getRMassage(true, hostp, theyp);
@@ -424,6 +433,7 @@ public class GameServer extends Thread
 						ReplyMassage theyrm = ReplyMassage.getRMassage(ReplyMassage.TurnStart);
 						CardForm drawcard = theyp.getDecklist().disCard(0);
 						theyp.getDecklist().setChange(true);
+						theyp.getFieldlist().setChange(true);
 						//Ä«µå µå·Î¿ì
 						if(theyp.getHandlist().getHand().size() < 10)
 						{
@@ -436,9 +446,14 @@ public class GameServer extends Thread
 							theyp.getGravelist().setChange(true);
 						}
 						
+						for(int i=0;i<theyp.getFieldlist().getFiled().size();i++)
+						{
+							theyp.getFieldlist().getFiled().get(i).setAttcount(1);
+						}
+						
 						//¸¶³ª È¹µæ
 						theyturn++;
-						theyp.setMana(hostp.getMana() + theyturn);
+						theyp.setMana(theyp.getMana() + theyturn);
 						
 						theyrm.setUpdate(ReplyMassage.getRMassage(false, hostp, theyp));
 						hostrm.setUpdate(ReplyMassage.getRMassage(true, hostp, theyp));

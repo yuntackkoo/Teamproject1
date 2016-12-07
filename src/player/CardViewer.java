@@ -86,7 +86,6 @@ public class CardViewer extends JButton
 						m.setMyFieldCard(handle);
 						m.setAttackTarget(target);
 						ClientSocket.sendMassage(m);
-						card.setAttcount(card.getAttcount() - 1);;
 						boderchange = true;
 					}
 				}
@@ -248,7 +247,6 @@ public class CardViewer extends JButton
 						{
 							if(card instanceof Magic)
 							{
-								System.out.println(card.getCardNumber());
 								img = CardImage.get((Magic)card);
 							}
 							else
