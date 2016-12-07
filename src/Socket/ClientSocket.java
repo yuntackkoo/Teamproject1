@@ -112,7 +112,14 @@ public class ClientSocket extends Thread
 						game.getPlayer().getRightPanel().getWpanel().setNextturn(Rp.getNextW());
 						game.getPlayer().getRightPanel().repaint();
 						game.getPlayer().getLeftPanel().reDraw();
-						break;
+						if(Rp.getField(Rp.MyField) != null)
+						{
+							for(int i=0;i<Rp.getField(Rp.MyField).size();i++)
+							{
+								System.out.print(Rp.getField(Rp.MyField).get(i).getAttcount() + " ");
+							}
+						}
+						break; 
 					}
 					case ReplyMassage.TurnStart:
 					{
@@ -126,7 +133,6 @@ public class ClientSocket extends Thread
 					case ReplyMassage.TurnEnd:
 					{
 						game.getPlayer().setTurn(false);
-						game.getPlayer().getMe().getFieldlist().setatt();
 						game.getPlayer().getMe().getHandlist().setturn(false);
 						game.getPlayer().getMe().getFieldlist().setturn(false);
 						Rq.add(Rp.getUpdate());

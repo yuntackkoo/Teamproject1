@@ -34,7 +34,7 @@ public class CardViewer extends JButton
 	BufferedImage img;
 	private static boolean OnTarget = false;
 	private static Massage Effect;
-	private boolean boderchange = true;
+	private boolean boderchange = false;
 	private int attckcount;
 	private boolean turn;
 	private Border yellow = BorderFactory.createBevelBorder(0,Color.yellow,Color.yellow);
@@ -79,14 +79,15 @@ public class CardViewer extends JButton
 				}
 				if(!they && target > -1)
 				{
-					if(card.getLoc() == CardForm.Field && attckcount > 0)
+					if(card.getLoc() == CardForm.Field && card.getAttcount() > 0)
 					{
 						Massage m = Massage.getMassage(Massage.Attack);
 						m.setSpCondition(SpConditon);
 						m.setMyFieldCard(handle);
 						m.setAttackTarget(target);
 						ClientSocket.sendMassage(m);
-						attckcount--;
+						card.setAttcount(card.getAttcount() - 1);;
+						boderchange = true;
 					}
 				}
 				getParent().getParent().getParent().getParent().dispatchEvent(e);
@@ -94,6 +95,7 @@ public class CardViewer extends JButton
 			@Override
 			public void mousePressed(MouseEvent e)
 			{
+				System.out.println(card.getAttcount());
 				if(turn)
 				{
 					getParent().getParent().getParent().getParent().dispatchEvent(e);
@@ -193,7 +195,6 @@ public class CardViewer extends JButton
 		{
 			this.card = updatecard;
 			update = true;
-			this.attckcount = 0;
 		}
 	}
 	
@@ -348,48 +349,43 @@ public class CardViewer extends JButton
 	
 	public void boderChage(boolean boderchage)
 	{
-		if(this.Location == CardForm.Hand)
+		if(boderchange)
 		{
-			if(this.useable)
+			if(this.Location == CardForm.Hand)
 			{
-				if(this.SpConditon)
-					this.setBorder(this.yellow);
+				if(this.useable)
+				{
+					if(this.SpConditon)
+						this.setBorder(this.yellow);
+					else
+						this.setBorder(this.Green);
+				}
 				else
+				{
+					this.setBorder(this.black);
+				}
+			}
+			else if(this.Location == CardForm.Field)
+			{
+				if(this.OnTarget)
+				{
 					this.setBorder(this.Green);
-			}
-			else
-			{
-				this.setBorder(BorderFactory.createBevelBorder(0));
-			}
-		}
-		else if(this.Location == CardForm.Field)
-		{
-			if(this.OnTarget)
-			{
-				this.setBorder(this.Green);
-			}
-			else if(this.attckcount > 0)
-			{
-				this.setBorder(this.Red);
+				}
+				else if(card.getAttcount() > 0)
+				{
+					this.setBorder(this.Red);
+				}
+				else
+				{
+					this.setBorder(this.black);
+				}
 			}
 			else
 			{
 				this.setBorder(this.black);
 			}
+			this.boderchange = false;
 		}
-		else
-		{
-			this.setBorder(this.black);
-		}
-		this.boderchange = false;
-	}
-
-
-
-	public void setAttckcount(int attckcount)
-	{
-		this.attckcount = attckcount;
-		this.boderchange = true;
 	}
 
 	public void setTurn(boolean turn)

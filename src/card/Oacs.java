@@ -71,6 +71,7 @@ public class Oacs extends Pawn
 		tmp2.setRace(this.getRace());
 		tmp2.setNativeatt(this.getNativeatt());
 		tmp2.setNativelife(this.getNativelife());
+		tmp2.setAttcount(this.getAttcount());
 		return tmp;
 	}
 	

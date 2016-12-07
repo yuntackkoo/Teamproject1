@@ -14,6 +14,7 @@ public class Pawn extends CardForm implements Comparable
 	private int currentatt;
 	private int currentlife;
 	private Pawn me = this;
+	private int attcount = 0;
 	private transient LoadData data = LoadData.getInstance();
 
 	public void attack(CardForm other)
@@ -45,6 +46,7 @@ public class Pawn extends CardForm implements Comparable
 		tmp2.Race = this.Race;
 		tmp2.nativeatt = this.nativeatt;
 		tmp2.nativelife = this.nativelife;
+		tmp2.attcount = this.attcount;
 		tmp2.me = tmp2;
 		return tmp2;
 	}
@@ -61,6 +63,7 @@ public class Pawn extends CardForm implements Comparable
 		this.Race = card.Race;
 		this.nativeatt = card.nativeatt;
 		this.nativelife = card.nativelife;
+		this.attcount = card.attcount;
 	}
 
 	@Override
@@ -176,6 +179,19 @@ public class Pawn extends CardForm implements Comparable
 	public void setRace(String race)
 	{
 		Race = race;
+	}
+
+	@Override
+	public int getAttcount()
+	{
+		// TODO Auto-generated method stub
+		return this.attcount;
+	}
+
+	@Override
+	public void setAttcount(int attcount)
+	{
+		this.attcount = attcount;
 	}
 	
 	

@@ -238,6 +238,10 @@ public class GameServer extends Thread
 						}
 						case Massage.TurnEnd:
 						{
+							for(int i=0;i<hostp.getFieldlist().getFiled().size();i++)
+							{
+								hostp.getFieldlist().getFiled().get(i).setAttcount(1);
+							}
 							ReplyMassage theyrm = ReplyMassage.getRMassage(ReplyMassage.TurnEnd);
 							ReplyMassage hostrm = ReplyMassage.getRMassage(ReplyMassage.TurnStart);
 							
@@ -412,6 +416,10 @@ public class GameServer extends Thread
 					{
 						NextWheatherTurn--;
 						this.wChangeEffect(wheatherChange());
+						for(int i=0;i<theyp.getFieldlist().getFiled().size();i++)
+						{
+							theyp.getFieldlist().getFiled().get(i).setAttcount(1);
+						}
 						ReplyMassage hostrm = ReplyMassage.getRMassage(ReplyMassage.TurnEnd);
 						ReplyMassage theyrm = ReplyMassage.getRMassage(ReplyMassage.TurnStart);
 						CardForm drawcard = theyp.getDecklist().disCard(0);
