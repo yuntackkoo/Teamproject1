@@ -47,7 +47,7 @@ public class CardPlainPanel extends JPanel
 		
 		Plain = new JTextArea("New label");
 		add(Plain, "cell 0 7 3 1");
-		Plain.setBackground(new Color(255,0,0,0));
+		Plain.setBackground(new Color(240,240,240));
 		Plain.setFocusable(false);
 		Plain.setLineWrap(true);
 		

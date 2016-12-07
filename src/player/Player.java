@@ -104,6 +104,13 @@ public class Player extends JPanel
 		this.leftPanel.setTheyLife(target.getThey().getLife());
 		this.leftPanel.setMyMana(target.getMe().getMana());
 		this.leftPanel.setTheyMana(target.getThey().getMana());
-		this.leftPanel.reDraw();
+		//this.leftPanel.reDraw();
 	}
+
+	public LeftPanel getLeftPanel()
+	{
+		return leftPanel;
+	}
+	
+	
 }

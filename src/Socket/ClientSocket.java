@@ -111,6 +111,7 @@ public class ClientSocket extends Thread
 						game.getPlayer().getRightPanel().getWpanel().setWhether(Rp.getCurrentW());
 						game.getPlayer().getRightPanel().getWpanel().setNextturn(Rp.getNextW());
 						game.getPlayer().getRightPanel().repaint();
+						game.getPlayer().getLeftPanel().reDraw();
 						break;
 					}
 					case ReplyMassage.TurnStart:
